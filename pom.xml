@@ -29,7 +29,6 @@
         <module>server-open</module>
         <module>server-pay</module>
         <module>server-sms</module>
-        <module>server-swagger</module>
         <module>server-user</module>
         <module>server-boot</module>
     </modules>

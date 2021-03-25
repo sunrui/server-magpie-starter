@@ -1,10 +1,9 @@
-package com.honeysense.swagger;
+package com.honeysense.magpie.swagger;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -22,7 +21,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import java.util.ArrayList;
 import java.util.List;
 
-@Profile("dev")
+//@Profile("dev")
 @Configuration
 @EnableSwagger2
 @EnableKnife4j

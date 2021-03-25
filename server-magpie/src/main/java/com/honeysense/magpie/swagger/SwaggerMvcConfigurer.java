@@ -1,4 +1,4 @@
-package com.honeysense.swagger;
+package com.honeysense.magpie.swagger;
 
 import com.honeysense.magpie.spring.annotation.MagpieMvcConfigurer;
 import org.springframework.context.annotation.Configuration;

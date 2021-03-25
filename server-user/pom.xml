@@ -27,10 +27,14 @@
         </dependency>
         <dependency>
             <groupId>com.honeysense</groupId>
+            <artifactId>server-swagger</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.honeysense</groupId>
             <artifactId>server-config</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
         <dependency>
             <groupId>com.honeysense</groupId>
             <artifactId>server-sms</artifactId>
@@ -44,6 +48,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                    <classifier>exec</classifier>
+                </configuration>
             </plugin>
         </plugins>
     </build>

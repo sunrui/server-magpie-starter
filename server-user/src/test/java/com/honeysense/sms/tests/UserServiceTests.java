@@ -9,6 +9,7 @@ import com.honeysense.user.service.UserRelationService;
 import com.honeysense.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -58,7 +59,7 @@ public class UserServiceTests {
             userService.save(one);
         }
 
-        Assert.assertNotNull("userId is null", userId);
+        Assertions.assertNotNull(userId, "userId is null");
 
         user = userService.findById(userId);
         user.dump();
