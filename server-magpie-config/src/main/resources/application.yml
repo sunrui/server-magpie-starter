@@ -59,7 +59,3 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
-
-logging:
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%logger{0}.java:%line] - %msg%n"

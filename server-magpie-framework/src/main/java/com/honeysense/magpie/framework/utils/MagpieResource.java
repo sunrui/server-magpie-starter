@@ -11,7 +11,8 @@ public class MagpieResource {
      * 获取资源的 JSON 数据
      *
      * @param resourceFile 资源文件
-     * @return JSON 数据
+     * @param key          查询的 key
+     * @return 返回 key= 的结果值
      */
     public String getResourceValue(String resourceFile, String key) {
         ClassPathResource classPathResource = new ClassPathResource(resourceFile);
@@ -37,7 +38,7 @@ public class MagpieResource {
                 line = line.trim();
                 if (line.startsWith(key + "=")) {
                     String value = line.substring(key.length() + 1);
-                    log.info(resourceFile + " -> key: " + key + ", value: " + value);
+                    log.debug(resourceFile + " -> key: " + key + ", value: " + value);
                     return value;
                 }
             }
