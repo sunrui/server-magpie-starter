@@ -1,0 +1,18 @@
+package com.honeysense.magpie.framework.spring.annotation.cache;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MagpieAnnotationCachePut {
+    String namespace() default "";
+
+    String key();
+
+    int maxAge();
+
+    boolean after() default false;
+}

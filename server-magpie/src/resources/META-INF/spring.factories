@@ -1,4 +1,0 @@
-#org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-#  com.honeysense.magpie.swagger.SwaggerConfig \
-#  com.honeysense.magpie.swagger.SwaggerExceptionController \
-#  com.honeysense.magpie.swagger.SwaggerMvcConfigurer

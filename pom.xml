@@ -9,9 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.honeysense</groupId>
-    <artifactId>server-starter</artifactId>
+    <artifactId>server-magpie-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>server-starter</name>
+    <name>server-magpie-starter</name>
     <packaging>pom</packaging>
     <description>Magpie starter for Spring Boot</description>
 
@@ -22,15 +22,15 @@
     </properties>
 
     <modules>
-        <module>server-config</module>
-        <module>server-magpie</module>
-        <module>server-channel</module>
-        <module>server-media</module>
-        <module>server-open</module>
-        <module>server-pay</module>
-        <module>server-sms</module>
-        <module>server-user</module>
-        <module>server-boot</module>
+        <module>server-magpie-config</module>
+        <module>server-magpie-framework</module>
+        <module>server-magpie-channel</module>
+        <module>server-magpie-medium</module>
+        <module>server-magpie-open</module>
+        <module>server-magpie-pay</module>
+        <module>server-magpie-sms</module>
+        <module>server-magpie-user</module>
+        <module>server-magpie-boot</module>
     </modules>
 
     <dependencies>
