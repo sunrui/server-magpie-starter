@@ -1,4 +1,4 @@
-package com.honeysense.user.tests;
+package com.honeysense.sms.tests;
 
 import com.honeysense.magpie.entity.MagpiePage;
 import com.honeysense.user.entity.User;

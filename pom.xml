@@ -22,6 +22,7 @@
     </properties>
 
     <modules>
+        <module>server-config</module>
         <module>server-magpie</module>
         <module>server-channel</module>
         <module>server-media</module>
