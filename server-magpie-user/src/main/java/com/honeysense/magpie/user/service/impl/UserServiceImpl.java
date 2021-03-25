@@ -4,6 +4,7 @@ import com.honeysense.magpie.framework.entity.MagpieException;
 import com.honeysense.magpie.framework.saas.service.impl.MagpieServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.framework.entity.MagpiePage;
+import com.honeysense.magpie.user.controller.c.res.PostLoginPhoneRes;
 import com.honeysense.magpie.user.entity.User;
 import com.honeysense.magpie.user.entity.UserOAuth;
 import com.honeysense.magpie.user.entity.UserRelation;
@@ -40,102 +41,87 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
         this.userOAuthRepository = userOAuthRepository;
     }
 
+    private void insertUserRelation(Long userId, Long directInvitorUserId) {
+        Long indirectInvitorUserId = null;
+
+        UserRefer userRefer = new UserRefer();
+        if (!MagpieValidator.longId(directInvitorUserId)) {
+            return;
+        }
+
+        if (MagpieValidator.longId(directInvitorUserId)) {
+            Optional<User> userOptional = userRepository.findById(directInvitorUserId);
+            if (userOptional.isEmpty()) {
+                Map<String, Long> map = new HashMap<>();
+                map.put("directInvitorUserId", directInvitorUserId);
+
+                throw new MagpieException(MagpieException.Type.NOT_FUND, map);
+            }
+        }
+
+        UserRelation userRelation = userRelationRepository.findByUserId(directInvitorUserId);
+        if (userRelation == null) {
+            Map<String, Long> map = new HashMap<>();
+            map.put("directInvitorUserId", directInvitorUserId);
+
+            throw new MagpieException(MagpieException.Type.NOT_FUND, map);
+        }
+
+        if (MagpieValidator.longId(userRelation.getDirectInvitorUserId())) {
+            indirectInvitorUserId = userRelation.getDirectInvitorUserId();
+        }
+
+        userRelation = new UserRelation(userRefer);
+        userRelation.setUserId(userId);
+        userRelation.setDirectInvitorUserId(directInvitorUserId);
+        userRelation.setIndirectInvitorUserId(indirectInvitorUserId);
+        userRelationRepository.save(userRelation);
+    }
+
     @Override
-    public User insertPhone(String phone, UserRefer userRefer, Long directInvitorUserId, Long indirectInvitorUserId) {
+    public User insertPhone(String phone, UserRefer userRefer, Long directInvitorUserId) {
         if (!MagpieValidator.phone(phone)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "phone");
         }
 
         MagpieValidator.object(userRefer);
 
-        Optional<User> one;
-
-        if (MagpieValidator.longId(directInvitorUserId)) {
-            one = userRepository.findById(directInvitorUserId);
-            if (one.isEmpty()) {
-                Map<String, Long> map = new HashMap<>();
-                map.put("directInvitorUserId", directInvitorUserId);
-
-                throw new MagpieException(MagpieException.Type.NOT_FUND, map);
-            }
-        }
-
-        if (MagpieValidator.longId(indirectInvitorUserId)) {
-            one = userRepository.findById(indirectInvitorUserId);
-            if (one.isEmpty()) {
-                Map<String, Long> map = new HashMap<>();
-                map.put("indirectInvitorUserId", indirectInvitorUserId);
-
-                throw new MagpieException(MagpieException.Type.NOT_FUND, map);
-            }
-        }
-
-        one = userRepository.findByPhone(phone);
-        if (one.isPresent()) {
+        Optional<User> userOptional = userRepository.findByPhone(phone);
+        if (userOptional.isPresent()) {
             throw new MagpieException(MagpieException.Type.DUPLICATE, "phone");
         }
 
         User user = User.builder().phone(phone).build();
         userRepository.save(user);
 
-        UserRelation userRelation = new UserRelation(userRefer);
-        userRelation.setUserId(user.getId());
-        userRelation.setDirectInvitorUserId(directInvitorUserId);
-        userRelation.setIndirectInvitorUserId(indirectInvitorUserId);
-        userRelationRepository.save(userRelation);
+        insertUserRelation(user.getId(), directInvitorUserId);
 
         return user;
     }
 
     @Override
-    public User insertName(String name, UserRefer userRefer, Long directInvitorUserId, Long indirectInvitorUserId) {
+    public User insertName(String name, UserRefer userRefer, Long directInvitorUserId) {
         if (!MagpieValidator.enId(name)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "phone");
         }
 
         MagpieValidator.object(userRefer);
 
-        Optional<User> one;
-
-        if (MagpieValidator.longId(directInvitorUserId)) {
-            one = userRepository.findById(directInvitorUserId);
-            if (one.isEmpty()) {
-                Map<String, Long> map = new HashMap<>();
-                map.put("directInvitorUserId", directInvitorUserId);
-
-                throw new MagpieException(MagpieException.Type.NOT_FUND, map);
-            }
-        }
-
-        if (MagpieValidator.longId(indirectInvitorUserId)) {
-            one = userRepository.findById(indirectInvitorUserId);
-            if (one.isEmpty()) {
-                Map<String, Long> map = new HashMap<>();
-                map.put("indirectInvitorUserId", indirectInvitorUserId);
-
-                throw new MagpieException(MagpieException.Type.NOT_FUND, map);
-            }
-        }
-
-        one = userRepository.findByName(name);
-        if (one.isPresent()) {
+        Optional<User> userOptional = userRepository.findByName(name);
+        if (userOptional.isPresent()) {
             throw new MagpieException(MagpieException.Type.DUPLICATE, "name");
         }
 
         User user = User.builder().name(name).build();
         userRepository.save(user);
 
-        UserRelation userRelation = new UserRelation(userRefer);
-        userRelation.setUserId(user.getId());
-        userRelation.setDirectInvitorUserId(directInvitorUserId);
-        userRelation.setIndirectInvitorUserId(indirectInvitorUserId);
-        userRelationRepository.save(userRelation);
+        insertUserRelation(user.getId(), directInvitorUserId);
 
         return user;
     }
 
     @Override
-    public User insertOAuth(UserOAuth.Type openType, String appId, String openId, UserRefer userRefer, Long directInvitorUserId, Long indirectInvitorUserId) {
+    public User insertOAuth(UserOAuth.Type openType, String appId, String openId, UserRefer userRefer, Long directInvitorUserId) {
         if (openType == null) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "openType");
         }
@@ -150,30 +136,8 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
 
         MagpieValidator.object(userRefer);
 
-        Optional<User> one;
-
-        if (MagpieValidator.longId(directInvitorUserId)) {
-            one = userRepository.findById(directInvitorUserId);
-            if (one.isEmpty()) {
-                Map<String, Long> map = new HashMap<>();
-                map.put("directInvitorUserId", directInvitorUserId);
-
-                throw new MagpieException(MagpieException.Type.NOT_FUND, map);
-            }
-        }
-
-        if (MagpieValidator.longId(indirectInvitorUserId)) {
-            one = userRepository.findById(indirectInvitorUserId);
-            if (one.isEmpty()) {
-                Map<String, Long> map = new HashMap<>();
-                map.put("indirectInvitorUserId", indirectInvitorUserId);
-
-                throw new MagpieException(MagpieException.Type.NOT_FUND, map);
-            }
-        }
-
-        Optional<UserOAuth> userOpenOne = userOAuthRepository.findByTypeAndAppIdAndOpenId(openType, appId, openId);
-        if (userOpenOne.isPresent()) {
+        Optional<UserOAuth> userOAuthOptional = userOAuthRepository.findByTypeAndAppIdAndOpenId(openType, appId, openId);
+        if (userOAuthOptional.isPresent()) {
             Map<String, String> map = new HashMap<>();
             map.put("openType", openType.name());
             map.put("appId", appId);
@@ -192,12 +156,8 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
                 .openId(openId)
                 .build();
         userOAuthRepository.save(userOAuth);
-
-        UserRelation userRelation = new UserRelation(userRefer);
-        userRelation.setUserId(user.getId());
-        userRelation.setDirectInvitorUserId(directInvitorUserId);
-        userRelation.setIndirectInvitorUserId(indirectInvitorUserId);
-        userRelationRepository.save(userRelation);
+        
+        insertUserRelation(user.getId(), directInvitorUserId);
 
         return user;
     }

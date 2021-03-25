@@ -18,7 +18,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class MagpieToken extends MagpieObject {
     public enum MagpieTokenType {
-        NAME, PHONE, WECHAT
+        USER, PHONE, WECHAT
     }
 
     @ApiModelProperty(value = "用户 ID", required = true, hidden = true)

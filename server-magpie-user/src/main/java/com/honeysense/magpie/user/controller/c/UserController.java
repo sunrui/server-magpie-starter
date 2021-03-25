@@ -107,20 +107,11 @@ public class UserController {
             return PostLoginPhoneRes.builder().smsCodeVerifyError(true).build();
         }
 
-        Long directInvitorUserId = null;
-        Long indirectInvitorUserId = null;
-
         UserRefer userRefer = new UserRefer();
         if (MagpieValidator.longId(req.getRefer().getDirectInvitorUserId())) {
             UserRelation userRelation = userRelationService.findByUserId(req.getRefer().getDirectInvitorUserId());
             if (userRelation == null) {
                 return PostLoginPhoneRes.builder().directInvitorUserIdNotExists(true).build();
-            }
-
-            directInvitorUserId = req.getRefer().getDirectInvitorUserId();
-
-            if (MagpieValidator.longId(userRelation.getDirectInvitorUserId())) {
-                indirectInvitorUserId = userRelation.getDirectInvitorUserId();
             }
         }
 
@@ -134,7 +125,7 @@ public class UserController {
         Optional<User> one = userService.findByPhone(req.getPhone());
         User user;
         if (one.isEmpty()) {
-            user = userService.insertPhone(req.getPhone(), userRefer, directInvitorUserId, indirectInvitorUserId);
+            user = userService.insertPhone(req.getPhone(), userRefer, req.getRefer().getDirectInvitorUserId());
         } else {
             user = one.get();
         }

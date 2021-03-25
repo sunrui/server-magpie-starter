@@ -9,9 +9,9 @@ import com.honeysense.magpie.user.entity.refer.UserRefer;
 import java.util.Optional;
 
 public interface UserService extends MagpieService<User> {
-    User insertPhone(String phone, UserRefer userRefer, Long directInvitorUserId, Long indirectInvitorUserId);
-    User insertName(String name, UserRefer userRefer, Long directInvitorUserId, Long indirectInvitorUserId);
-    User insertOAuth(UserOAuth.Type openType, String appId, String openId, UserRefer userRefer, Long directInvitorUserId, Long indirectInvitorUserId);
+    User insertPhone(String phone, UserRefer userRefer, Long directInvitorUserId);
+    User insertName(String name, UserRefer userRefer, Long directInvitorUserId);
+    User insertOAuth(UserOAuth.Type openType, String appId, String openId, UserRefer userRefer, Long directInvitorUserId);
 
     Optional<User> findByPhone(String phone);
     User findByName(String name);
