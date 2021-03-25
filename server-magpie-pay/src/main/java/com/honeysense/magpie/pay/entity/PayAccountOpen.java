@@ -1,6 +1,6 @@
 package com.honeysense.magpie.pay.entity;
 
-import com.honeysense.magpie.framework.entity.MagpieEntity;
+import com.honeysense.magpie.framework.object.MagpieEntity;
 import lombok.Getter;
 import lombok.Setter;
 

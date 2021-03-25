@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.honeysense.magpie.framework.entity.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.utils.format.MagpieJsonFormat;
 
 import java.io.IOException;

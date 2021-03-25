@@ -1,6 +1,6 @@
 package com.honeysense.magpie.framework.spring.annotation.cache;
 
-import com.honeysense.magpie.framework.entity.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.spring.annotation.cache.util.MagpieRedisHelper;
 import com.honeysense.magpie.framework.spring.annotation.cache.util.MagpieReflectHelper;
 import com.honeysense.magpie.framework.utils.MagpieValidator;

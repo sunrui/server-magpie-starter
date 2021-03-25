@@ -1,6 +1,6 @@
 package com.honeysense.magpie.medium.entity;
 
-import com.honeysense.magpie.framework.entity.MagpieEntity;
+import com.honeysense.magpie.framework.object.MagpieEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;

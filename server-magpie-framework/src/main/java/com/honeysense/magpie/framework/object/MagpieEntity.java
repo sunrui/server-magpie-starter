@@ -1,4 +1,4 @@
-package com.honeysense.magpie.framework.entity;
+package com.honeysense.magpie.framework.object;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.swagger.annotations.ApiModel;

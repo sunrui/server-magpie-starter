@@ -1,6 +1,6 @@
 package com.honeysense.magpie.framework.utils;
 
-import com.honeysense.magpie.framework.entity.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieException;
 import lombok.Data;
 import org.springframework.util.StringUtils;
 

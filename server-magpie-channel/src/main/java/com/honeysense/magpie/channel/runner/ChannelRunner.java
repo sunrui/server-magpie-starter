@@ -2,7 +2,8 @@ package com.honeysense.magpie.channel.runner;
 
 import com.honeysense.magpie.channel.entity.Channel;
 import com.honeysense.magpie.channel.service.ChannelService;
-import com.honeysense.magpie.framework.entity.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -15,7 +16,7 @@ public class ChannelRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        MagpiePage<Channel> channelMagpiePage = channelService.findAll(0, 1);
+        MagpiePage<Channel> channelMagpiePage = channelService.findAll(new MagpiePageRequest(0, 1));
         if (channelMagpiePage.getTotalSize() == 0) {
             Channel channel = Channel.builder()
                     .name("杭州")

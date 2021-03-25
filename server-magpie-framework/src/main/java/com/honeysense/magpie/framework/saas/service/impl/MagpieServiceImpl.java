@@ -1,11 +1,12 @@
 package com.honeysense.magpie.framework.saas.service.impl;
 
-import com.honeysense.magpie.framework.entity.MagpieEntity;
-import com.honeysense.magpie.framework.entity.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieEntity;
+import com.honeysense.magpie.framework.object.MagpieException;
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import com.honeysense.magpie.framework.saas.repository.MagpieRepository;
 import com.honeysense.magpie.framework.saas.service.MagpieService;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
-import com.honeysense.magpie.framework.entity.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpiePage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -38,22 +39,10 @@ public class MagpieServiceImpl<T extends MagpieEntity> implements MagpieService<
     }
 
     @Override
-    public MagpiePage<T> findAll(int page, int size) {
-        if (page < 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("page", page);
+    public MagpiePage<T> findAll(MagpiePageRequest magpiePageRequest) {
+        MagpieValidator.object(magpiePageRequest);
 
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        if (size <= 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("size", size);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        Page<T> elements = magpieRepository.findAll(PageRequest.of(page, size));
+        Page<T> elements = magpieRepository.findAll(magpiePageRequest.of());
         return new MagpiePage<>(elements);
     }
 

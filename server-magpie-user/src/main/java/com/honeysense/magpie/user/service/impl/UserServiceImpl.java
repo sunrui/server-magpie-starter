@@ -1,10 +1,9 @@
 package com.honeysense.magpie.user.service.impl;
 
-import com.honeysense.magpie.framework.entity.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.saas.service.impl.MagpieServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
-import com.honeysense.magpie.framework.entity.MagpiePage;
-import com.honeysense.magpie.user.controller.c.res.PostLoginPhoneRes;
+import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.user.entity.User;
 import com.honeysense.magpie.user.entity.UserOAuth;
 import com.honeysense.magpie.user.entity.UserRelation;
@@ -156,7 +155,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
                 .openId(openId)
                 .build();
         userOAuthRepository.save(userOAuth);
-        
+
         insertUserRelation(user.getId(), directInvitorUserId);
 
         return user;
@@ -225,50 +224,22 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
     }
 
     @Override
-    public MagpiePage<User> findByPhoneLike(String phone, int page, int size) {
+    public MagpiePage<User> findByPhoneLike(String phone, PageRequest pageRequest) {
         if (!MagpieValidator.phone(phone)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "phone");
         }
 
-        if (page < 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("page", page);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        if (size <= 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("size", size);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        Page<User> elements = userRepository.findByPhoneLike(phone, PageRequest.of(page, size));
+        Page<User> elements = userRepository.findByPhoneLike(phone, pageRequest);
         return new MagpiePage<>(elements);
     }
 
     @Override
-    public MagpiePage<User> findByNameLike(String name, int page, int size) {
+    public MagpiePage<User> findByNameLike(String name, PageRequest pageRequest) {
         if (!MagpieValidator.enId(name)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "name");
         }
 
-        if (page < 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("page", page);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        if (size <= 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("size", size);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        Page<User> elements = userRepository.findByNameLike(name, PageRequest.of(page, size));
+        Page<User> elements = userRepository.findByNameLike(name, pageRequest);
         return new MagpiePage<>(elements);
     }
 

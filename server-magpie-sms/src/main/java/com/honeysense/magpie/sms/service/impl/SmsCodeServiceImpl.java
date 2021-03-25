@@ -1,7 +1,8 @@
 package com.honeysense.magpie.sms.service.impl;
 
-import com.honeysense.magpie.framework.entity.MagpieException;
-import com.honeysense.magpie.framework.entity.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpieException;
+import com.honeysense.magpie.framework.object.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import com.honeysense.magpie.framework.saas.service.impl.MagpieChannelManyServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.framework.utils.format.MagpieTimeFormat;
@@ -130,7 +131,7 @@ public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> im
     }
 
     @Override
-    public MagpiePage<SmsCode> findByPhoneAndDay(String phone, Long day, int page, int size) {
+    public MagpiePage<SmsCode> findByPhoneAndDay(String phone, Long day, MagpiePageRequest magpiePageRequest) {
         if (!MagpieValidator.phone(phone)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "phone");
         }
@@ -139,21 +140,9 @@ public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> im
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "day");
         }
 
-        if (page < 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("page", page);
+        MagpieValidator.object(magpiePageRequest);
 
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        if (size <= 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("size", size);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        Page<SmsCode> elements = smsCodeRepository.findAllByPhoneAndDay(phone, day, PageRequest.of(page, size));
+        Page<SmsCode> elements = smsCodeRepository.findAllByPhoneAndDay(phone, day, magpiePageRequest.of());
         return new MagpiePage<>(elements);
     }
 }

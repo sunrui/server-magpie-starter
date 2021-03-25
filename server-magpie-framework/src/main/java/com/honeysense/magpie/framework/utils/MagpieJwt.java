@@ -6,14 +6,9 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
-import com.honeysense.magpie.framework.entity.MagpieException;
-import com.honeysense.magpie.framework.entity.MagpieToken;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import com.honeysense.magpie.framework.object.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieToken;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 @Service
 public class MagpieJwt {

@@ -1,9 +1,10 @@
 package com.honeysense.magpie.user.service.impl;
 
-import com.honeysense.magpie.framework.entity.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieException;
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import com.honeysense.magpie.framework.saas.service.impl.MagpieUserOneServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
-import com.honeysense.magpie.framework.entity.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.user.entity.UserRelation;
 import com.honeysense.magpie.user.repository.UserRelationRepository;
 import com.honeysense.magpie.user.service.UserRelationService;
@@ -27,50 +28,26 @@ public class UserRelationServiceImpl extends MagpieUserOneServiceImpl<UserRelati
     }
 
     @Override
-    public MagpiePage<UserRelation> findAllByDirectInvitorUserId(Long directInvitorUserId, int page, int size) {
+    public MagpiePage<UserRelation> findAllByDirectInvitorUserId(Long directInvitorUserId, MagpiePageRequest magpiePageRequest) {
         if (!MagpieValidator.longId(directInvitorUserId)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "directInvitorUserId");
         }
 
-        if (page < 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("page", page);
+        MagpieValidator.object(magpiePageRequest);
 
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        if (size <= 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("size", size);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        Page<UserRelation> elements = userRelationRepository.findAllByDirectInvitorUserId(directInvitorUserId, PageRequest.of(page, size));
+        Page<UserRelation> elements = userRelationRepository.findAllByDirectInvitorUserId(directInvitorUserId, magpiePageRequest.of());
         return new MagpiePage<>(elements);
     }
 
     @Override
-    public MagpiePage<UserRelation> findAllByIndirectInvitorUserId(Long indirectInvitorUserId, int page, int size) {
+    public MagpiePage<UserRelation> findAllByIndirectInvitorUserId(Long indirectInvitorUserId, MagpiePageRequest magpiePageRequest) {
         if (!MagpieValidator.longId(indirectInvitorUserId)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "indirectInvitorUserId");
         }
 
-        if (page < 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("page", page);
+        MagpieValidator.object(magpiePageRequest);
 
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        if (size <= 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("size", size);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        Page<UserRelation> elements = userRelationRepository.findAllByIndirectInvitorUserId(indirectInvitorUserId, PageRequest.of(page, size));
+        Page<UserRelation> elements = userRelationRepository.findAllByIndirectInvitorUserId(indirectInvitorUserId, magpiePageRequest.of());
         return new MagpiePage<>(elements);
     }
 }

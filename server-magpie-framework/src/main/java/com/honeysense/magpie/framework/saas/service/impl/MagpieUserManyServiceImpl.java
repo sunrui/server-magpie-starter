@@ -1,8 +1,9 @@
 package com.honeysense.magpie.framework.saas.service.impl;
 
-import com.honeysense.magpie.framework.entity.MagpieEntity;
-import com.honeysense.magpie.framework.entity.MagpieException;
-import com.honeysense.magpie.framework.entity.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpieEntity;
+import com.honeysense.magpie.framework.object.MagpieException;
+import com.honeysense.magpie.framework.object.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import com.honeysense.magpie.framework.saas.service.MagpieUserManyService;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.framework.saas.repository.MagpieUserManyRepository;
@@ -34,7 +35,7 @@ public class MagpieUserManyServiceImpl<T extends MagpieEntity> extends MagpieSer
     }
 
     @Override
-    public MagpiePage<T> findAllByUserId(Long userId, int page, int size) {
+    public MagpiePage<T> findAllByUserId(Long userId, MagpiePageRequest magpiePageRequest) {
         if (!MagpieValidator.longId(userId)) {
             Map<String, Long> map = new HashMap<>();
             map.put("userId", userId);
@@ -42,21 +43,9 @@ public class MagpieUserManyServiceImpl<T extends MagpieEntity> extends MagpieSer
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
         }
 
-        if (page < 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("page", page);
+        MagpieValidator.object(magpiePageRequest);
 
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        if (size <= 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("size", size);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        Page<T> elements = magpieUserManyRepository.findAllByUserIdOrderByCreatedAtDesc(userId, PageRequest.of(page, size));
+        Page<T> elements = magpieUserManyRepository.findAllByUserIdOrderByCreatedAtDesc(userId, magpiePageRequest.of());
         return new MagpiePage<>(elements);
     }
 }

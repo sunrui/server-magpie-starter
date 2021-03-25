@@ -1,8 +1,9 @@
 package com.honeysense.magpie.user.controller.c;
 
-import com.honeysense.magpie.framework.entity.MagpieException;
-import com.honeysense.magpie.framework.entity.MagpiePage;
-import com.honeysense.magpie.framework.entity.MagpieToken;
+import com.honeysense.magpie.framework.object.MagpieException;
+import com.honeysense.magpie.framework.object.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
+import com.honeysense.magpie.framework.object.MagpieToken;
 import com.honeysense.magpie.framework.spring.annotation.ip.MagpieAnnotationIp;
 import com.honeysense.magpie.framework.spring.annotation.token.MagpieAnnotationToken;
 import com.honeysense.magpie.framework.spring.annotation.ua.MagpieAnnotationUa;
@@ -184,12 +185,10 @@ public class UserController {
     @ResponseBody
     public MagpiePage<UserLogin> getLoginHistory(@ApiParam(value = "用户令牌", required = true, hidden = true)
                                                  @MagpieAnnotationToken MagpieToken magpieToken,
-                                                 @ApiParam(value = "第几页")
-                                                 @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-                                                 @ApiParam(value = "页大小")
-                                                 @RequestParam(name = "size", required = false, defaultValue = "20") Integer size) {
+                                                 @ApiParam(value = "分页对象")
+                                                 @Validated MagpiePageRequest magpiePageRequest) {
 
-        return userLoginService.findAllByUserId(magpieToken.getUserId(), page, size);
+        return userLoginService.findAllByUserId(magpieToken.getUserId(), magpiePageRequest);
     }
 
     @ApiOperation(value = "获取用户状态", produces = MediaType.APPLICATION_JSON_VALUE)

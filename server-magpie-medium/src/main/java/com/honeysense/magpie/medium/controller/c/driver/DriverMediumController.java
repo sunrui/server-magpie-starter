@@ -1,5 +1,6 @@
 package com.honeysense.magpie.medium.controller.c.driver;
 
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import com.honeysense.magpie.medium.controller.c.driver.req.PostMediumDriverOrderReq;
 import com.honeysense.magpie.medium.controller.c.driver.req.PostMediumDriverOrderVerifyReq;
 import com.honeysense.magpie.medium.controller.c.driver.req.PutMediumDriverInfoReq;
@@ -12,8 +13,8 @@ import com.honeysense.magpie.medium.entity.MediumDriverOrderVerify;
 import com.honeysense.magpie.medium.service.MediumDriverInfoService;
 import com.honeysense.magpie.medium.service.MediumDriverOrderService;
 import com.honeysense.magpie.medium.service.MediumDriverOrderVerifyService;
-import com.honeysense.magpie.framework.entity.MagpiePage;
-import com.honeysense.magpie.framework.entity.MagpieToken;
+import com.honeysense.magpie.framework.object.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpieToken;
 import com.honeysense.magpie.framework.spring.annotation.token.MagpieAnnotationToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -38,7 +39,7 @@ public class DriverMediumController {
     @GetMapping("info")
     @ResponseBody
     public MediumDriverInfo getInfo(@ApiParam(value = "渠道 ID", hidden = true)
-                              @RequestAttribute("channelId") Long channelId,
+                                    @RequestAttribute("channelId") Long channelId,
                                     @MagpieAnnotationToken MagpieToken magpieToken) {
         MediumDriverInfo mediumDriverInfo = mediumDriverInfoService.findByChannelIdAndUserId(channelId, magpieToken.getUserId());
         if (mediumDriverInfo == null) {
@@ -79,16 +80,16 @@ public class DriverMediumController {
     @PostMapping("order")
     @ResponseBody
     public PostMediumDriverOrderRes postServingOrder(@ApiParam(value = "渠道 ID", hidden = true)
-                                               @RequestAttribute("channelId") Long channelId,
+                                                     @RequestAttribute("channelId") Long channelId,
                                                      @ApiParam(value = "用户令牌", required = true, hidden = true)
-                                               @MagpieAnnotationToken MagpieToken magpieToken,
+                                                     @MagpieAnnotationToken MagpieToken magpieToken,
                                                      @ApiParam(value = "传入参数", required = true)
-                                               @Validated @RequestBody PostMediumDriverOrderReq req) {
+                                                     @Validated @RequestBody PostMediumDriverOrderReq req) {
         MediumDriverOrderStatus[] statuses = new MediumDriverOrderStatus[]{
                 MediumDriverOrderStatus.CANCEL, MediumDriverOrderStatus.FINISH
         };
 
-        MagpiePage<MediumDriverOrder> servingOrderMagpiePage = mediumDriverOrderService.findAllByChannelIdAndUserIdAndOrderStatusNotIn(channelId, magpieToken.getUserId(), statuses, 0, 1);
+        MagpiePage<MediumDriverOrder> servingOrderMagpiePage = mediumDriverOrderService.findAllByChannelIdAndUserIdAndOrderStatusNotIn(channelId, magpieToken.getUserId(), statuses, new MagpiePageRequest(0, 1));
         if (servingOrderMagpiePage.getTotalSize() > 0) {
             return PostMediumDriverOrderRes.builder().driverOrderProcessing(true).build();
         }
@@ -103,14 +104,14 @@ public class DriverMediumController {
     @GetMapping("order/live")
     @ResponseBody
     public MediumDriverOrder getServingOrderLive(@ApiParam(value = "渠道 ID", hidden = true)
-                                           @RequestAttribute("channelId") Long channelId,
+                                                 @RequestAttribute("channelId") Long channelId,
                                                  @ApiParam(value = "用户令牌", required = true, hidden = true)
-                                           @MagpieAnnotationToken MagpieToken magpieToken) {
+                                                 @MagpieAnnotationToken MagpieToken magpieToken) {
         MediumDriverOrderStatus[] statuses = new MediumDriverOrderStatus[]{
                 MediumDriverOrderStatus.CANCEL, MediumDriverOrderStatus.FINISH
         };
 
-        MagpiePage<MediumDriverOrder> servingOrderMagpiePage = mediumDriverOrderService.findAllByChannelIdAndUserIdAndOrderStatusNotIn(channelId, magpieToken.getUserId(), statuses, 0, 1);
+        MagpiePage<MediumDriverOrder> servingOrderMagpiePage = mediumDriverOrderService.findAllByChannelIdAndUserIdAndOrderStatusNotIn(channelId, magpieToken.getUserId(), statuses, new MagpiePageRequest(0, 1));
         if (servingOrderMagpiePage.getTotalSize() > 0) {
             return servingOrderMagpiePage.getElements().get(0);
         }
@@ -122,27 +123,25 @@ public class DriverMediumController {
     @GetMapping("order")
     @ResponseBody
     public MagpiePage<MediumDriverOrder> getServingOrder(@ApiParam(value = "渠道 ID", hidden = true)
-                                                   @RequestAttribute("channelId") Long channelId,
+                                                         @RequestAttribute("channelId") Long channelId,
                                                          @ApiParam(value = "用户令牌", required = true, hidden = true)
-                                                   @MagpieAnnotationToken MagpieToken magpieToken,
-                                                         @ApiParam(value = "第几页")
-                                                   @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-                                                         @ApiParam(value = "页大小")
-                                                   @RequestParam(name = "size", required = false, defaultValue = "20") Integer size) {
-        return mediumDriverOrderService.findAllByChannelIdAndUserId(channelId, magpieToken.getUserId(), page, size);
+                                                         @MagpieAnnotationToken MagpieToken magpieToken,
+                                                         @ApiParam(value = "分页对象")
+                                                         @Validated MagpiePageRequest magpiePageRequest) {
+        return mediumDriverOrderService.findAllByChannelIdAndUserId(channelId, magpieToken.getUserId(), magpiePageRequest);
     }
 
     @ApiOperation(value = "提交广告订单审核", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping("order/{driverOrderId}/certify")
     @ResponseBody
     public PostMediumDriverOrderVerifyRes getServingOrderCertify(@ApiParam(value = "渠道 ID", hidden = true)
-                                                           @RequestAttribute("channelId") Long channelId,
+                                                                 @RequestAttribute("channelId") Long channelId,
                                                                  @ApiParam(value = "用户令牌", required = true, hidden = true)
-                                                           @MagpieAnnotationToken MagpieToken magpieToken,
+                                                                 @MagpieAnnotationToken MagpieToken magpieToken,
                                                                  @ApiParam(value = "司机接受投放的广告订单 ID", hidden = true)
-                                                           @PathVariable("driverOrderId") Long driverOrderId,
+                                                                 @PathVariable("driverOrderId") Long driverOrderId,
                                                                  @ApiParam(value = "传入参数", required = true)
-                                                           @Validated @RequestBody PostMediumDriverOrderVerifyReq req) {
+                                                                 @Validated @RequestBody PostMediumDriverOrderVerifyReq req) {
         MediumDriverOrder mediumDriverOrder = mediumDriverOrderService.findByChannelIdAndId(channelId, driverOrderId);
         if (mediumDriverOrder == null) {
             return PostMediumDriverOrderVerifyRes.builder().driverOrderIdNotExists(true).build();

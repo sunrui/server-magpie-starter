@@ -1,7 +1,7 @@
 package com.honeysense.magpie.user.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.honeysense.magpie.framework.entity.MagpieEntity;
+import com.honeysense.magpie.framework.object.MagpieEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;

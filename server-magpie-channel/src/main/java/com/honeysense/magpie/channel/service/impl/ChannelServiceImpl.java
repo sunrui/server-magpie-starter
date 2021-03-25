@@ -3,7 +3,7 @@ package com.honeysense.magpie.channel.service.impl;
 import com.honeysense.magpie.channel.entity.Channel;
 import com.honeysense.magpie.channel.repository.ChannelRepository;
 import com.honeysense.magpie.channel.service.ChannelService;
-import com.honeysense.magpie.framework.entity.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.saas.service.impl.MagpieServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import org.springframework.beans.factory.annotation.Autowired;

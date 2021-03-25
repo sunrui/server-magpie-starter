@@ -1,6 +1,6 @@
 package com.honeysense.magpie.framework.spring.annotation.cache.util;
 
-import com.honeysense.magpie.framework.entity.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;

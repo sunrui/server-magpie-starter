@@ -1,6 +1,6 @@
 package com.honeysense.magpie.user.entity.refer;
 
-import com.honeysense.magpie.framework.entity.MagpieEntity;
+import com.honeysense.magpie.framework.object.MagpieEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

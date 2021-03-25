@@ -1,6 +1,6 @@
 package com.honeysense.magpie.medium.controller.p.address.res;
 
-import com.honeysense.magpie.framework.entity.MagpieObject;
+import com.honeysense.magpie.framework.object.MagpieObject;
 import io.swagger.annotations.ApiModel;
 import lombok.Builder;
 import lombok.Getter;

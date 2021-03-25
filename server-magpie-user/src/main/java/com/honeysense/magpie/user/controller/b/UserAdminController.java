@@ -1,7 +1,8 @@
 package com.honeysense.magpie.user.controller.b;
 
-import com.honeysense.magpie.framework.entity.MagpiePage;
-import com.honeysense.magpie.framework.entity.MagpieToken;
+import com.honeysense.magpie.framework.object.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
+import com.honeysense.magpie.framework.object.MagpieToken;
 import com.honeysense.magpie.framework.spring.annotation.token.MagpieAnnotationToken;
 import com.honeysense.magpie.user.entity.User;
 import com.honeysense.magpie.user.service.UserService;
@@ -10,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "后台 - 用户")
@@ -24,10 +26,8 @@ public class UserAdminController {
     @ResponseBody
     MagpiePage<User> getAllUser(@ApiParam(value = "用户令牌", required = true, hidden = true)
                                 @MagpieAnnotationToken MagpieToken magpieToken,
-                                @ApiParam(value = "第几页")
-                                @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-                                @ApiParam(value = "页大小")
-                                @RequestParam(name = "size", required = false, defaultValue = "20") Integer size) {
-        return userService.findAll(page, size);
+                                @ApiParam(value = "分页对象")
+                                @Validated MagpiePageRequest magpiePageRequest) {
+        return userService.findAll(magpiePageRequest);
     }
 }

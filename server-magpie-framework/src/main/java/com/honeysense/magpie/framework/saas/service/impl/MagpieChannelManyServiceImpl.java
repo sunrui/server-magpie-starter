@@ -1,8 +1,9 @@
 package com.honeysense.magpie.framework.saas.service.impl;
 
-import com.honeysense.magpie.framework.entity.MagpieEntity;
-import com.honeysense.magpie.framework.entity.MagpieException;
-import com.honeysense.magpie.framework.entity.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpieEntity;
+import com.honeysense.magpie.framework.object.MagpieException;
+import com.honeysense.magpie.framework.object.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import com.honeysense.magpie.framework.saas.service.MagpieChannelManyService;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.framework.saas.repository.MagpieChannelManyRepository;
@@ -34,7 +35,7 @@ public class MagpieChannelManyServiceImpl<T extends MagpieEntity> extends Magpie
     }
 
     @Override
-    public MagpiePage<T> findAllByChannelIdDesc(Long channelId, int page, int size) {
+    public MagpiePage<T> findAllByChannelIdDesc(Long channelId, MagpiePageRequest magpiePageRequest) {
         if (!MagpieValidator.longId(channelId)) {
             Map<String, Long> map = new HashMap<>();
             map.put("channelId", channelId);
@@ -42,26 +43,14 @@ public class MagpieChannelManyServiceImpl<T extends MagpieEntity> extends Magpie
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
         }
 
-        if (page < 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("page", page);
+        MagpieValidator.object(magpiePageRequest);
 
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        if (size <= 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("size", size);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        Page<T> elements = magpieChannelManyRepository.findByChannelIdOrderByCreatedAtDesc(channelId, PageRequest.of(page, size));
+        Page<T> elements = magpieChannelManyRepository.findByChannelIdOrderByCreatedAtDesc(channelId, magpiePageRequest.of());
         return new MagpiePage<>(elements);
     }
 
     @Override
-    public MagpiePage<T> findAllByChannelIdAsc(Long channelId, int page, int size) {
+    public MagpiePage<T> findAllByChannelIdAsc(Long channelId, MagpiePageRequest magpiePageRequest) {
         if (!MagpieValidator.longId(channelId)) {
             Map<String, Long> map = new HashMap<>();
             map.put("channelId", channelId);
@@ -69,21 +58,9 @@ public class MagpieChannelManyServiceImpl<T extends MagpieEntity> extends Magpie
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
         }
 
-        if (page < 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("page", page);
+        MagpieValidator.object(magpiePageRequest);
 
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        if (size <= 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("size", size);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        Page<T> elements = magpieChannelManyRepository.findByChannelId(channelId, PageRequest.of(page, size));
+        Page<T> elements = magpieChannelManyRepository.findByChannelId(channelId, magpiePageRequest.of());
         return new MagpiePage<>(elements);
     }
 }

@@ -1,6 +1,6 @@
 package com.honeysense.magpie.medium.entity;
 
-import com.honeysense.magpie.framework.entity.MagpieObject;
+import com.honeysense.magpie.framework.object.MagpieObject;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

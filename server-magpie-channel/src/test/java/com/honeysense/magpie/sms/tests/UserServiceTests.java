@@ -1,6 +1,7 @@
 package com.honeysense.magpie.sms.tests;
 
-import com.honeysense.magpie.framework.entity.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import com.honeysense.magpie.user.entity.User;
 import com.honeysense.magpie.user.entity.UserOAuth;
 import com.honeysense.magpie.user.entity.UserRelation;
@@ -31,7 +32,7 @@ public class UserServiceTests {
 
         user.dump();
 
-        MagpiePage<User> userMagpiePage = userService.findAll(0, 9);
+        MagpiePage<User> userMagpiePage = userService.findAll(new MagpiePageRequest(0, 9));
         for (User one : userMagpiePage.getElements()) {
             one.dump();
 
@@ -42,7 +43,7 @@ public class UserServiceTests {
 
         Long userId = null;
 
-        userMagpiePage = userService.findAll(0, 9);
+        userMagpiePage = userService.findAll(new MagpiePageRequest(0, 9));
         for (User one : userMagpiePage.getElements()) {
             one.dump();
 
@@ -70,24 +71,24 @@ public class UserServiceTests {
         userRefer.setIp("127.0.0.1");
         userRefer.setUserAgent("ua");
 
-        User user = userService.insertName("name2", userRefer, null, null);
+        User user = userService.insertName("name2", userRefer, null);
         user.dump();
 
-        user = userService.insertOAuth(UserOAuth.Type.WECHAT, "appId", "openId", userRefer, null, null);
+        user = userService.insertOAuth(UserOAuth.Type.WECHAT, "appId", "openId", userRefer, null);
         user.dump();
 
-        user = userService.insertPhone("15068860057", userRefer, null, null);
+        user = userService.insertPhone("15068860057", userRefer, null);
         user.dump();
     }
 
     @Test
     void testAll() {
-        MagpiePage<User> userMagpiePage = userService.findAll(0, 99);
+        MagpiePage<User> userMagpiePage = userService.findAll(new MagpiePageRequest(0, 99));
         for (User user : userMagpiePage.getElements()) {
             user.dump();
         }
 
-        MagpiePage<UserRelation> userReferMagpiePage = userRelationService.findAll(0, 99);
+        MagpiePage<UserRelation> userReferMagpiePage = userRelationService.findAll(new MagpiePageRequest(0, 99));
         for (UserRelation userRelation : userReferMagpiePage.getElements()) {
             userRelation.dump();
         }

@@ -1,7 +1,7 @@
 package com.honeysense.magpie.framework.saas.service.impl;
 
-import com.honeysense.magpie.framework.entity.MagpieEntity;
-import com.honeysense.magpie.framework.entity.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieEntity;
+import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.saas.repository.MagpieChannelOneRepository;
 import com.honeysense.magpie.framework.saas.service.MagpieChannelOneService;
 import com.honeysense.magpie.framework.utils.MagpieValidator;

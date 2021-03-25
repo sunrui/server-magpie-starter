@@ -1,6 +1,6 @@
 package com.honeysense.magpie.user.entity;
 
-import com.honeysense.magpie.framework.entity.MagpieToken;
+import com.honeysense.magpie.framework.object.MagpieToken;
 import com.honeysense.magpie.user.entity.refer.UserRefer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

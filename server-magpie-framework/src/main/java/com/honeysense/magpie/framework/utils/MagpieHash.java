@@ -1,6 +1,6 @@
 package com.honeysense.magpie.framework.utils;
 
-import com.honeysense.magpie.framework.entity.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieException;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;

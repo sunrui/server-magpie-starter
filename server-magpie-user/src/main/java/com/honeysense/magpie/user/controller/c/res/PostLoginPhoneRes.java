@@ -1,6 +1,6 @@
 package com.honeysense.magpie.user.controller.c.res;
 
-import com.honeysense.magpie.framework.entity.MagpieObject;
+import com.honeysense.magpie.framework.object.MagpieObject;
 import com.honeysense.magpie.user.entity.User;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

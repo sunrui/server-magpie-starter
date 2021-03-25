@@ -1,7 +1,7 @@
 package com.honeysense.magpie.framework.spring.annotation.token;
 
-import com.honeysense.magpie.framework.entity.MagpieException;
-import com.honeysense.magpie.framework.entity.MagpieToken;
+import com.honeysense.magpie.framework.object.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieToken;
 import com.honeysense.magpie.framework.utils.MagpieJwt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;

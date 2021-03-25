@@ -1,13 +1,14 @@
 package com.honeysense.magpie.medium.service.impl;
 
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import com.honeysense.magpie.medium.entity.MediumDriverOrder;
 import com.honeysense.magpie.medium.entity.MediumDriverOrderStatus;
 import com.honeysense.magpie.medium.entity.MediumDriverOrderVerify;
 import com.honeysense.magpie.medium.repository.MediumDriverOrderCertifyRepository;
 import com.honeysense.magpie.medium.repository.MediumDriverOrderRepository;
 import com.honeysense.magpie.medium.service.MediumDriverOrderService;
-import com.honeysense.magpie.framework.entity.MagpieException;
-import com.honeysense.magpie.framework.entity.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpieException;
+import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.framework.saas.service.impl.MagpieChannelUserManyServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +98,7 @@ public class MediumDriverOrderServiceImpl extends MagpieChannelUserManyServiceIm
     }
 
     @Override
-    public MagpiePage<MediumDriverOrder> findAllByChannelIdAndUserIdAndOrderStatusNotIn(Long channelId, Long userId, MediumDriverOrderStatus[] statuses, int page, int size) {
+    public MagpiePage<MediumDriverOrder> findAllByChannelIdAndUserIdAndOrderStatusNotIn(Long channelId, Long userId, MediumDriverOrderStatus[] statuses, MagpiePageRequest magpiePageRequest) {
         if (!MagpieValidator.longId(channelId)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "channelId");
         }
@@ -110,21 +111,9 @@ public class MediumDriverOrderServiceImpl extends MagpieChannelUserManyServiceIm
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "statuses");
         }
 
-        if (page < 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("page", page);
+        MagpieValidator.object(magpiePageRequest);
 
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        if (size <= 0) {
-            Map<String, Integer> map = new HashMap<>();
-            map.put("size", size);
-
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
-        }
-
-        Page<MediumDriverOrder> elements = mediumDriverOrderRepository.findAllByChannelIdAndUserIdAndStatusNotIn(channelId, userId, Arrays.asList(statuses), PageRequest.of(page, size));
+        Page<MediumDriverOrder> elements = mediumDriverOrderRepository.findAllByChannelIdAndUserIdAndStatusNotIn(channelId, userId, Arrays.asList(statuses), magpiePageRequest.of());
         return new MagpiePage<>(elements);
     }
 }

@@ -2,7 +2,7 @@ package com.honeysense.magpie.medium.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.honeysense.magpie.framework.entity.MagpieException;
+import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.medium.entity.MediumAddress;
 import com.honeysense.magpie.medium.service.MediumAddressService;

@@ -1,12 +1,13 @@
 package com.honeysense.magpie.medium.controller.b.spec;
 
+import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import com.honeysense.magpie.medium.controller.b.spec.req.PostMediumSpecQuoteReq;
 import com.honeysense.magpie.medium.controller.b.spec.res.PostMediumSpecQuoteRes;
 import com.honeysense.magpie.medium.entity.MediumSpecQuote;
 import com.honeysense.magpie.medium.service.MediumSpecBasicService;
 import com.honeysense.magpie.medium.service.MediumSpecQuoteService;
-import com.honeysense.magpie.framework.entity.MagpiePage;
-import com.honeysense.magpie.framework.entity.MagpieToken;
+import com.honeysense.magpie.framework.object.MagpiePage;
+import com.honeysense.magpie.framework.object.MagpieToken;
 import com.honeysense.magpie.framework.spring.annotation.token.MagpieAnnotationToken;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,11 +42,11 @@ public class SpecMediumAdminController {
     @PostMapping("quote")
     @ResponseBody
     PostMediumSpecQuoteRes postSpecQuote(@ApiParam(value = "渠道 ID", hidden = true)
-                                   @RequestAttribute("channelId") Long channelId,
+                                         @RequestAttribute("channelId") Long channelId,
                                          @ApiParam(value = "用户令牌", required = true, hidden = true)
-                                   @MagpieAnnotationToken MagpieToken magpieToken,
+                                         @MagpieAnnotationToken MagpieToken magpieToken,
                                          @ApiParam(value = "传入参数", required = true)
-                                   @Validated @RequestBody PostMediumSpecQuoteReq req) {
+                                         @Validated @RequestBody PostMediumSpecQuoteReq req) {
 
         return PostMediumSpecQuoteRes.builder().build();
     }
@@ -54,13 +55,11 @@ public class SpecMediumAdminController {
     @GetMapping("quote")
     @ResponseBody
     MagpiePage<MediumSpecQuote> getAllSpecQuote(@ApiParam(value = "渠道 ID", hidden = true)
-                                          @RequestAttribute("channelId") Long channelId,
+                                                @RequestAttribute("channelId") Long channelId,
                                                 @ApiParam(value = "用户令牌", required = true, hidden = true)
-                                          @MagpieAnnotationToken MagpieToken magpieToken,
-                                                @ApiParam(value = "第几页")
-                                          @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
-                                                @ApiParam(value = "页大小")
-                                          @RequestParam(name = "size", required = false, defaultValue = "20") Integer size) {
-        return mediumSpecQuoteService.findAllByChannelIdDesc(channelId, page, size);
+                                                @MagpieAnnotationToken MagpieToken magpieToken,
+                                                @ApiParam(value = "分页对象")
+                                                @Validated MagpiePageRequest magpiePageRequest) {
+        return mediumSpecQuoteService.findAllByChannelIdDesc(channelId, magpiePageRequest);
     }
 }

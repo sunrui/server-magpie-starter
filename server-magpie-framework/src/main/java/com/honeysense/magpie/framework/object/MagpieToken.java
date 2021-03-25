@@ -1,4 +1,4 @@
-package com.honeysense.magpie.framework.entity;
+package com.honeysense.magpie.framework.object;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
