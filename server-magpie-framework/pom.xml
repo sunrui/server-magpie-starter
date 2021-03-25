@@ -17,9 +17,9 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
-        <mybatis.version>1.3.2</mybatis.version>
-        <jwt.version>3.10.3</jwt.version>
-        <knife4j.version>2.0.4</knife4j.version>
+        <mybatis.version>2.1.4</mybatis.version>
+        <jwt.version>3.14.0</jwt.version>
+        <knife4j.version>3.0.2</knife4j.version>
     </properties>
 
     <dependencies>
