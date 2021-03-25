@@ -24,6 +24,12 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.honeysense</groupId>
+            <artifactId>server-magpie-config</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
@@ -71,16 +77,6 @@
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
-        <!--		<dependency>-->
-        <!--			<groupId>com.google.guava</groupId>-->
-        <!--			<artifactId>guava</artifactId>-->
-        <!--		</dependency>-->
-
-        <!--		<dependency>-->
-        <!--			<groupId>cn.hutool</groupId>-->
-        <!--			<artifactId>hutool-all</artifactId>-->
-        <!--		</dependency>-->
 
         <!-- 引入 mybatis 相关 -->
         <dependency>

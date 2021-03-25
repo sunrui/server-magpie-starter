@@ -8,15 +8,21 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
 import com.honeysense.magpie.framework.entity.MagpieException;
 import com.honeysense.magpie.framework.entity.MagpieToken;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
+@Service
 public class MagpieJwt {
     private final String issuer = "token";
     private final JWTVerifier verifier;
     private final String secret;
 
-    public MagpieJwt(String secret) {
-        this.secret = secret;
-
+    public MagpieJwt() {
+        secret = new MagpieResource().getResourceValue("magpie.properties", "jwt.secret");
         verifier = JWT.require(Algorithm.HMAC256(secret))
                 .withIssuer(issuer)
                 .build();

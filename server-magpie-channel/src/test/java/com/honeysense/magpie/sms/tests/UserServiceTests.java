@@ -8,10 +8,10 @@ import com.honeysense.magpie.user.entity.refer.UserRefer;
 import com.honeysense.magpie.user.service.UserRelationService;
 import com.honeysense.magpie.user.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.util.Assert;
 
 @SpringBootTest
 @Slf4j
@@ -58,7 +58,7 @@ public class UserServiceTests {
             userService.save(one);
         }
 
-        Assert.assertNotNull("userId is null", userId);
+        Assert.isTrue(userId != null, "userId is null");
 
         user = userService.findById(userId);
         user.dump();

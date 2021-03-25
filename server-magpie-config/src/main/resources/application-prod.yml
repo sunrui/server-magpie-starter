@@ -14,14 +14,7 @@ spring:
       hibernate:
         format_sql: false
 
-snowFlake:
-  workerId: 0
-  datacenterId: 0
-
 logging:
   level:
     com.honeysense: trace
     org.hibernate.SQL: WARN
-
-jwtToken:
-  secret: "670C69C5-B2DB-4B11-8F9F-70D12A3495C3"

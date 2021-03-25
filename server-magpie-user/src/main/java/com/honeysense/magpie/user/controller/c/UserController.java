@@ -1,12 +1,12 @@
 package com.honeysense.magpie.user.controller.c;
 
-import com.honeysense.magpie.framework.config.MagpieConfig;
 import com.honeysense.magpie.framework.entity.MagpieException;
 import com.honeysense.magpie.framework.entity.MagpiePage;
 import com.honeysense.magpie.framework.entity.MagpieToken;
 import com.honeysense.magpie.framework.spring.annotation.ip.MagpieAnnotationIp;
 import com.honeysense.magpie.framework.spring.annotation.token.MagpieAnnotationToken;
 import com.honeysense.magpie.framework.spring.annotation.ua.MagpieAnnotationUa;
+import com.honeysense.magpie.framework.utils.MagpieJwt;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.user.service.UserLoginService;
 import com.honeysense.magpie.user.service.UserRelationService;
@@ -49,6 +49,8 @@ public class UserController {
     private SmsCodeService smsCodeService;
     @Autowired
     private UserLoginService userLoginService;
+    @Autowired
+    private MagpieJwt magpieJwt;
 
     private static final String COOKIE_JWT_KEY = "token";
     private static final Integer TOKEN_EXPIRED_AT = 30 * 24 * 60 * 60;
@@ -78,7 +80,7 @@ public class UserController {
                 .expiredAt(expiredAt)
                 .build();
 
-        Cookie cookie = new Cookie(COOKIE_JWT_KEY, MagpieConfig.jwt().sign(magpieToken));
+        Cookie cookie = new Cookie(COOKIE_JWT_KEY, magpieJwt.sign(magpieToken));
         cookie.setMaxAge(maxAge);
         cookie.setHttpOnly(true);
         cookie.setPath("/");

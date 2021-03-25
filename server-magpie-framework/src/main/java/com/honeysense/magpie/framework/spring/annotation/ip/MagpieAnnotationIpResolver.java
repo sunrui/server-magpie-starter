@@ -31,7 +31,7 @@ public class MagpieAnnotationIpResolver implements HandlerMethodArgumentResolver
         for (String proxy : proxies) {
             ip = request.getHeader(proxy);
 
-            if (!StringUtils.isEmpty(ip)) {
+            if (StringUtils.hasText(ip)) {
                 int index = ip.indexOf(',');
                 if (index != -1) {
                     return ip.substring(0, index);

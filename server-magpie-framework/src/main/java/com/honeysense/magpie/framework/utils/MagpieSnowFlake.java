@@ -1,8 +1,9 @@
 package com.honeysense.magpie.framework.utils;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
-@Slf4j
+@Service
 public class MagpieSnowFlake {
     private final long twepoch = 1288834974657L;
     // 机器标识位数
@@ -22,12 +23,17 @@ public class MagpieSnowFlake {
     // 时间毫秒左移22位
     private final long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
     private final long sequenceMask = -1L ^ (-1L << sequenceBits);
-    private long workerId;
-    private final long datacenterId;
+
+    private final Long workerId;
+    private final Long datacenterId;
+
     private long sequence = 0L;
     private long lastTimestamp = -1L;
 
-    public MagpieSnowFlake(long workderId, long datacenterId) {
+    public MagpieSnowFlake() {
+        workerId = Long.valueOf(new MagpieResource().getResourceValue("magpie.properties", "snowFlake.workerId"));
+        datacenterId = Long.valueOf(new MagpieResource().getResourceValue("magpie.properties", "snowFlake.datacenterId"));
+
         // sanity check for workerId
         if (workerId > maxWorkerId || workerId < 0) {
             throw new IllegalArgumentException(String.format("worker Id can't be greater than %d or less than 0", maxWorkerId));
@@ -35,16 +41,12 @@ public class MagpieSnowFlake {
         if (datacenterId > maxDatacenterId || datacenterId < 0) {
             throw new IllegalArgumentException(String.format("datacenter Id can't be greater than %d or less than 0", maxDatacenterId));
         }
-
-        this.workerId = workderId;
-        this.datacenterId = datacenterId;
     }
 
     public synchronized long nextId() {
         long timestamp = timeGen();
 
         if (timestamp < lastTimestamp) {
-            log.error(String.format("clock is moving backwards.  Rejecting requests until %d.", lastTimestamp));
             throw new RuntimeException(String.format("Clock moved backwards.  Refusing to generate id for %d milliseconds", lastTimestamp - timestamp));
         }
 

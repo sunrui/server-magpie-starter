@@ -31,11 +31,11 @@ public class MagpieValidator {
     }
 
     public static boolean string(String str) {
-        return !StringUtils.isEmpty(str);
+        return StringUtils.hasText(str);
     }
 
     public static boolean uuid32(String id) {
-        return !StringUtils.isEmpty(id) && id.length() == 32;
+        return StringUtils.hasText(id) && id.length() == 32;
     }
 
     public static boolean longId(Long id) {
@@ -43,7 +43,7 @@ public class MagpieValidator {
     }
 
     public static boolean enId(String enId) {
-        if (StringUtils.isEmpty(enId)) {
+        if (!StringUtils.hasText(enId)) {
             return false;
         }
 
@@ -52,7 +52,7 @@ public class MagpieValidator {
     }
 
     public static boolean phone(String phone) {
-        if (StringUtils.isEmpty(phone)) {
+        if (!StringUtils.hasText(phone)) {
             return false;
         }
 
@@ -61,7 +61,7 @@ public class MagpieValidator {
     }
 
     public static boolean smsCode(String code) {
-        if (StringUtils.isEmpty(code)) {
+        if (!StringUtils.hasText(code)) {
             return false;
         }
 
@@ -70,7 +70,7 @@ public class MagpieValidator {
     }
 
     public static boolean password(String password) {
-        if (StringUtils.isEmpty(password)) {
+        if (!StringUtils.hasText(password)) {
             return false;
         }
 
@@ -78,7 +78,7 @@ public class MagpieValidator {
     }
 
     public static boolean ip(String ip) {
-        if (StringUtils.isEmpty(ip)) {
+        if (!StringUtils.hasText(ip)) {
             return false;
         }
 
