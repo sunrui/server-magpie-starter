@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@ApiModel(value = "用户令牌")
+@ApiModel(value = "令牌")
 @Getter
 @Setter
 @Builder
