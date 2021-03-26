@@ -8,17 +8,19 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@ApiModel(value = "用户 - 登录 - 手机 - 返回")
+@ApiModel(value = "用户 - 登录 - 密码 - 返回")
 @Getter
 @Setter
 @Builder
-public class PostLoginPhoneRes extends MagpieObject {
+public class PostLoginPasswordRes extends MagpieObject {
     @ApiModelProperty(value = "用户对象")
     private User user;
     @ApiModelProperty(value = "直推用户 ID 不存在")
     private Boolean directInvitorUserIdNotExists;
-    @ApiModelProperty(value = "需要发送短信验证码")
-    private Boolean smsCodeSendNeeded;
-    @ApiModelProperty(value = "短信验证码校验错误")
-    private Boolean smsCodeVerifyError;
+    @ApiModelProperty(value = "用户名不存在")
+    private Boolean userNameNotExists;
+    @ApiModelProperty(value = "密码校验错误")
+    private Boolean passwordVerifyError;
+    @ApiModelProperty(value = "密码被锁定")
+    private Boolean passwordLocked;
 }

@@ -7,7 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@ApiModel(value = "手机验证码验证 - 返回")
+@ApiModel(value = "验证码 - 手机验证 - 返回")
 @Getter
 @Setter
 @Builder

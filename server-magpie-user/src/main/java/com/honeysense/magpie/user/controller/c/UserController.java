@@ -88,7 +88,7 @@ public class UserController {
         httpServletResponse.addCookie(cookie);
     }
 
-    @ApiOperation(value = "手机登录", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "用户 - 登录 - 手机", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "login/phone")
     @ResponseBody
     public PostLoginPhoneRes postLoginPhone(@ApiParam(value = "用户 IP", hidden = true)
@@ -136,7 +136,7 @@ public class UserController {
         return PostLoginPhoneRes.builder().user(user).build();
     }
 
-    @ApiOperation(value = "登出", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "用户 - 登出", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "logout")
     @ResponseBody
     public void postLogout(HttpServletRequest httpServletRequest,
@@ -154,7 +154,7 @@ public class UserController {
         }
     }
 
-    @ApiOperation(value = "微信登录获取 CODE", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "用户 - 登录 - 微信小程序 - 获取 CODE", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "login/wechat/applet/code")
     @ResponseBody
     public PostWechatAppletCodeRes postWechatAppletCode(@ApiParam(value = "用户 IP", hidden = true)
@@ -167,7 +167,7 @@ public class UserController {
         return PostWechatAppletCodeRes.builder().build();
     }
 
-    @ApiOperation(value = "微信登录获取手机号", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "用户 - 登录 - 微信小程序 - 获取手机号", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "login/wechat/applet/mobile")
     @ResponseBody
     public PostWechatAppletMobileRes postWechatAppletMobile(@ApiParam(value = "用户 IP", hidden = true)
@@ -180,7 +180,7 @@ public class UserController {
         return PostWechatAppletMobileRes.builder().build();
     }
 
-    @ApiOperation(value = "获取登录历史", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "用户 - 登录 - 历史记录", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "login/history")
     @ResponseBody
     public MagpiePage<UserLogin> getLoginHistory(@ApiParam(value = "用户令牌", required = true, hidden = true)
@@ -191,7 +191,7 @@ public class UserController {
         return userLoginService.findAllByUserId(magpieToken.getUserId(), magpiePageRequest);
     }
 
-    @ApiOperation(value = "获取用户状态", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "用户 - 状态", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "state")
     @ResponseBody
     public User getState(@ApiParam(value = "用户 IP", hidden = true)

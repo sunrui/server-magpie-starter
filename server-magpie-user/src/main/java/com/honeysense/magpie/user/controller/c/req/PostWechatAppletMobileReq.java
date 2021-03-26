@@ -9,7 +9,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@ApiModel(value = "微信小程序登录获取手机号 - 请求")
+@ApiModel(value = "用户 - 登录 - 微信小程序 - 获取手机号 - 请求")
 @Getter
 @Setter
 public class PostWechatAppletMobileReq extends MagpieObject {

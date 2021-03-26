@@ -12,7 +12,7 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@ApiModel(value = "用户登录实例")
+@ApiModel(value = "实例 - 用户 - 登录记录")
 @Getter
 @Setter
 @Entity

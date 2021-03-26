@@ -8,7 +8,7 @@ import lombok.Setter;
 import javax.persistence.Column;
 import javax.validation.constraints.NotBlank;
 
-@ApiModel(value = "用户登录来源")
+@ApiModel(value = "用户 - 登录 - 来源")
 @Getter
 @Setter
 public class LoginRefer {

@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-@ApiModel(value = "微信小程序登录获取 CODE - 返回")
+@ApiModel(value = "用户 - 登录 - 微信小程序 - 获取 CODE - 返回")
 @Getter
 @Setter
 @Builder

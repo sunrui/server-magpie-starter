@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.Pattern;
 import java.util.Set;
 
-@ApiModel(value = "用户实例")
+@ApiModel(value = "实例 - 用户")
 @Getter
 @Setter
 @Entity

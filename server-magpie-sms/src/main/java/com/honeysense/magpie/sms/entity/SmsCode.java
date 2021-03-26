@@ -12,7 +12,7 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.*;
 import java.util.Date;
 
-@ApiModel(value = "短信验证码实例")
+@ApiModel(value = "实例 - 验证码")
 @Getter
 @Setter
 @Builder

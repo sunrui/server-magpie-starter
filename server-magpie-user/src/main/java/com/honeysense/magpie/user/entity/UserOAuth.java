@@ -10,7 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@ApiModel(value = "用户第三方登录实例")
+@ApiModel(value = "实例 - 用户 - 第三方登录")
 @Entity
 @Getter
 @Setter

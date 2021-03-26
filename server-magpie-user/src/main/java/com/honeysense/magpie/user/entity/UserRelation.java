@@ -9,7 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
-@ApiModel(value = "用户邀请关系实例")
+@ApiModel(value = "实例 - 用户 - 邀请关系")
 @Entity
 @Getter
 @Setter

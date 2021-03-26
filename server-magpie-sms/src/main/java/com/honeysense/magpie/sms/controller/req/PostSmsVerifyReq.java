@@ -12,7 +12,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.*;
 
-@ApiModel(value = "手机验证码验证 - 请求")
+@ApiModel(value = "验证码 - 手机验证 - 请求")
 @Getter
 @Setter
 public class PostSmsVerifyReq extends MagpieObject {

@@ -1,6 +1,7 @@
 package com.honeysense.magpie.user.entity.refer;
 
 import com.honeysense.magpie.framework.object.MagpieEntity;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.NotBlank;
 
+@ApiModel(value = "实例 - 用户 - 来源")
 @Getter
 @Setter
 @MappedSuperclass

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
-@Api(tags = "短信")
+@Api(tags = "验证码")
 @RestController
 @RequestMapping("sms")
 public class SmsController {
@@ -30,7 +30,7 @@ public class SmsController {
     @Value("${spring.profiles.active}")
     private String profile;
 
-    @ApiOperation(value = "发送登录短信", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "验证码 - 发送", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "send")
     @ResponseBody
     public PostSmsSendRes postSend(@ApiParam(value = "用户 IP", hidden = true)
@@ -70,7 +70,7 @@ public class SmsController {
         return PostSmsSendRes.builder().success(true).build();
     }
 
-    @ApiOperation(value = "验证登录短信", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "验证码 - 验证", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "verify")
     @ResponseBody
     public PostSmsVerifyRes postVerify(@ApiParam(value = "传入参数", required = true)

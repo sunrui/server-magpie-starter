@@ -14,7 +14,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-@ApiModel(value = "手机登录验证码 - 请求")
+@ApiModel(value = "验证码 - 手机登录 - 请求")
 @Getter
 @Setter
 public class PostSmsSendReq extends MagpieObject {
