@@ -13,7 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.util.Date;
 
-@ApiModel(value = "父类对象")
+@ApiModel(value = "实例 - 基础")
 @Getter
 @Setter
 @MappedSuperclass

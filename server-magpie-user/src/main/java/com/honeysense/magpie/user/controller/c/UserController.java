@@ -9,7 +9,7 @@ import com.honeysense.magpie.framework.spring.annotation.token.MagpieAnnotationT
 import com.honeysense.magpie.framework.spring.annotation.ua.MagpieAnnotationUa;
 import com.honeysense.magpie.framework.utils.MagpieJwt;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
-import com.honeysense.magpie.user.service.UserLoginService;
+import com.honeysense.magpie.user.service.UserLoginHistoryService;
 import com.honeysense.magpie.user.service.UserRelationService;
 import com.honeysense.magpie.user.service.UserService;
 import com.honeysense.magpie.sms.entity.SmsCodeType;
@@ -19,7 +19,7 @@ import com.honeysense.magpie.user.controller.c.res.PostLoginPhoneRes;
 import com.honeysense.magpie.user.controller.c.res.PostWechatAppletCodeRes;
 import com.honeysense.magpie.user.controller.c.res.PostWechatAppletMobileRes;
 import com.honeysense.magpie.user.entity.User;
-import com.honeysense.magpie.user.entity.UserLogin;
+import com.honeysense.magpie.user.entity.UserLoginHistory;
 import com.honeysense.magpie.user.entity.UserRelation;
 import com.honeysense.magpie.user.entity.refer.UserRefer;
 import io.swagger.annotations.Api;
@@ -49,7 +49,7 @@ public class UserController {
     @Autowired
     private SmsCodeService smsCodeService;
     @Autowired
-    private UserLoginService userLoginService;
+    private UserLoginHistoryService userLoginHistoryService;
     @Autowired
     private MagpieJwt magpieJwt;
 
@@ -67,11 +67,11 @@ public class UserController {
 
         Date expiredAt = new Date(System.currentTimeMillis() + maxAge * 1000L);
 
-        UserLogin userLogin = new UserLogin(userRefer);
-        userLogin.setUserId(userId);
-        userLogin.setType(type);
-        userLogin.setExpiredAt(expiredAt);
-        userLoginService.save(userLogin);
+        UserLoginHistory userLoginHistory = new UserLoginHistory(userRefer);
+        userLoginHistory.setUserId(userId);
+        userLoginHistory.setType(type);
+        userLoginHistory.setExpiredAt(expiredAt);
+        userLoginHistoryService.save(userLoginHistory);
 
         MagpieToken magpieToken = MagpieToken.builder()
                 .userId(userId)
@@ -183,12 +183,12 @@ public class UserController {
     @ApiOperation(value = "用户 - 登录 - 历史记录", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "login/history")
     @ResponseBody
-    public MagpiePage<UserLogin> getLoginHistory(@ApiParam(value = "用户令牌", required = true, hidden = true)
+    public MagpiePage<UserLoginHistory> getLoginHistory(@ApiParam(value = "用户令牌", required = true, hidden = true)
                                                  @MagpieAnnotationToken MagpieToken magpieToken,
-                                                 @ApiParam(value = "分页对象")
+                                                        @ApiParam(value = "分页对象")
                                                  @Validated MagpiePageRequest magpiePageRequest) {
 
-        return userLoginService.findAllByUserId(magpieToken.getUserId(), magpiePageRequest);
+        return userLoginHistoryService.findAllByUserId(magpieToken.getUserId(), magpiePageRequest);
     }
 
     @ApiOperation(value = "用户 - 状态", produces = MediaType.APPLICATION_JSON_VALUE)

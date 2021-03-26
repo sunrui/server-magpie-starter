@@ -19,7 +19,7 @@ import java.util.Date;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserLogin extends UserRefer {
+public class UserLoginHistory extends UserRefer {
     @ApiModelProperty(value="用户 ID", required = true)
     @NotNull
     private Long userId;
@@ -30,8 +30,11 @@ public class UserLogin extends UserRefer {
     @ApiModelProperty(value="过期时间", required = true)
     @NotNull
     private Date expiredAt;
+    @ApiModelProperty(value="是否成功", required = true)
+    @NotNull
+    private Boolean success;
 
-    public UserLogin(UserRefer userRefer) {
+    public UserLoginHistory(UserRefer userRefer) {
         this.setChannelId(userRefer.getChannelId());
         this.setDevice(userRefer.getDevice());
         this.setDeviceImei(userRefer.getDeviceImei());

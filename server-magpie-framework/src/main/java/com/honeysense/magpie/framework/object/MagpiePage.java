@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import java.util.ArrayList;
 import java.util.List;
 
-@ApiModel(value = "分页对象")
+@ApiModel(value = "对象 - 分页")
 @Getter
 @Setter
 public class MagpiePage<T> extends MagpieObject {

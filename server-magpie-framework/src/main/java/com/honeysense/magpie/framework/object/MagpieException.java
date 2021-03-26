@@ -9,7 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-@ApiModel(value = "全局错误异常")
+@ApiModel(value = "全局异常")
 @Slf4j
 @Getter
 @Setter

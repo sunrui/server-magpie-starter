@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-@ApiModel(value = "分页对象")
+@ApiModel(value = "对象 - 分页 - 请求")
 @Getter
 @Setter
 @AllArgsConstructor
