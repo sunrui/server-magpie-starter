@@ -1,5 +1,6 @@
 package com.honeysense.magpie.user.service.impl;
 
+import com.honeysense.magpie.framework.object.MagpieToken;
 import com.honeysense.magpie.framework.saas.service.impl.MagpieUserManyServiceImpl;
 import com.honeysense.magpie.user.entity.UserLoginHistory;
 import com.honeysense.magpie.user.repository.UserLoginHistoryRepository;
@@ -16,5 +17,10 @@ public class UserLoginHistoryServiceImpl extends MagpieUserManyServiceImpl<UserL
         super(userLoginHistoryRepository);
 
         this.userLoginHistoryRepository = userLoginHistoryRepository;
+    }
+
+    @Override
+    public int countAllByUserIdAndTypeAndDayAndSuccess(Long userId, MagpieToken.MagpieTokenType type, Integer day, Boolean success) {
+        return userLoginHistoryRepository.countAllByUserIdAndTypeAndDayAndSuccess(userId, type, day, success);
     }
 }

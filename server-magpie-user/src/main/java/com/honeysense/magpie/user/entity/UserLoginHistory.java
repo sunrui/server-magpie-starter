@@ -9,7 +9,10 @@ import lombok.*;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @ApiModel(value = "实例 - 用户 - 登录记录")
@@ -27,6 +30,11 @@ public class UserLoginHistory extends UserRefer {
     @NotNull
     @Enumerated(EnumType.STRING)
     private MagpieToken.MagpieTokenType type;
+    @ApiModelProperty(value="天数", required = true)
+    @NotNull
+    @Min(20210101)
+    @Max((20991231))
+    private Integer day;
     @ApiModelProperty(value="过期时间", required = true)
     @NotNull
     private Date expiredAt;
@@ -41,5 +49,9 @@ public class UserLoginHistory extends UserRefer {
         this.setDeviceVersion(userRefer.getDeviceVersion());
         this.setIp(userRefer.getIp());
         this.setUserAgent(userRefer.getUserAgent());
+    }
+
+    public void makeToday() {
+        day = Integer.valueOf(new SimpleDateFormat("yyyyMMdd").format(new Date()));
     }
 }

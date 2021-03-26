@@ -14,7 +14,7 @@ public interface UserService extends MagpieService<User> {
     User insertName(String name, UserRefer userRefer, Long directInvitorUserId);
     User insertOAuth(UserOAuth.Type openType, String appId, String openId, UserRefer userRefer, Long directInvitorUserId);
 
-    Optional<User> findByPhone(String phone);
+    User findByPhone(String phone);
     User findByName(String name);
     User findByOAuth(UserOAuth.Type openType, String appId, String openId);
 

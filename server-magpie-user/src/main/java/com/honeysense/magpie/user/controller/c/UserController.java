@@ -9,6 +9,8 @@ import com.honeysense.magpie.framework.spring.annotation.token.MagpieAnnotationT
 import com.honeysense.magpie.framework.spring.annotation.ua.MagpieAnnotationUa;
 import com.honeysense.magpie.framework.utils.MagpieJwt;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
+import com.honeysense.magpie.user.controller.c.req.PostLoginPasswordReq;
+import com.honeysense.magpie.user.controller.c.res.PostLoginPasswordRes;
 import com.honeysense.magpie.user.service.UserLoginHistoryService;
 import com.honeysense.magpie.user.service.UserRelationService;
 import com.honeysense.magpie.user.service.UserService;
@@ -65,14 +67,15 @@ public class UserController {
             maxAge = TOKEN_EXPIRED_AT;
         }
 
+        // 写入登录历史
         Date expiredAt = new Date(System.currentTimeMillis() + maxAge * 1000L);
-
         UserLoginHistory userLoginHistory = new UserLoginHistory(userRefer);
         userLoginHistory.setUserId(userId);
         userLoginHistory.setType(type);
         userLoginHistory.setExpiredAt(expiredAt);
         userLoginHistoryService.save(userLoginHistory);
 
+        // 生成令牌对象
         MagpieToken magpieToken = MagpieToken.builder()
                 .userId(userId)
                 .type(type)
@@ -81,6 +84,7 @@ public class UserController {
                 .expiredAt(expiredAt)
                 .build();
 
+        // 写入 cookie
         Cookie cookie = new Cookie(COOKIE_JWT_KEY, magpieJwt.sign(magpieToken));
         cookie.setMaxAge(maxAge);
         cookie.setHttpOnly(true);
@@ -98,16 +102,19 @@ public class UserController {
                                             @ApiParam(value = "传入参数", required = true)
                                             @Validated @RequestBody PostLoginPhoneReq req,
                                             HttpServletResponse httpServletResponse) {
+        // 较验手机号是否存在验证码
         boolean haveValidSmsCode = smsCodeService.weatherHaveValidSmsCode(req.getPhone());
         if (!haveValidSmsCode) {
             return PostLoginPhoneRes.builder().smsCodeSendNeeded(true).build();
         }
 
+        // 较验手机号验证码是否正确
         boolean verifyOk = smsCodeService.weatherVerifyOk(req.getPhone(), req.getSmsCode(), SmsCodeType.LOGIN);
         if (!verifyOk) {
             return PostLoginPhoneRes.builder().smsCodeVerifyError(true).build();
         }
 
+        // 判断直推用户 ID 是否存在
         UserRefer userRefer = new UserRefer();
         if (MagpieValidator.longId(req.getRefer().getDirectInvitorUserId())) {
             UserRelation userRelation = userRelationService.findByUserId(req.getRefer().getDirectInvitorUserId());
@@ -116,6 +123,7 @@ public class UserController {
             }
         }
 
+        // 生成用户来源
         userRefer.setChannelId(req.getRefer().getChannelId());
         userRefer.setDevice(req.getRefer().getDevice());
         userRefer.setDeviceImei(req.getRefer().getDeviceImei());
@@ -123,18 +131,80 @@ public class UserController {
         userRefer.setIp(ip);
         userRefer.setUserAgent(userAgent);
 
-        Optional<User> one = userService.findByPhone(req.getPhone());
-        User user;
-        if (one.isEmpty()) {
+        // 查找用户是否已经存在
+        User user  = userService.findByPhone(req.getPhone());
+        if (user == null) {
+            // 新的用户
             user = userService.insertPhone(req.getPhone(), userRefer, req.getRefer().getDirectInvitorUserId());
-        } else {
-            user = one.get();
         }
 
+        // 写入记录历史
+        UserLoginHistory userLoginHistory = new UserLoginHistory(userRefer);
+        userLoginHistory.setUserId(user.getId());
+        userLoginHistory.makeToday();
+        userLoginHistory.setExpiredAt(new Date(System.currentTimeMillis() + req.getMaxAge() * 1000L));
+        userLoginHistory.setSuccess(true);
+        userLoginHistory.setType(MagpieToken.MagpieTokenType.PHONE);
+        userLoginHistoryService.save(userLoginHistory);
+
+        // 写入令牌
         writeToken(MagpieToken.MagpieTokenType.PHONE, req.getMaxAge(), user.getId(), userRefer, httpServletResponse);
 
         return PostLoginPhoneRes.builder().user(user).build();
     }
+
+//
+//    @ApiOperation(value = "用户 - 登录 - 密码", produces = MediaType.APPLICATION_JSON_VALUE)
+//    @PostMapping(value = "login/password")
+//    @ResponseBody
+//    public PostLoginPasswordRes postLoginPassword(@ApiParam(value = "用户 IP", hidden = true)
+//                                                  @MagpieAnnotationIp String ip,
+//                                                  @ApiParam(value = "用户 UA", hidden = true)
+//                                                  @MagpieAnnotationUa String userAgent,
+//                                                  @ApiParam(value = "传入参数", required = true)
+//                                                  @Validated @RequestBody PostLoginPasswordReq req,
+//                                                  HttpServletResponse httpServletResponse) {
+//        // 查询用户是否存在
+//        User user = userService.findByName(req.getUserName());
+//        if (user == null) {
+//            return PostLoginPasswordRes.builder().userNameNotExists(true).build();
+//        }
+//
+//        // 查询直推用户 ID 是否正确
+//        UserRefer userRefer = new UserRefer();
+//        if (MagpieValidator.longId(req.getRefer().getDirectInvitorUserId())) {
+//            UserRelation userRelation = userRelationService.findByUserId(req.getRefer().getDirectInvitorUserId());
+//            if (userRelation == null) {
+//                return PostLoginPasswordRes.builder().directInvitorUserIdNotExists(true).build();
+//            }
+//        }
+//
+//        // 生成用户来源
+//        userRefer.setChannelId(req.getRefer().getChannelId());
+//        userRefer.setDevice(req.getRefer().getDevice());
+//        userRefer.setDeviceImei(req.getRefer().getDeviceImei());
+//        userRefer.setDeviceVersion(req.getRefer().getDeviceVersion());
+//        userRefer.setIp(ip);
+//        userRefer.setUserAgent(userAgent);
+//
+//        if (user == null) {
+//            user = userService.insertName(req.getUserName(), userRefer, req.getRefer().getDirectInvitorUserId());
+//        } else {
+//            user = one.get();
+//        }
+//
+//        UserLoginHistory userLoginHistory = new UserLoginHistory(userRefer);
+//        userLoginHistory.setUserId(user.getId());
+//        userLoginHistory.makeToday();
+//        userLoginHistory.setExpiredAt(new Date(System.currentTimeMillis() + req.getMaxAge() * 1000L));
+//        userLoginHistory.setSuccess(true);
+//        userLoginHistory.setType(MagpieToken.MagpieTokenType.PHONE);
+//        userLoginHistoryService.save(userLoginHistory);
+//
+//        writeToken(MagpieToken.MagpieTokenType.PHONE, req.getMaxAge(), user.getId(), userRefer, httpServletResponse);
+//
+//        return PostLoginPhoneRes.builder().user(user).build();
+//    }
 
     @ApiOperation(value = "用户 - 登出", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "logout")
@@ -164,7 +234,8 @@ public class UserController {
                                                         @ApiParam(value = "传入参数", required = true)
                                                         @Validated @RequestBody PostLoginPhoneReq req,
                                                         HttpServletResponse httpServletResponse) {
-        return PostWechatAppletCodeRes.builder().build();
+        throw new MagpieException(MagpieException.Type.SERVICE_UNAVAILABLE, "not implement");
+//        return PostWechatAppletCodeRes.builder().build();
     }
 
     @ApiOperation(value = "用户 - 登录 - 微信小程序 - 获取手机号", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -177,17 +248,17 @@ public class UserController {
                                                             @ApiParam(value = "传入参数", required = true)
                                                             @Validated @RequestBody PostLoginPhoneReq req,
                                                             HttpServletResponse httpServletResponse) {
-        return PostWechatAppletMobileRes.builder().build();
+        throw new MagpieException(MagpieException.Type.SERVICE_UNAVAILABLE, "not implement");
+//        return PostWechatAppletMobileRes.builder().build();
     }
 
     @ApiOperation(value = "用户 - 登录 - 历史记录", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "login/history")
     @ResponseBody
     public MagpiePage<UserLoginHistory> getLoginHistory(@ApiParam(value = "用户令牌", required = true, hidden = true)
-                                                 @MagpieAnnotationToken MagpieToken magpieToken,
+                                                        @MagpieAnnotationToken MagpieToken magpieToken,
                                                         @ApiParam(value = "分页对象")
-                                                 @Validated MagpiePageRequest magpiePageRequest) {
-
+                                                        @Validated MagpiePageRequest magpiePageRequest) {
         return userLoginHistoryService.findAllByUserId(magpieToken.getUserId(), magpiePageRequest);
     }
 

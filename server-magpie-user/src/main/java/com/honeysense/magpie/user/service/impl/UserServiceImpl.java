@@ -162,12 +162,12 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
     }
 
     @Override
-    public Optional<User> findByPhone(String phone) {
+    public User findByPhone(String phone) {
         if (!MagpieValidator.phone(phone)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "phone");
         }
 
-        return userRepository.findByPhone(phone);
+        return userRepository.findByPhone(phone).orElse(null);
     }
 
     @Override
