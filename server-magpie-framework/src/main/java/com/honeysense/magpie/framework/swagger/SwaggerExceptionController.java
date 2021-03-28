@@ -1,15 +1,19 @@
 package com.honeysense.magpie.framework.swagger;
 
-import io.swagger.annotations.*;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.Data;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.annotations.ApiIgnore;
 
 @Profile("dev")
-@Api(tags = "异常")
-@RestController
+@ApiIgnore
+@RestController("swagger")
 public class SwaggerExceptionController {
     @Data
     public static class MagpieException {
@@ -24,6 +28,6 @@ public class SwaggerExceptionController {
     @ApiOperation(value = "通用异常", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "223B3143-946B-4D16-A3FB-E5495B33D1AC")
     @ApiResponses({@ApiResponse(code = 400, message = "ERROR", response = MagpieException.class)})
-    public void initException() {
+    public void requestMagpieException() {
     }
 }
