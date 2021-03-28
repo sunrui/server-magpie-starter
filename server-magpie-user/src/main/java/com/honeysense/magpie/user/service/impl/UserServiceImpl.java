@@ -5,9 +5,9 @@ import com.honeysense.magpie.framework.saas.service.impl.MagpieServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.user.entity.User;
-import com.honeysense.magpie.user.entity.UserOAuth;
+import com.honeysense.magpie.user.entity.UserThird;
 import com.honeysense.magpie.user.entity.UserRelation;
-import com.honeysense.magpie.user.repository.UserOAuthRepository;
+import com.honeysense.magpie.user.repository.UserThirdRepository;
 import com.honeysense.magpie.user.repository.UserRelationRepository;
 import com.honeysense.magpie.user.repository.UserRepository;
 import com.honeysense.magpie.user.service.UserService;
@@ -29,15 +29,15 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
 
     private final UserRepository userRepository;
     private final UserRelationRepository userRelationRepository;
-    private final UserOAuthRepository userOAuthRepository;
+    private final UserThirdRepository userThirdRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserRelationRepository userRelationRepository, UserOAuthRepository userOAuthRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserRelationRepository userRelationRepository, UserThirdRepository userThirdRepository) {
         super(userRepository);
 
         this.userRepository = userRepository;
         this.userRelationRepository = userRelationRepository;
-        this.userOAuthRepository = userOAuthRepository;
+        this.userThirdRepository = userThirdRepository;
     }
 
     private void insertUserRelation(Long userId, Long directInvitorUserId) {
@@ -120,9 +120,9 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
     }
 
     @Override
-    public User insertOAuth(UserOAuth.Type openType, String appId, String openId, UserRefer userRefer, Long directInvitorUserId) {
-        if (openType == null) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "openType");
+    public User insertOAuth(UserThird.Type type, String appId, String openId, UserRefer userRefer, Long directInvitorUserId) {
+        if (type == null) {
+            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "type");
         }
 
         if (!MagpieValidator.enId(appId)) {
@@ -135,10 +135,10 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
 
         MagpieValidator.object(userRefer);
 
-        Optional<UserOAuth> userOAuthOptional = userOAuthRepository.findByTypeAndAppIdAndOpenId(openType, appId, openId);
+        Optional<UserThird> userOAuthOptional = userThirdRepository.findByTypeAndAppIdAndOpenId(type, appId, openId);
         if (userOAuthOptional.isPresent()) {
             Map<String, String> map = new HashMap<>();
-            map.put("openType", openType.name());
+            map.put("type", type.name());
             map.put("appId", appId);
             map.put("openId", openId);
 
@@ -148,13 +148,13 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
         User user = User.builder().build();
         userRepository.save(user);
 
-        UserOAuth userOAuth = UserOAuth.builder()
+        UserThird userThird = UserThird.builder()
                 .user(user)
-                .type(openType)
+                .type(type)
                 .appId(appId)
                 .openId(openId)
                 .build();
-        userOAuthRepository.save(userOAuth);
+        userThirdRepository.save(userThird);
 
         insertUserRelation(user.getId(), directInvitorUserId);
 
@@ -180,9 +180,9 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
     }
 
     @Override
-    public User findByOAuth(UserOAuth.Type openType, String appId, String openId) {
-        if (openType == null) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "openType");
+    public User findByOAuth(UserThird.Type type, String appId, String openId) {
+        if (type == null) {
+            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "type");
         }
 
         if (!MagpieValidator.enId(appId)) {
@@ -193,7 +193,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "openId");
         }
 
-        Optional<UserOAuth> userOpen = userOAuthRepository.findByTypeAndAppIdAndOpenId(openType, appId, openId);
+        Optional<UserThird> userOpen = userThirdRepository.findByTypeAndAppIdAndOpenId(type, appId, openId);
         if (userOpen.isEmpty()) {
             return null;
         }

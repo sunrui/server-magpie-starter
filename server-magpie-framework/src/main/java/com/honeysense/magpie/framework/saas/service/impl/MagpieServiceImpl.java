@@ -8,7 +8,6 @@ import com.honeysense.magpie.framework.saas.repository.MagpieRepository;
 import com.honeysense.magpie.framework.saas.service.MagpieService;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import org.springframework.data.domain.Page;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -21,16 +20,10 @@ public class MagpieServiceImpl<T extends MagpieEntity> implements MagpieService<
     }
 
     @Override
-    @Transactional(propagation= Propagation.REQUIRED,rollbackFor= RuntimeException.class)
     public T save(T t) {
         MagpieValidator.object(t);
 
-        T t1 = magpieRepository.save(t);
-        if (t1 != null) {
-            throw  new RuntimeException("MagpieException.Type.INVALID_PARAMETER");
-        }
-
-        return t1;
+        return magpieRepository.save(t);
     }
 
     @Override

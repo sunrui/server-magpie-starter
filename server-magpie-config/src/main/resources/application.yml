@@ -46,7 +46,7 @@ spring:
       connection-timeout: 30000
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
@@ -59,3 +59,8 @@ spring:
 mybatis:
   configuration:
     map-underscore-to-camel-case: true
+
+logging:
+  level:
+    com.honeysense: trace
+    org.hibernate.SQL: INFO

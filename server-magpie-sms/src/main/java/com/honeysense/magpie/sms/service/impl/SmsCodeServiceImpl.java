@@ -138,7 +138,6 @@ public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> im
         smsCode.setVerifyTimes(1);
         smsCode.setType(SmsCodeType.LOGIN);
         smsCode.setExpiredAt(new Date());
-
         smsCodeRepository.save(smsCode);
 
         return smsCodeRepository.countAllByPhoneAndDay(phone, day);

@@ -3,7 +3,7 @@ package com.honeysense.magpie.sms.tests;
 import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import com.honeysense.magpie.user.entity.User;
-import com.honeysense.magpie.user.entity.UserOAuth;
+import com.honeysense.magpie.user.entity.UserThird;
 import com.honeysense.magpie.user.entity.UserRelation;
 import com.honeysense.magpie.user.entity.refer.UserRefer;
 import com.honeysense.magpie.user.service.UserRelationService;
@@ -74,7 +74,7 @@ public class UserServiceTests {
         User user = userService.insertName("name2", userRefer, null);
         user.dump();
 
-        user = userService.insertOAuth(UserOAuth.Type.WECHAT, "appId", "openId", userRefer, null);
+        user = userService.insertOAuth(UserThird.Type.WECHAT, "appId", "openId", userRefer, null);
         user.dump();
 
         user = userService.insertPhone("15068860057", userRefer, null);

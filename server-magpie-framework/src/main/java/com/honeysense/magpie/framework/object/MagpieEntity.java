@@ -6,9 +6,12 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -17,6 +20,8 @@ import java.util.Date;
 @Getter
 @Setter
 @MappedSuperclass
+@Configuration
+@EnableJpaAuditing
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"updatedAt"}, allowGetters = true)
 public class MagpieEntity extends MagpieObject {

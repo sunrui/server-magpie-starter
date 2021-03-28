@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserOAuth extends MagpieEntity {
+public class UserThird extends MagpieEntity {
     /**
      * 登录类型
      */

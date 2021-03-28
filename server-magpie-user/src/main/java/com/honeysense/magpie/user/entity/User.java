@@ -36,5 +36,5 @@ public class User extends MagpieEntity {
     @ApiModelProperty(value="第三方授权登录")
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     @OrderBy(clause = "id desc")
-    private Set<UserOAuth> opens;
+    private Set<UserThird> userThirds;
 }
