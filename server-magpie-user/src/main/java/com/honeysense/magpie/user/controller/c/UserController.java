@@ -9,6 +9,8 @@ import com.honeysense.magpie.framework.spring.annotation.token.MagpieAnnotationT
 import com.honeysense.magpie.framework.spring.annotation.ua.MagpieAnnotationUa;
 import com.honeysense.magpie.framework.utils.MagpieJwt;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
+import com.honeysense.magpie.user.controller.c.req.PostLoginPasswordReq;
+import com.honeysense.magpie.user.controller.c.res.PostLoginPasswordRes;
 import com.honeysense.magpie.user.service.UserLoginHistoryService;
 import com.honeysense.magpie.user.service.UserRelationService;
 import com.honeysense.magpie.user.service.UserService;
@@ -149,7 +151,7 @@ public class UserController {
         return PostLoginPhoneRes.builder().user(user).build();
     }
 
-//
+    //
 //    @ApiOperation(value = "用户 - 登录 - 密码", produces = MediaType.APPLICATION_JSON_VALUE)
 //    @PostMapping(value = "login/password")
 //    @ResponseBody
@@ -186,7 +188,7 @@ public class UserController {
 //        if (user == null) {
 //            user = userService.insertName(req.getUserName(), userRefer, req.getRefer().getDirectInvitorUserId());
 //        } else {
-//            user = one.get();
+//            user = user.get();
 //        }
 //
 //        UserLoginHistory userLoginHistory = new UserLoginHistory(userRefer);
