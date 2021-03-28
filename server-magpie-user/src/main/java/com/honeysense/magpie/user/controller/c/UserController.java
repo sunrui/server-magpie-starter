@@ -52,8 +52,7 @@ public class UserController {
     private SmsCodeService smsCodeService;
     @Autowired
     private UserLoginHistoryService userLoginHistoryService;
-    @Autowired
-    private MagpieJwt magpieJwt;
+    private final MagpieJwt magpieJwt = new MagpieJwt();
 
     private static final String COOKIE_JWT_KEY = "token";
     private static final Integer TOKEN_EXPIRED_AT = 30 * 24 * 60 * 60;

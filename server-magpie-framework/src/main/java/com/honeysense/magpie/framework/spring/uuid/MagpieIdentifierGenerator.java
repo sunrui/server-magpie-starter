@@ -6,13 +6,13 @@ import org.hibernate.engine.spi.SharedSessionContractImplementor;
 import org.hibernate.id.IdentifierGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.Serializable;
 
 @Component
 public class MagpieIdentifierGenerator implements IdentifierGenerator {
-    @Autowired
-    private MagpieSnowFlake magpieSnowFlake;
+    private final MagpieSnowFlake magpieSnowFlake = new MagpieSnowFlake();
 
     @Override
     public Serializable generate(SharedSessionContractImplementor sharedSessionContractImplementor, Object o) throws HibernateException {

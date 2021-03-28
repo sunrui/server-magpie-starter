@@ -10,14 +10,16 @@ import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.object.MagpieToken;
 import org.springframework.stereotype.Service;
 
-@Service
 public class MagpieJwt {
     private final String issuer = "token";
     private final JWTVerifier verifier;
-    private final String secret;
+    private final static String secret;
+
+    static {
+        secret = new MagpieResource().getResourceValue("magpie.properties", "jwt.secret");
+    }
 
     public MagpieJwt() {
-        secret = new MagpieResource().getResourceValue("magpie.properties", "jwt.secret");
         verifier = JWT.require(Algorithm.HMAC256(secret))
                 .withIssuer(issuer)
                 .build();

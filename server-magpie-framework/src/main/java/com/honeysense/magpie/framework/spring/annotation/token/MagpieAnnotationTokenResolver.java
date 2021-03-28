@@ -17,8 +17,7 @@ import java.util.Date;
 
 @Component
 public class MagpieAnnotationTokenResolver implements HandlerMethodArgumentResolver {
-    @Autowired
-    private MagpieJwt magpieJwt;
+    private final MagpieJwt magpieJwt = new MagpieJwt();
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {

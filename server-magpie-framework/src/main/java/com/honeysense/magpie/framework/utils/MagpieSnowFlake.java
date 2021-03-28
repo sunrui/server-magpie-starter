@@ -1,9 +1,5 @@
 package com.honeysense.magpie.framework.utils;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-@Service
 public class MagpieSnowFlake {
     private final long twepoch = 1288834974657L;
     // 机器标识位数
@@ -24,15 +20,18 @@ public class MagpieSnowFlake {
     private final long timestampLeftShift = sequenceBits + workerIdBits + datacenterIdBits;
     private final long sequenceMask = -1L ^ (-1L << sequenceBits);
 
-    private final Long workerId;
-    private final Long datacenterId;
+    private final static Long workerId;
+    private final static Long datacenterId;
 
     private long sequence = 0L;
     private long lastTimestamp = -1L;
 
-    public MagpieSnowFlake() {
+    static {
         workerId = Long.valueOf(new MagpieResource().getResourceValue("magpie.properties", "snowFlake.workerId"));
         datacenterId = Long.valueOf(new MagpieResource().getResourceValue("magpie.properties", "snowFlake.datacenterId"));
+    }
+
+    public MagpieSnowFlake() {
 
         // sanity check for workerId
         if (workerId > maxWorkerId || workerId < 0) {
