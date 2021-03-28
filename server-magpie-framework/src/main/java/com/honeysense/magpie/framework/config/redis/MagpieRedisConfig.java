@@ -1,4 +1,4 @@
-package com.honeysense.magpie.framework.spring.config;
+package com.honeysense.magpie.framework.config.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;

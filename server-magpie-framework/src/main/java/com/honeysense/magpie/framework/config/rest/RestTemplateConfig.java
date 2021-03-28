@@ -1,4 +1,4 @@
-package com.honeysense.magpie.framework.spring.rest;
+package com.honeysense.magpie.framework.config.rest;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;

@@ -1,4 +1,4 @@
-package com.honeysense.magpie.framework.spring.rest;
+package com.honeysense.magpie.framework.config.rest;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

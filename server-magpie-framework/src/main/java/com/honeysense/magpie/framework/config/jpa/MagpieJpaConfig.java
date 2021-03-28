@@ -1,4 +1,4 @@
-package com.honeysense.magpie.framework.spring.config;
+package com.honeysense.magpie.framework.config.jpa;
 
 import org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;

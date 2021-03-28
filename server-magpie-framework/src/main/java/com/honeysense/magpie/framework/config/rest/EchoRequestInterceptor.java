@@ -1,6 +1,5 @@
-package com.honeysense.magpie.framework.spring.rest;
+package com.honeysense.magpie.framework.config.rest;
 
-import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
