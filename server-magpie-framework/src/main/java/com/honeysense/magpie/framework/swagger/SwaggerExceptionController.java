@@ -1,18 +1,14 @@
 package com.honeysense.magpie.framework.swagger;
 
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import lombok.Data;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import springfox.documentation.annotations.ApiIgnore;
 
 @Profile("dev")
-@ApiIgnore
+@Api(tags = "异常")
 @RestController("swagger")
 public class SwaggerExceptionController {
     @Data
