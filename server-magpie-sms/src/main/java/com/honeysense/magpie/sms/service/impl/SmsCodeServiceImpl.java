@@ -46,7 +46,7 @@ public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> im
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "phone");
         }
 
-        Page<SmsCode> smsCodePage = smsCodeRepository.findAllByPhoneAndDay(phone, MagpieTimeFormat.getToday(), PageRequest.of(0, 10));
+        Page<SmsCode> smsCodePage = smsCodeRepository.findAllByPhoneAndDay(phone, MagpieTimeFormat.makeToday(), PageRequest.of(0, 10));
         if (smsCodePage.getTotalElements() == 0) {
             return false;
         }
@@ -77,7 +77,7 @@ public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> im
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "code");
         }
 
-        Page<SmsCode> smsCodePage = smsCodeRepository.findAllByPhoneAndDay(phone, MagpieTimeFormat.getToday(), PageRequest.of(0, SmsCode.MAX_SEND_PER_DAY));
+        Page<SmsCode> smsCodePage = smsCodeRepository.findAllByPhoneAndDay(phone, MagpieTimeFormat.makeToday(), PageRequest.of(0, SmsCode.MAX_SEND_PER_DAY));
         if (smsCodePage.getTotalElements() == 0) {
             return false;
         }
@@ -118,7 +118,7 @@ public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> im
     }
 
     @Override
-    public int countAllByPhoneAndDay(String phone, Long day) {
+    public int countAllByPhoneAndDay(String phone, Integer day) {
         if (!MagpieValidator.phone(phone)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "phone");
         }
@@ -127,11 +127,25 @@ public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> im
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "day");
         }
 
+        // TODO 需要报错
+        SmsCode smsCode = new SmsCode();
+        smsCode.setCode("123456");
+        smsCode.setPhone("13012341234");
+        smsCode.setDay(20200101);
+        smsCode.setIp("ip");
+        smsCode.setUserAgent("ua");
+        smsCode.setChannelId(1L);
+        smsCode.setVerifyTimes(1);
+        smsCode.setType(SmsCodeType.LOGIN);
+        smsCode.setExpiredAt(new Date());
+
+        smsCodeRepository.save(smsCode);
+
         return smsCodeRepository.countAllByPhoneAndDay(phone, day);
     }
 
     @Override
-    public MagpiePage<SmsCode> findByPhoneAndDay(String phone, Long day, MagpiePageRequest magpiePageRequest) {
+    public MagpiePage<SmsCode> findByPhoneAndDay(String phone, Integer day, MagpiePageRequest magpiePageRequest) {
         if (!MagpieValidator.phone(phone)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "phone");
         }

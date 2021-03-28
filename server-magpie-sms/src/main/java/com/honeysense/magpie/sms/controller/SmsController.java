@@ -39,7 +39,7 @@ public class SmsController {
                                    @MagpieAnnotationUa String userAgent,
                                    @ApiParam(value = "传入参数", required = true)
                                    @Validated @RequestBody PostSmsSendReq req) {
-        Long today = MagpieTimeFormat.getToday();
+        Integer today = MagpieTimeFormat.makeToday();
 
         int count = smsCodeService.countAllByPhoneAndDay(req.getPhone(), today);
         if (count >= SmsCode.MAX_SEND_PER_DAY) {

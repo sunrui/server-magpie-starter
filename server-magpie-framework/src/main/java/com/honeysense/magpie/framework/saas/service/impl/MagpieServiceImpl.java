@@ -2,16 +2,15 @@ package com.honeysense.magpie.framework.saas.service.impl;
 
 import com.honeysense.magpie.framework.object.MagpieEntity;
 import com.honeysense.magpie.framework.object.MagpieException;
+import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.framework.object.MagpiePageRequest;
 import com.honeysense.magpie.framework.saas.repository.MagpieRepository;
 import com.honeysense.magpie.framework.saas.service.MagpieService;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
-import com.honeysense.magpie.framework.object.MagpiePage;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 public class MagpieServiceImpl<T extends MagpieEntity> implements MagpieService<T> {
@@ -22,10 +21,16 @@ public class MagpieServiceImpl<T extends MagpieEntity> implements MagpieService<
     }
 
     @Override
+    @Transactional(propagation= Propagation.REQUIRED,rollbackFor= RuntimeException.class)
     public T save(T t) {
         MagpieValidator.object(t);
 
-        return magpieRepository.save(t);
+        T t1 = magpieRepository.save(t);
+        if (t1 != null) {
+            throw  new RuntimeException("MagpieException.Type.INVALID_PARAMETER");
+        }
+
+        return t1;
     }
 
     @Override
@@ -47,6 +52,7 @@ public class MagpieServiceImpl<T extends MagpieEntity> implements MagpieService<
     }
 
     @Override
+    @Transactional
     public void deleteById(Long id) {
         if (id == null) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "id");

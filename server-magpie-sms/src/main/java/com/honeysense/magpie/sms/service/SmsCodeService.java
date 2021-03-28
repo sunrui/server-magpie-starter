@@ -12,6 +12,6 @@ public interface SmsCodeService extends MagpieChannelManyService<SmsCode> {
     boolean validPhoneSmsCode(String phone);
     boolean validPhoneAndSmsCodeAndSmsCodeType(String phone, String code, SmsCodeType smsCodeType);
 
-    int countAllByPhoneAndDay(String phone, Long day);
-    MagpiePage<SmsCode> findByPhoneAndDay(String phone, Long day, MagpiePageRequest magpiePageRequest);
+    int countAllByPhoneAndDay(String phone, Integer day);
+    MagpiePage<SmsCode> findByPhoneAndDay(String phone, Integer day, MagpiePageRequest magpiePageRequest);
 }

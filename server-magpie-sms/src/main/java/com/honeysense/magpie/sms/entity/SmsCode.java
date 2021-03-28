@@ -41,7 +41,7 @@ public class SmsCode extends MagpieEntity {
     @NotNull
     @Min(20200101)
     @Max(20990101)
-    private Long day;
+    private Integer day;
     @ApiModelProperty(value="验证次数", example = "1", required = true)
     @NotNull
     @Min(0)

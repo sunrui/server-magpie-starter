@@ -6,6 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface SmsCodeRepository extends MagpieChannelManyRepository<SmsCode> {
-    int countAllByPhoneAndDay(String phone, Long day);
-    Page<SmsCode> findAllByPhoneAndDay(String phone, Long day, Pageable pageable);
+    int countAllByPhoneAndDay(String phone, Integer day);
+    Page<SmsCode> findAllByPhoneAndDay(String phone, Integer day, Pageable pageable);
 }

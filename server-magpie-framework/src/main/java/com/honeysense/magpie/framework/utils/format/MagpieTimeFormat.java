@@ -8,8 +8,8 @@ public class MagpieTimeFormat {
         return String.valueOf(System.currentTimeMillis() / 1000);
     }
 
-    public static String formatElapsed(long seconds) {
-        long day, hour, minute, second;
+    public static String formatElapsed(Integer seconds) {
+        int day, hour, minute, second;
 
         if (seconds > 60) {
             second = seconds % 60;
@@ -41,8 +41,8 @@ public class MagpieTimeFormat {
      *
      * @return 当天时间
      */
-    public static Long getToday() {
+    public static Integer makeToday() {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
-        return Long.valueOf(df.format(new Date()));
+        return Long.valueOf(df.format(new Date())).intValue();
     }
 }

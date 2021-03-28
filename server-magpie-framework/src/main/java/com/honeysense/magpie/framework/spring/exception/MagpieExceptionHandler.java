@@ -41,30 +41,22 @@ class MagpieExceptionHandler {
     public MagpieException handleException(Exception e) {
         e.printStackTrace();
 
-        if (e instanceof HttpMessageNotWritableException) {
-            return new MagpieException("MessageNotWritable", e.getMessage());
-        } else if (e instanceof HttpMessageNotReadableException) {
-            return new MagpieException("MessageNotReadable", e.getMessage());
-        } else if (e instanceof HttpMediaTypeNotAcceptableException) {
-            return new MagpieException("MediaTypeNotAcceptable", e.getMessage());
-        } else if (e instanceof HttpRequestMethodNotSupportedException) {
-            return new MagpieException("RequestMethodNotSupported", e.getMessage());
-        } else if (e instanceof HttpMediaTypeNotSupportedException) {
-            return new MagpieException("MediaTypeNotSupported", e.getMessage());
-        } else if (e instanceof MethodArgumentTypeMismatchException) {
+        Object detail;
+
+        if (e instanceof MethodArgumentTypeMismatchException) {
             Map<String, String> map = new HashMap<>();
 
             map.put("name", ((MethodArgumentTypeMismatchException) e).getName());
             map.put("message", e.getMessage());
 
-            return new MagpieException("MethodArgumentTypeMismatch", map);
+            detail = map;
         } else if (e instanceof MissingServletRequestParameterException) {
             Map<String, String> map = new HashMap<>();
 
             map.put("parameterName", ((MissingServletRequestParameterException) e).getParameterName());
             map.put("parameterType", ((MissingServletRequestParameterException) e).getParameterType());
 
-            return new MagpieException("MissingServletRequestParameter", map);
+            detail = map;
         } else if (e instanceof MethodArgumentNotValidException) {
             List<MagpieValidator.BindError> errorList = new ArrayList<>();
 
@@ -74,32 +66,19 @@ class MagpieExceptionHandler {
                         objectError.getDefaultMessage()));
             }
 
-            return new MagpieException("MethodArgumentNotValid", errorList);
-        } else if (e instanceof NoHandlerFoundException) {
-            return new MagpieException("NoHandlerFound", e.getMessage());
-        } else if (e instanceof IllegalArgumentException) {
-            return new MagpieException("IllegalArgument", e.getMessage());
-        } else if (e instanceof IllegalStateException) {
-            return new MagpieException("IllegalState", e.getMessage());
+            detail = errorList;
         } else if (e instanceof BindException) {
-            return new MagpieException("Bind", ((BindException) e).getAllErrors().get(0).getDefaultMessage());
+            detail = ((BindException) e).getAllErrors().get(0).getDefaultMessage();
         } else if (e instanceof TransactionSystemException) {
-            return new MagpieException("TransactionSystem", e.getCause().getCause().getMessage());
+            detail = e.getCause().getCause().getMessage();
         } else if (e instanceof DataIntegrityViolationException) {
-            return new MagpieException("DataIntegrityViolation", e.getCause().getCause().getMessage());
-        } else if (e instanceof UnexpectedTypeException) {
-            return new MagpieException("UnexpectedTypeException", e.getMessage());
-        } else if (e instanceof ServletRequestBindingException) {
-            return new MagpieException("ServletRequestBindingException", e.getMessage());
+            detail = e.getCause().getCause().getMessage();
         } else if (e instanceof MagpieException) {
             return (MagpieException) e;
-        } else if (e instanceof UnrecognizedPropertyException) {
-            return new MagpieException("UnrecognizedPropertyException", e.getMessage());
         } else {
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            e.printStackTrace(pw);
-            return new MagpieException("Exception", sw.toString());
+            detail = e.getMessage();
         }
+
+        return new MagpieException(e.getClass().getSimpleName(), detail);
     }
 }
