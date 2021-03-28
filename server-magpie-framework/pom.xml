@@ -19,7 +19,7 @@
         <java.version>11</java.version>
         <mybatis.version>2.1.4</mybatis.version>
         <jwt.version>3.14.0</jwt.version>
-        <knife4j.version>3.0.2</knife4j.version>
+        <knife4j.version>2.0.4</knife4j.version>
     </properties>
 
     <dependencies>
@@ -118,14 +118,5 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>

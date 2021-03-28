@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Profile("dev")
-@Api(tags = "异常注册")
+@Api(tags = "异常")
 @RestController
 public class SwaggerExceptionController {
     @Data
@@ -17,11 +17,11 @@ public class SwaggerExceptionController {
         private String exception;
         @ApiModelProperty(value = "文件所在行", example = "handleNoHandlerFoundException(MagpieExceptionHandler.java:34)",required = true)
         private String file;
-        @ApiModelProperty(value = "详情信息", example = "No handler found for GET /hello",required = true)
+        @ApiModelProperty(value = "详情信息", example = "No handler found for GET /404",required = true)
         private Object detail;
     }
 
-    @ApiOperation(value = "注册出错对象到 Swagger", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "通用异常", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping(value = "223B3143-946B-4D16-A3FB-E5495B33D1AC")
     @ApiResponses({@ApiResponse(code = 400, message = "ERROR", response = MagpieException.class)})
     public void initException() {

@@ -12,7 +12,6 @@ import lombok.extern.slf4j.Slf4j;
 @ApiModel(value = "全局异常")
 @Slf4j
 @Getter
-@Setter
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class MagpieException extends RuntimeException {
     @Getter
@@ -60,9 +59,9 @@ public class MagpieException extends RuntimeException {
     }
 
     @ApiModelProperty(value = "异常类型", example = "NoHandlerFound", required = true)
-    private String exception;
+    private final String exception;
     @ApiModelProperty(value = "文件所在行", example = "handleNoHandlerFoundException(MagpieExceptionHandler.java:34)", required = true)
-    private String file;
+    private final String file;
     @ApiModelProperty(value = "详情信息", example = "No handler found for GET /404", required = true)
     private Object detail;
 
