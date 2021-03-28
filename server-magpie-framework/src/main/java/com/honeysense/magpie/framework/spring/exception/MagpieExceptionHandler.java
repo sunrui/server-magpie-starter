@@ -30,12 +30,6 @@ import java.util.*;
 @ControllerAdvice
 @RestControllerAdvice
 class MagpieExceptionHandler {
-    @ExceptionHandler(value = NoHandlerFoundException.class)
-    @ResponseBody
-    public MagpieException handleNoHandlerFoundException(NoHandlerFoundException e) {
-        return new MagpieException("NoHandlerFound", e.getMessage());
-    }
-
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public MagpieException handleException(Exception e) {

@@ -1,6 +1,7 @@
 package com.honeysense.magpie.framework.spring.annotation.cache.util;
 
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -8,7 +9,7 @@ import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
 @Service
-@Log4j2
+@Slf4j
 public class MagpieRedisHelper {
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
