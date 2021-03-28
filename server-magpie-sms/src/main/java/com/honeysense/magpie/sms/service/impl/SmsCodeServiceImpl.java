@@ -127,18 +127,19 @@ public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> im
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "day");
         }
 
-        // TODO 需要报错
-        SmsCode smsCode = new SmsCode();
-        smsCode.setCode("123456");
-        smsCode.setPhone("13012341234");
-        smsCode.setDay(20200101);
-        smsCode.setIp("ip");
-        smsCode.setUserAgent("ua");
-        smsCode.setChannelId(1L);
-        smsCode.setVerifyTimes(1);
-        smsCode.setType(SmsCodeType.LOGIN);
-        smsCode.setExpiredAt(new Date());
-        smsCodeRepository.save(smsCode);
+//        // TODO 需要报错
+//        SmsCode smsCode = new SmsCode();
+//        smsCode.setCode("123456");
+//        smsCode.setPhone("13012341234");
+//        smsCode.setDay(20200101);
+//        smsCode.setIp("ip");
+//        smsCode.setUserAgent("ua");
+//        smsCode.setChannelId(1L);
+//        smsCode.setVerifyTimes(1);
+//        smsCode.setType(SmsCodeType.LOGIN);
+//        smsCode.setExpiredAt(new Date());
+//        smsCodeRepository.save(smsCode);
+//        throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "day");
 
         return smsCodeRepository.countAllByPhoneAndDay(phone, day);
     }
