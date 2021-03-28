@@ -26,9 +26,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.io.Serializable;
 
+@EnableCaching
 @Configuration
 @AutoConfigureAfter(RedisAutoConfiguration.class)
-@EnableCaching
 public class MagpieRedisConfig {
     @Bean
     public RedisTemplate<String, Serializable> redisCacheTemplate(LettuceConnectionFactory lettuceConnectionFactory) {

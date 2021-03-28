@@ -1,6 +1,7 @@
 package com.honeysense.magpie.framework.spring.rest;
 
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpRequest;
@@ -15,7 +16,7 @@ import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-@Log4j2
+@Slf4j
 class EchoRequestInterceptor implements ClientHttpRequestInterceptor {
 	@Override
 	public ClientHttpResponse intercept(HttpRequest request, byte[] bytes, ClientHttpRequestExecution execution) throws IOException {
