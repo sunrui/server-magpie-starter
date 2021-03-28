@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.extern.log4j.Log4j2;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -23,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.TimeZone;
 
-@Log4j2
+@Slf4j
 @Configuration
 public class MagpieRestTemplateConfig {
     @Bean

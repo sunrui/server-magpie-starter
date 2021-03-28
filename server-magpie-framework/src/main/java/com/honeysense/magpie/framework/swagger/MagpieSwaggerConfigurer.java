@@ -27,7 +27,7 @@ import java.util.List;
 @EnableSwagger2
 @EnableKnife4j
 @Import(BeanValidatorPluginsConfiguration.class)
-public class SwaggerConfigurer {
+public class MagpieSwaggerConfigurer {
     @Bean
     public Docket api() {
         List<ResponseMessage> responseMessageList = new ArrayList<>();

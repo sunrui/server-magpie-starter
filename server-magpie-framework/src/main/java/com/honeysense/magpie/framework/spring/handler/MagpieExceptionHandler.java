@@ -1,29 +1,18 @@
-package com.honeysense.magpie.framework.spring.exception;
+package com.honeysense.magpie.framework.spring.handler;
 
-import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.HttpMediaTypeNotAcceptableException;
-import org.springframework.web.HttpMediaTypeNotSupportedException;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
-import org.springframework.web.bind.ServletRequestBindingException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import org.springframework.web.servlet.NoHandlerFoundException;
 
-import javax.validation.UnexpectedTypeException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.*;
 
 @ResponseStatus(HttpStatus.BAD_REQUEST)

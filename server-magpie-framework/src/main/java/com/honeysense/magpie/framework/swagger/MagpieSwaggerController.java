@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Profile("dev")
 @Api(tags = "异常")
 @RestController("swagger")
-public class SwaggerExceptionController {
+public class MagpieSwaggerController {
     @Data
     public static class MagpieException {
         @ApiModelProperty(value = "异常类型", example = "NoHandlerFound", required = true)
