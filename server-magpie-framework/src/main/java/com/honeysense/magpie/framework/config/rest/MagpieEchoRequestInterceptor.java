@@ -16,13 +16,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Slf4j
-class EchoRequestInterceptor implements ClientHttpRequestInterceptor {
+class MagpieEchoRequestInterceptor implements ClientHttpRequestInterceptor {
 	@Override
 	public ClientHttpResponse intercept(HttpRequest request, byte[] bytes, ClientHttpRequestExecution execution) throws IOException {
 		String echo = traceRequest(request, bytes);
 
 		ClientHttpResponse response = execution.execute(request, bytes);
-		ClientHttpResponse responseCopy = new BufferingClientHttpResponse(response);
+		ClientHttpResponse responseCopy = new MagpieClientHttpResponse(response);
 
 		echo += traceResponse(responseCopy);
 		log.info(echo);
@@ -49,9 +49,7 @@ class EchoRequestInterceptor implements ClientHttpRequestInterceptor {
 			headerStringBuilder.append("\t").append(key).append(": ").append(headerMap.get(key)).append("\n");
 		}
 
-		return String.format("\n\n%s %s%s\n%s", method, path, query != null ? "?" + query : "", headerStringBuilder.toString()
-//				, String.format("%s", body.length() > 0 ? (body + "\n") : "")
-		);
+		return String.format("\n\n%s %s%s\n%s", method, path, query != null ? "?" + query : "", headerStringBuilder.toString());
 	}
 
 	/**

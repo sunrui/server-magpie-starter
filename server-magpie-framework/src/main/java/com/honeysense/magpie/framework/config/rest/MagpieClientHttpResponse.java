@@ -9,11 +9,11 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-class BufferingClientHttpResponse implements ClientHttpResponse {
+class MagpieClientHttpResponse implements ClientHttpResponse {
     private final ClientHttpResponse response;
     private byte[] body;
 
-    BufferingClientHttpResponse(ClientHttpResponse response) {
+    MagpieClientHttpResponse(ClientHttpResponse response) {
         this.response = response;
     }
 

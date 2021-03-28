@@ -25,7 +25,7 @@ import java.util.TimeZone;
 
 @Log4j2
 @Configuration
-public class RestTemplateConfig {
+public class MagpieRestTemplateConfig {
     @Bean
     public RestTemplate restTemplate(ClientHttpRequestFactory factory) {
         RestTemplate restTemplate = new RestTemplate(factory);
@@ -41,8 +41,8 @@ public class RestTemplateConfig {
         mappingJackson2HttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON, MediaType.APPLICATION_OCTET_STREAM, MediaType.TEXT_HTML));
 
         List<ClientHttpRequestInterceptor> interceptors = new ArrayList<>();
-        EchoRequestInterceptor echoRequestInterceptor = new EchoRequestInterceptor();
-        interceptors.add(echoRequestInterceptor);
+        MagpieEchoRequestInterceptor magpieEchoRequestInterceptor = new MagpieEchoRequestInterceptor();
+        interceptors.add(magpieEchoRequestInterceptor);
         restTemplate.setInterceptors(interceptors);
 
         restTemplate.getMessageConverters().add(mappingJackson2HttpMessageConverter);
@@ -50,24 +50,10 @@ public class RestTemplateConfig {
     }
 
     @Bean
-    public ClientHttpRequestFactory skipSSLClientHttpRequestFactory() throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException {
-
-        return new SimpleClientHttpRequestFactory();
-
-        //        TrustStrategy acceptingTrustStrategy = (x509Certificates, authType) -> true;
-//        SSLContext sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
-//        SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(sslContext,
-//                new NoopHostnameVerifier());
-//        HttpClientBuilder httpClientBuilder = HttpClients.custom();
-//        httpClientBuilder.setSSLSocketFactory(connectionSocketFactory);
-//        CloseableHttpClient httpClient = httpClientBuilder.build();
-//        HttpComponentsClientHttpRequestFactory factory = new HttpComponentsClientHttpRequestFactory();
-
-        // dealy 在国内会响应比较慢，将延迟改长一些
-//        final int TIMEOUT_SECONDS = 60 * 1000;
-//        factory.setReadTimeout(TIMEOUT_SECONDS);
-//        factory.setConnectTimeout(TIMEOUT_SECONDS);
-//        factory.setHttpClient(httpClient);
-//        return factory;
+    public ClientHttpRequestFactory clientHttpRequestFactory() throws NoSuchAlgorithmException, KeyManagementException, KeyStoreException {
+        SimpleClientHttpRequestFactory simpleClientHttpRequestFactory = new SimpleClientHttpRequestFactory();
+        simpleClientHttpRequestFactory.setConnectTimeout(10 * 1000);
+        simpleClientHttpRequestFactory.setReadTimeout(10 * 1000);
+        return simpleClientHttpRequestFactory;
     }
 }
