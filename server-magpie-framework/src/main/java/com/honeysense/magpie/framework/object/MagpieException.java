@@ -3,6 +3,7 @@ package com.honeysense.magpie.framework.object;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.honeysense.magpie.framework.utils.convert.MagpieJsonConvert;
+import com.honeysense.magpie.framework.utils.format.MagpieStringFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -66,7 +67,7 @@ public class MagpieException extends RuntimeException {
     private Object detail;
 
     public MagpieException(Type type) {
-        this.exception = type.name();
+        this.exception = MagpieStringFormat.toCamelCase(type.name());
 
         file = String.format("%s(%s:%s)",
                 Thread.currentThread().getStackTrace()[2].getMethodName(),
@@ -75,7 +76,7 @@ public class MagpieException extends RuntimeException {
     }
 
     public MagpieException(Type type, Object detail) {
-        this.exception = type.name();
+        this.exception = MagpieStringFormat.toCamelCase(type.name());
         this.detail = detail;
 
         file = String.format("%s(%s:%s)",
@@ -89,7 +90,7 @@ public class MagpieException extends RuntimeException {
     }
 
     public MagpieException(String exception, Object detail) {
-        this.exception = exception;
+        this.exception = MagpieStringFormat.toCamelCase(exception);
         this.detail = detail;
 
         file = String.format("%s(%s:%s)",
