@@ -75,12 +75,12 @@ public class SmsController {
     @ResponseBody
     public PostSmsVerifyRes postVerify(@ApiParam(value = "传入参数", required = true)
                                        @Validated @RequestBody PostSmsVerifyReq req) {
-        boolean haveValidSmsCode = smsCodeService.weatherHaveValidSmsCode(req.getPhone());
+        boolean haveValidSmsCode = smsCodeService.validPhoneSmsCode(req.getPhone());
         if (!haveValidSmsCode) {
             return PostSmsVerifyRes.builder().codeNotExists(true).build();
         }
 
-        boolean verifyOk = smsCodeService.weatherVerifyOk(req.getPhone(), req.getCode(), req.getSmsCodeType());
+        boolean verifyOk = smsCodeService.validPhoneAndSmsCodeAndSmsCodeType(req.getPhone(), req.getCode(), req.getSmsCodeType());
         if (verifyOk) {
             return PostSmsVerifyRes.builder().verifyOk(true).build();
         }

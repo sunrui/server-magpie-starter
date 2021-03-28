@@ -9,8 +9,6 @@ import com.honeysense.magpie.framework.spring.annotation.token.MagpieAnnotationT
 import com.honeysense.magpie.framework.spring.annotation.ua.MagpieAnnotationUa;
 import com.honeysense.magpie.framework.utils.MagpieJwt;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
-import com.honeysense.magpie.user.controller.c.req.PostLoginPasswordReq;
-import com.honeysense.magpie.user.controller.c.res.PostLoginPasswordRes;
 import com.honeysense.magpie.user.service.UserLoginHistoryService;
 import com.honeysense.magpie.user.service.UserRelationService;
 import com.honeysense.magpie.user.service.UserService;
@@ -38,7 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 
 @Api(tags = "用户")
 @RestController
@@ -102,13 +99,13 @@ public class UserController {
                                             @Validated @RequestBody PostLoginPhoneReq req,
                                             HttpServletResponse httpServletResponse) {
         // 较验手机号是否存在验证码
-        boolean haveValidSmsCode = smsCodeService.weatherHaveValidSmsCode(req.getPhone());
+        boolean haveValidSmsCode = smsCodeService.validPhoneSmsCode(req.getPhone());
         if (!haveValidSmsCode) {
             return PostLoginPhoneRes.builder().smsCodeSendNeeded(true).build();
         }
 
         // 较验手机号验证码是否正确
-        boolean verifyOk = smsCodeService.weatherVerifyOk(req.getPhone(), req.getSmsCode(), SmsCodeType.LOGIN);
+        boolean verifyOk = smsCodeService.validPhoneAndSmsCodeAndSmsCodeType(req.getPhone(), req.getSmsCode(), SmsCodeType.LOGIN);
         if (!verifyOk) {
             return PostLoginPhoneRes.builder().smsCodeVerifyError(true).build();
         }

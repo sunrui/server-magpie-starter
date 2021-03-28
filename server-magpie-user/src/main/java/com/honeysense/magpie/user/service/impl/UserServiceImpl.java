@@ -202,7 +202,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
     }
 
     @Override
-    public boolean localVerifyPassword(Long userId, String password) {
+    public boolean validUserPassword(Long userId, String password) {
         if (!MagpieValidator.longId(userId)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "userId");
         }

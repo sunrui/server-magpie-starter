@@ -18,7 +18,7 @@ public interface UserService extends MagpieService<User> {
     User findByName(String name);
     User findByOAuth(UserOAuth.Type openType, String appId, String openId);
 
-    boolean localVerifyPassword(Long userId, String password);
+    boolean validUserPassword(Long userId, String password);
 
     MagpiePage<User> findByPhoneLike(String phone, PageRequest pageRequest);
     MagpiePage<User> findByNameLike(String name, PageRequest pageRequest);

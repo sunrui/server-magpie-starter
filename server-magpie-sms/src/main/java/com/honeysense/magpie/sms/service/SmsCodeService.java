@@ -9,8 +9,8 @@ import com.honeysense.magpie.sms.entity.SmsCodeType;
 public interface SmsCodeService extends MagpieChannelManyService<SmsCode> {
     String generateRandomSmsCode();
 
-    boolean weatherHaveValidSmsCode(String phone);
-    boolean weatherVerifyOk(String phone, String code, SmsCodeType smsCodeType);
+    boolean validPhoneSmsCode(String phone);
+    boolean validPhoneAndSmsCodeAndSmsCodeType(String phone, String code, SmsCodeType smsCodeType);
 
     int countAllByPhoneAndDay(String phone, Long day);
     MagpiePage<SmsCode> findByPhoneAndDay(String phone, Long day, MagpiePageRequest magpiePageRequest);

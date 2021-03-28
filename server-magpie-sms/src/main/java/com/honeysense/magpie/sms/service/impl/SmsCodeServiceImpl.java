@@ -41,7 +41,7 @@ public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> im
     }
 
     @Override
-    public boolean weatherHaveValidSmsCode(String phone) {
+    public boolean validPhoneSmsCode(String phone) {
         if (!MagpieValidator.phone(phone)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "phone");
         }
@@ -68,7 +68,7 @@ public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> im
     }
 
     @Override
-    public boolean weatherVerifyOk(String phone, String code, SmsCodeType smsCodeType) {
+    public boolean validPhoneAndSmsCodeAndSmsCodeType(String phone, String code, SmsCodeType smsCodeType) {
         if (!MagpieValidator.phone(phone)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "phone");
         }
