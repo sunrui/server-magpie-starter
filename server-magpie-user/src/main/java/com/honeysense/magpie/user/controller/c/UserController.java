@@ -89,7 +89,7 @@ public class UserController {
         httpServletResponse.addCookie(cookie);
     }
 
-    @ApiOperation(value = "用户 - 注册 - 用户名/密码", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "用户 - 注册", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "register")
     @ResponseBody
     public PostRegisterRes postRegister(@ApiParam(value = "用户 IP", hidden = true)
@@ -97,8 +97,7 @@ public class UserController {
                                         @ApiParam(value = "用户 UA", hidden = true)
                                         @MagpieAnnotationUa String userAgent,
                                         @ApiParam(value = "传入参数", required = true)
-                                        @Validated @RequestBody PostRegisterReq req,
-                                        HttpServletResponse httpServletResponse) {
+                                        @Validated @RequestBody PostRegisterReq req) {
         // 查询用户是否存在
         User user = userService.findByName(req.getUserName());
         if (user != null) {
