@@ -29,7 +29,7 @@ public class UserRelation extends UserRefer {
     public UserRelation(UserRefer userRefer) {
         this.setChannelId(userRefer.getChannelId());
         this.setDevice(userRefer.getDevice());
-        this.setdeviceUuid(userRefer.getdeviceUuid());
+        this.setDeviceUuid(userRefer.getDeviceUuid());
         this.setDeviceVersion(userRefer.getDeviceVersion());
         this.setIp(userRefer.getIp());
         this.setUserAgent(userRefer.getUserAgent());

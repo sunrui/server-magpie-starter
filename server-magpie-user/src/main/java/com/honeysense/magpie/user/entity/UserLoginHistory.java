@@ -12,7 +12,6 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @ApiModel(value = "实例 - 用户 - 登录记录")
@@ -45,13 +44,9 @@ public class UserLoginHistory extends UserRefer {
     public UserLoginHistory(UserRefer userRefer) {
         this.setChannelId(userRefer.getChannelId());
         this.setDevice(userRefer.getDevice());
-        this.setdeviceUuid(userRefer.getdeviceUuid());
+        this.setDeviceUuid(userRefer.getDeviceUuid());
         this.setDeviceVersion(userRefer.getDeviceVersion());
         this.setIp(userRefer.getIp());
         this.setUserAgent(userRefer.getUserAgent());
-    }
-
-    public void makeToday() {
-        day = Integer.valueOf(new SimpleDateFormat("yyyyMMdd").format(new Date()));
     }
 }

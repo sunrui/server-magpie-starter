@@ -71,13 +71,13 @@ public class UserServiceTests {
         userRefer.setIp("127.0.0.1");
         userRefer.setUserAgent("ua");
 
-        User user = userService.insertName("name2", userRefer, null);
+        User user = userService.insertName("name2", "password", userRefer);
         user.dump();
 
-        user = userService.insertThird(UserThird.Type.WECHAT, "appId", "openId", userRefer, null);
+        user = userService.insertThird(UserThird.Type.WECHAT, "appId", "openId", userRefer);
         user.dump();
 
-        user = userService.insertPhone("15068860057", userRefer, null);
+        user = userService.insertPhone("15068860057", userRefer);
         user.dump();
     }
 

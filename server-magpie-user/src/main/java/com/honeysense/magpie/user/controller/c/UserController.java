@@ -171,7 +171,7 @@ public class UserController {
         // 写入记录历史
         UserLoginHistory userLoginHistory = new UserLoginHistory(userRefer);
         userLoginHistory.setUserId(user.getId());
-        userLoginHistory.makeToday();
+        userLoginHistory.setDay(MagpieTimeFormat.makeToday());
         userLoginHistory.setExpiredAt(new Date(System.currentTimeMillis() + req.getMaxAge() * 1000L));
         userLoginHistory.setSuccess(true);
         userLoginHistory.setType(MagpieToken.MagpieTokenType.PHONE);
@@ -222,7 +222,7 @@ public class UserController {
         // 记录登录历史
         UserLoginHistory userLoginHistory = new UserLoginHistory(userRefer);
         userLoginHistory.setUserId(user.getId());
-        userLoginHistory.makeToday();
+        userLoginHistory.setDay(MagpieTimeFormat.makeToday());
         userLoginHistory.setExpiredAt(new Date(System.currentTimeMillis() + req.getMaxAge() * 1000L));
         userLoginHistory.setSuccess(validUserIdAndPassword);
         userLoginHistory.setType(MagpieToken.MagpieTokenType.PHONE);
