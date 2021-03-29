@@ -19,7 +19,9 @@
         <java.version>11</java.version>
         <mybatis.version>2.1.4</mybatis.version>
         <jwt.version>3.14.0</jwt.version>
-        <knife4j.version>2.0.4</knife4j.version>
+        <knife4j.version>2.0.8</knife4j.version>
+        <swagger.version>2.10.5</swagger.version>
+        <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
     </properties>
 
     <dependencies>
@@ -93,7 +95,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>6.1.5.Final</version>
+            <version>${hibernate-validator.version}</version>
         </dependency>
 
         <!-- 引用 spring session -->
@@ -117,10 +119,20 @@
         </dependency>
 
         <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
     </dependencies>
-
 </project>
