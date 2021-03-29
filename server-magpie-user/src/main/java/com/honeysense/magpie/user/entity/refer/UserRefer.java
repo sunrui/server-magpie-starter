@@ -19,12 +19,14 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserRefer extends MagpieEntity {
+    @ApiModelProperty(value="邀请他的用户 ID")
+    private Long directInvitorUserId;
     @ApiModelProperty(value="渠道 ID")
     private Long channelId;
     @ApiModelProperty(value="设备")
     private String device;
     @ApiModelProperty(value="设备号")
-    private String deviceImei;
+    private String deviceUuid;
     @ApiModelProperty(value="设备版本")
     private String deviceVersion;
     @ApiModelProperty(value="ip 地址", required = true)

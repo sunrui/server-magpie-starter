@@ -74,7 +74,7 @@ public class UserServiceTests {
         User user = userService.insertName("name2", userRefer, null);
         user.dump();
 
-        user = userService.insertOAuth(UserThird.Type.WECHAT, "appId", "openId", userRefer, null);
+        user = userService.insertThird(UserThird.Type.WECHAT, "appId", "openId", userRefer, null);
         user.dump();
 
         user = userService.insertPhone("15068860057", userRefer, null);

@@ -9,21 +9,20 @@ import com.honeysense.magpie.framework.spring.annotation.token.MagpieAnnotationT
 import com.honeysense.magpie.framework.spring.annotation.ua.MagpieAnnotationUa;
 import com.honeysense.magpie.framework.utils.MagpieJwt;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
-import com.honeysense.magpie.user.controller.c.req.PostLoginPasswordReq;
-import com.honeysense.magpie.user.controller.c.res.PostLoginPasswordRes;
-import com.honeysense.magpie.user.service.UserLoginHistoryService;
-import com.honeysense.magpie.user.service.UserRelationService;
-import com.honeysense.magpie.user.service.UserService;
+import com.honeysense.magpie.framework.utils.format.MagpieTimeFormat;
 import com.honeysense.magpie.sms.entity.SmsCodeType;
 import com.honeysense.magpie.sms.service.SmsCodeService;
+import com.honeysense.magpie.user.controller.c.req.PostLoginPasswordReq;
 import com.honeysense.magpie.user.controller.c.req.PostLoginPhoneReq;
-import com.honeysense.magpie.user.controller.c.res.PostLoginPhoneRes;
-import com.honeysense.magpie.user.controller.c.res.PostWechatAppletCodeRes;
-import com.honeysense.magpie.user.controller.c.res.PostWechatAppletMobileRes;
+import com.honeysense.magpie.user.controller.c.req.PostRegisterReq;
+import com.honeysense.magpie.user.controller.c.res.*;
 import com.honeysense.magpie.user.entity.User;
 import com.honeysense.magpie.user.entity.UserLoginHistory;
 import com.honeysense.magpie.user.entity.UserRelation;
 import com.honeysense.magpie.user.entity.refer.UserRefer;
+import com.honeysense.magpie.user.service.UserLoginHistoryService;
+import com.honeysense.magpie.user.service.UserRelationService;
+import com.honeysense.magpie.user.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -90,6 +89,45 @@ public class UserController {
         httpServletResponse.addCookie(cookie);
     }
 
+    @ApiOperation(value = "用户 - 注册 - 用户名/密码", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "register")
+    @ResponseBody
+    public PostRegisterRes postRegister(@ApiParam(value = "用户 IP", hidden = true)
+                                        @MagpieAnnotationIp String ip,
+                                        @ApiParam(value = "用户 UA", hidden = true)
+                                        @MagpieAnnotationUa String userAgent,
+                                        @ApiParam(value = "传入参数", required = true)
+                                        @Validated @RequestBody PostRegisterReq req,
+                                        HttpServletResponse httpServletResponse) {
+        // 查询用户是否存在
+        User user = userService.findByName(req.getUserName());
+        if (user != null) {
+            return PostRegisterRes.builder().userNameExists(true).build();
+        }
+
+        // 查询直推用户 ID 是否正确
+        if (MagpieValidator.longId(req.getRefer().getDirectInvitorUserId())) {
+            UserRelation userRelation = userRelationService.findByUserId(req.getRefer().getDirectInvitorUserId());
+            if (userRelation == null) {
+                return PostRegisterRes.builder().directInvitorUserIdNotExists(true).build();
+            }
+        }
+
+        // 判断摩术码是否正确
+        if (!"magpie".equals(req.getMagic())) {
+            return PostRegisterRes.builder().magicError(true).build();
+        }
+
+        // 生成用户来源
+        UserRefer userRefer = req.getRefer().toUserRefer(ip, userAgent);
+
+        // 注册新用户
+        user = userService.insertName(req.getUserName(), req.getPassword(), userRefer);
+
+        // 登录成功
+        return PostRegisterRes.builder().user(user).build();
+    }
+
     @ApiOperation(value = "用户 - 登录 - 手机", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "login/phone")
     @ResponseBody
@@ -113,7 +151,6 @@ public class UserController {
         }
 
         // 判断直推用户 ID 是否存在
-        UserRefer userRefer = new UserRefer();
         if (MagpieValidator.longId(req.getRefer().getDirectInvitorUserId())) {
             UserRelation userRelation = userRelationService.findByUserId(req.getRefer().getDirectInvitorUserId());
             if (userRelation == null) {
@@ -122,18 +159,13 @@ public class UserController {
         }
 
         // 生成用户来源
-        userRefer.setChannelId(req.getRefer().getChannelId());
-        userRefer.setDevice(req.getRefer().getDevice());
-        userRefer.setDeviceImei(req.getRefer().getDeviceImei());
-        userRefer.setDeviceVersion(req.getRefer().getDeviceVersion());
-        userRefer.setIp(ip);
-        userRefer.setUserAgent(userAgent);
+        UserRefer userRefer = req.getRefer().toUserRefer(ip, userAgent);
 
         // 查找用户是否已经存在
-        User user  = userService.findByPhone(req.getPhone());
+        User user = userService.findByPhone(req.getPhone());
         if (user == null) {
             // 新的用户
-            user = userService.insertPhone(req.getPhone(), userRefer, req.getRefer().getDirectInvitorUserId());
+            user = userService.insertPhone(req.getPhone(), userRefer);
         }
 
         // 写入记录历史
@@ -151,75 +183,59 @@ public class UserController {
         return PostLoginPhoneRes.builder().user(user).build();
     }
 
-    //
-//    @ApiOperation(value = "用户 - 登录 - 密码", produces = MediaType.APPLICATION_JSON_VALUE)
-//    @PostMapping(value = "login/password")
-//    @ResponseBody
-//    public PostLoginPasswordRes postLoginPassword(@ApiParam(value = "用户 IP", hidden = true)
-//                                                  @MagpieAnnotationIp String ip,
-//                                                  @ApiParam(value = "用户 UA", hidden = true)
-//                                                  @MagpieAnnotationUa String userAgent,
-//                                                  @ApiParam(value = "传入参数", required = true)
-//                                                  @Validated @RequestBody PostLoginPasswordReq req,
-//                                                  HttpServletResponse httpServletResponse) {
-//        // 查询用户是否存在
-//        User user = userService.findByName(req.getUserName());
-//        if (user == null) {
-//            return PostLoginPasswordRes.builder().userNameNotExists(true).build();
-//        }
-//
-//        // 查询直推用户 ID 是否正确
-//        UserRefer userRefer = new UserRefer();
-//        if (MagpieValidator.longId(req.getRefer().getDirectInvitorUserId())) {
-//            UserRelation userRelation = userRelationService.findByUserId(req.getRefer().getDirectInvitorUserId());
-//            if (userRelation == null) {
-//                return PostLoginPasswordRes.builder().directInvitorUserIdNotExists(true).build();
-//            }
-//        }
-//
-//        // 生成用户来源
-//        userRefer.setChannelId(req.getRefer().getChannelId());
-//        userRefer.setDevice(req.getRefer().getDevice());
-//        userRefer.setDeviceImei(req.getRefer().getDeviceImei());
-//        userRefer.setDeviceVersion(req.getRefer().getDeviceVersion());
-//        userRefer.setIp(ip);
-//        userRefer.setUserAgent(userAgent);
-//
-//        if (user == null) {
-//            user = userService.insertName(req.getUserName(), userRefer, req.getRefer().getDirectInvitorUserId());
-//        } else {
-//            user = user.get();
-//        }
-//
-//        UserLoginHistory userLoginHistory = new UserLoginHistory(userRefer);
-//        userLoginHistory.setUserId(user.getId());
-//        userLoginHistory.makeToday();
-//        userLoginHistory.setExpiredAt(new Date(System.currentTimeMillis() + req.getMaxAge() * 1000L));
-//        userLoginHistory.setSuccess(true);
-//        userLoginHistory.setType(MagpieToken.MagpieTokenType.PHONE);
-//        userLoginHistoryService.save(userLoginHistory);
-//
-//        writeToken(MagpieToken.MagpieTokenType.PHONE, req.getMaxAge(), user.getId(), userRefer, httpServletResponse);
-//
-//        return PostLoginPhoneRes.builder().user(user).build();
-//    }
-
-    @ApiOperation(value = "用户 - 登出", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PostMapping(value = "logout")
+    @ApiOperation(value = "用户 - 登录 - 密码", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "login/password")
     @ResponseBody
-    public void postLogout(HttpServletRequest httpServletRequest,
-                           HttpServletResponse httpServletResponse) {
-        Cookie[] cookies = httpServletRequest.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().contentEquals(COOKIE_JWT_KEY)) {
-                    cookie.setValue(null);
-                    cookie.setPath("/");
-                    cookie.setMaxAge(0);
-                    httpServletResponse.addCookie(cookie);
-                }
+    public PostLoginPasswordRes postLoginPassword(@ApiParam(value = "用户 IP", hidden = true)
+                                                  @MagpieAnnotationIp String ip,
+                                                  @ApiParam(value = "用户 UA", hidden = true)
+                                                  @MagpieAnnotationUa String userAgent,
+                                                  @ApiParam(value = "传入参数", required = true)
+                                                  @Validated @RequestBody PostLoginPasswordReq req,
+                                                  HttpServletResponse httpServletResponse) {
+        // 查询用户是否存在
+        User user = userService.findByName(req.getUserName());
+        if (user == null) {
+            return PostLoginPasswordRes.builder().userNameNotExists(true).build();
+        }
+
+        // 查询直推用户 ID 是否正确
+        if (MagpieValidator.longId(req.getRefer().getDirectInvitorUserId())) {
+            UserRelation userRelation = userRelationService.findByUserId(req.getRefer().getDirectInvitorUserId());
+            if (userRelation == null) {
+                return PostLoginPasswordRes.builder().directInvitorUserIdNotExists(true).build();
             }
         }
+
+        // 查询用户是否频繁登录
+        int userLoginHistoryFailedCount = userLoginHistoryService.countAllByUserIdAndDayAndSuccess(user.getId(), MagpieTimeFormat.makeToday(), false);
+        if (userLoginHistoryFailedCount > 10) {
+            return PostLoginPasswordRes.builder().passwordLocked(true).build();
+        }
+
+        // 查询用户密码是否正确
+        boolean validUserIdAndPassword = userService.validUserIdAndPassword(user.getId(), req.getPassword());
+
+        // 生成用户来源
+        UserRefer userRefer = req.getRefer().toUserRefer(ip, userAgent);
+
+        // 记录登录历史
+        UserLoginHistory userLoginHistory = new UserLoginHistory(userRefer);
+        userLoginHistory.setUserId(user.getId());
+        userLoginHistory.makeToday();
+        userLoginHistory.setExpiredAt(new Date(System.currentTimeMillis() + req.getMaxAge() * 1000L));
+        userLoginHistory.setSuccess(validUserIdAndPassword);
+        userLoginHistory.setType(MagpieToken.MagpieTokenType.PHONE);
+        userLoginHistoryService.save(userLoginHistory);
+
+        // 密码不正确
+        if (!validUserIdAndPassword) {
+            return PostLoginPasswordRes.builder().passwordVerifyError(true).build();
+        }
+
+        // 登录成功
+        writeToken(MagpieToken.MagpieTokenType.PASSWORD, req.getMaxAge(), user.getId(), userRefer, httpServletResponse);
+        return PostLoginPasswordRes.builder().user(user).build();
     }
 
     @ApiOperation(value = "用户 - 登录 - 微信小程序 - 获取 CODE", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -278,4 +294,23 @@ public class UserController {
 
         return user;
     }
+
+    @ApiOperation(value = "用户 - 登出", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "logout")
+    @ResponseBody
+    public void postLogout(HttpServletRequest httpServletRequest,
+                           HttpServletResponse httpServletResponse) {
+        Cookie[] cookies = httpServletRequest.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().contentEquals(COOKIE_JWT_KEY)) {
+                    cookie.setValue(null);
+                    cookie.setPath("/");
+                    cookie.setMaxAge(0);
+                    httpServletResponse.addCookie(cookie);
+                }
+            }
+        }
+    }
+
 }

@@ -8,15 +8,15 @@ import com.honeysense.magpie.user.entity.refer.UserRefer;
 import org.springframework.data.domain.PageRequest;
 
 public interface UserService extends MagpieService<User> {
-    User insertPhone(String phone, UserRefer userRefer, Long directInvitorUserId);
-    User insertName(String name, UserRefer userRefer, Long directInvitorUserId);
-    User insertOAuth(UserThird.Type type, String appId, String openId, UserRefer userRefer, Long directInvitorUserId);
+    User insertPhone(String phone, UserRefer userRefer);
+    User insertName(String name, String password, UserRefer userRefer);
+    User insertThird(UserThird.Type type, String appId, String openId, UserRefer userRefer);
 
     User findByPhone(String phone);
     User findByName(String name);
-    User findByOAuth(UserThird.Type type, String appId, String openId);
+    User findByThirdTypeAndAppIdAndOpenId(UserThird.Type type, String appId, String openId);
 
-    boolean validUserPassword(Long userId, String password);
+    boolean validUserIdAndPassword(Long userId, String password);
 
     MagpiePage<User> findByPhoneLike(String phone, PageRequest pageRequest);
     MagpiePage<User> findByNameLike(String name, PageRequest pageRequest);

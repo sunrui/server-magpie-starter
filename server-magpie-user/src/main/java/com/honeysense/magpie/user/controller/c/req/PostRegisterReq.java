@@ -25,12 +25,12 @@ public class PostRegisterReq extends MagpieObject {
     @Max(20)
     private String userName;
     @ApiModelProperty(value = "密码", example = "123456", required = true)
-    @NotNull
+    @NotBlank
     @Min(6)
     @Max(32)
     private String password;
-    @ApiModelProperty(value = "最大过期时间（毫秒）", example = "604800000", required = true)
-    @NotNull
+    @ApiModelProperty(value = "魔术码", example = "magpie", required = true)
+    @NotBlank
     @Min(1)
-    private Integer maxAge;
+    private String magic;
 }

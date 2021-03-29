@@ -13,8 +13,12 @@ import lombok.Setter;
 @Setter
 @Builder
 public class PostRegisterRes extends MagpieObject {
+    @ApiModelProperty(value = "用户名称已存在")
+    private Boolean userNameExists;
+    @ApiModelProperty(value = "直推用户 ID 不存在")
+    private Boolean directInvitorUserIdNotExists;
+    @ApiModelProperty(value = "魔术法不正确")
+    private Boolean magicError;
     @ApiModelProperty(value = "用户对象")
     private User user;
-    @ApiModelProperty(value = "用户 ID 已存在")
-    private Boolean userIdExists;
 }
