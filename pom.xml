@@ -24,10 +24,8 @@
     <modules>
         <module>server-magpie-config</module>
         <module>server-magpie-framework</module>
-        <module>server-magpie-channel</module>
         <module>server-magpie-medium</module>
-        <module>server-magpie-open</module>
-        <module>server-magpie-pay</module>
+        <module>server-magpie-paymax</module>
         <module>server-magpie-sms</module>
         <module>server-magpie-user</module>
         <module>server-magpie-boot</module>
