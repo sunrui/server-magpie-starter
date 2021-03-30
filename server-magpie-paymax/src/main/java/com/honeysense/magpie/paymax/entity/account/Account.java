@@ -5,11 +5,9 @@ import com.honeysense.magpie.paymax.entity.gateway.GatewayType;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Set;
@@ -19,7 +17,10 @@ import java.util.Set;
 @Setter
 public class Account extends MagpieEntity {
     @NotNull
-    private Integer appId;
+    @Column(unique = true)
+    private Long appId;
+    @NotBlank
+    private Long userId;
     @NotNull
     @Enumerated(EnumType.STRING)
     private GatewayType gatewayType;
@@ -27,15 +28,6 @@ public class Account extends MagpieEntity {
     @Min(0)
     private BigDecimal balance;
     @NotNull
-    @Min(0)
-    private BigDecimal freezeBalance;
-    @NotNull
-    @Min(0)
-    private BigDecimal fee;
-    @NotNull
     @OneToMany
-    private Set<AccountUser> accountUsers;
-    @NotNull
-    @OneToMany
-    private Set<AccountBill> accountBills;
+    private Set<AccountTransaction> accountTransactions;
 }

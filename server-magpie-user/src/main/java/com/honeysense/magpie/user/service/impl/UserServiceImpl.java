@@ -85,12 +85,12 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
 
         MagpieValidator.object(userRefer);
 
-        Optional<User> userOptional = userRepository.findByPhone(phone);
-        if (userOptional.isPresent()) {
+        User user = userRepository.findByPhone(phone).orElse(null);
+        if (user != null) {
             throw new MagpieException(MagpieException.Type.DUPLICATE, "phone");
         }
 
-        User user = User.builder().phone(phone).build();
+        user = User.builder().phone(phone).build();
         userRepository.save(user);
 
         insertUserRelation(user.getId(), userRefer.getDirectInvitorUserId());
@@ -106,12 +106,12 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
 
         MagpieValidator.object(userRefer);
 
-        Optional<User> userOptional = userRepository.findByName(name);
-        if (userOptional.isPresent()) {
+        User user = userRepository.findByName(name).orElse(null);
+        if (user != null) {
             throw new MagpieException(MagpieException.Type.DUPLICATE, "name");
         }
 
-        User user = User.builder().name(name).password(passwordEncoder.encode(password)).build();
+        user = User.builder().name(name).password(passwordEncoder.encode(password)).build();
         userRepository.save(user);
 
         insertUserRelation(user.getId(), userRefer.getDirectInvitorUserId());
@@ -135,8 +135,8 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
 
         MagpieValidator.object(userRefer);
 
-        Optional<UserThird> userOAuthOptional = userThirdRepository.findByTypeAndAppIdAndOpenId(type, appId, openId);
-        if (userOAuthOptional.isPresent()) {
+        UserThird userThird = userThirdRepository.findByTypeAndAppIdAndOpenId(type, appId, openId).orElse(null);
+        if (userThird != null) {
             Map<String, String> map = new HashMap<>();
             map.put("type", type.name());
             map.put("appId", appId);
@@ -148,7 +148,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
         User user = User.builder().build();
         userRepository.save(user);
 
-        UserThird userThird = UserThird.builder()
+        userThird = UserThird.builder()
                 .user(user)
                 .type(type)
                 .appId(appId)
@@ -193,12 +193,12 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "openId");
         }
 
-        Optional<UserThird> userOpen = userThirdRepository.findByTypeAndAppIdAndOpenId(type, appId, openId);
-        if (userOpen.isEmpty()) {
+        UserThird userThird = userThirdRepository.findByTypeAndAppIdAndOpenId(type, appId, openId).orElse(null);
+        if (userThird == null) {
             return null;
         }
 
-        return userOpen.get().getUser();
+        return userThird.getUser();
     }
 
     @Override
@@ -211,8 +211,8 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "password");
         }
 
-        Optional<User> one = userRepository.findById(userId);
-        if (one.isEmpty()) {
+        User user = userRepository.findById(userId).orElse(null);
+        if (user == null) {
             return false;
         }
 
@@ -220,7 +220,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
             return false;
         }
 
-        return passwordEncoder.matches(password, one.get().getPassword());
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
     @Override

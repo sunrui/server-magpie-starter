@@ -18,6 +18,8 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class App extends MagpieEntity {
     @NotBlank
+    private String userId;
+    @NotBlank
     private String name;
     @NotBlank
     private String secret;
