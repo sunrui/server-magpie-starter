@@ -1,4 +1,4 @@
-package com.honeysense.magpie.paymax.controller.c;
+package com.honeysense.magpie.paymax.controller.c.account;
 
 import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.framework.object.MagpiePageRequest;

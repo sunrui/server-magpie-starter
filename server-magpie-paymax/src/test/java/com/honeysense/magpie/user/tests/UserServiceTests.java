@@ -1,4 +1,4 @@
-package com.honeysense.magpie.sms.tests;
+package com.honeysense.magpie.user.tests;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;

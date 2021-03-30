@@ -1,3 +1,85 @@
+支付通道账号
+
+尼日利亚
+https://dashboard.paystack.com/#/products
+Mcalucky2020@gmail.com￼
+Lucky@123
+
+
+ssh root@106.14.159.75
+Sr201424
+
+
+Public key
+pk_test_3f8a5fdb27dbc1f3369324c95f8da0621308c93a
+
+Secret key
+sk_test_20530788ad4a34a79328eccfaf8a4daf73f0b707
+
+Callback
+http://paymax.lianting.store/callback/
+
+Pay-in 个人卡到公司账户。
+Pay-out 个人提现。
+免额支付。
+
+
+始化化交易，打给谁，多少钱。
+
+curl https://api.paystack.co/transaction/initialize
+2-H "Authorization: Bearer YOUR_SECRET_KEY"
+3-H "Content-Type: application/json"
+4-d '{ email: "customer@email.com", amount: "20000" }'
+5-X POST
+
+
+{
+"status": true,
+"message": "Authorization URL created",
+"data": {
+"authorization_url": "https://checkout.paystack.com/s79qrjh0rtadhlf",
+"access_code": "s79qrjh0rtadhlf",
+"reference": "yviqp2ha4k"
+}
+}
+
+{
+"status": true,
+"message": "Authorization URL created",
+"data": {
+"authorization_url": "https://checkout.paystack.com/51z2bz5lchk581r",
+"access_code": "51z2bz5lchk581r",
+"reference": "i4c28s854t"
+}
+}
+
+
+用户支付完成了，返回了
+
+http://paymax.lianting.store/callback/?trxref=yviqp2ha4k&reference=yviqp2ha4k
+
+服务器去验证一下对不对。
+
+curl https://api.paystack.co/transaction/verify/:reference
+2-H "Authorization: Bearer YOUR_SECRET_KEY"
+3-X GET
+
+
+
+
+墨西哥
+https://docs.rapyd.net/build-with-rapyd
+mergingfintech@gmail.com
+China@123
+
+
+
+
+
+
+
+
+
 ### 蓝鹊广告投放功能需求列表
 
 ```

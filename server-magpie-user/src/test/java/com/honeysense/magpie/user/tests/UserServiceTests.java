@@ -1,4 +1,4 @@
-package com.honeysense.magpie.sms.tests;
+package com.honeysense.magpie.user.tests;
 
 import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.framework.object.MagpiePageRequest;

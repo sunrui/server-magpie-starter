@@ -9,8 +9,10 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -21,7 +23,7 @@ public class PayOrder extends MagpieEntity {
     private String appUserId;
     @NotNull
     private GatewayType gatewayType;
-    @NotNull
+    @NotBlank
     private String gatewayId;
     private String payload;
     @NotNull
@@ -30,4 +32,7 @@ public class PayOrder extends MagpieEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
     private PayOrderStatus status;
+    @NotNull
+    @Min(0)
+    private Date expiredAt;
 }
