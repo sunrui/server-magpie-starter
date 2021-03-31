@@ -3,6 +3,7 @@ package com.honeysense.magpie.framework.object;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiParam;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.domain.PageRequest;
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @ApiModel(value = "对象 - 分页 - 请求")
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 public class MagpiePageRequest extends MagpieObject {
     @ApiParam(value = "第几页")

@@ -5,6 +5,7 @@ import com.honeysense.magpie.framework.saas.service.impl.MagpieServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.user.entity.User;
+import com.honeysense.magpie.user.entity.UserRole;
 import com.honeysense.magpie.user.entity.UserThird;
 import com.honeysense.magpie.user.entity.UserRelation;
 import com.honeysense.magpie.user.repository.UserThirdRepository;
@@ -90,7 +91,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
             throw new MagpieException(MagpieException.Type.DUPLICATE, "phone");
         }
 
-        user = User.builder().phone(phone).build();
+        user = User.builder().phone(phone).role(UserRole.CUSTOMER).build();
         userRepository.save(user);
 
         insertUserRelation(user.getId(), userRefer.getDirectInvitorUserId());
@@ -111,7 +112,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
             throw new MagpieException(MagpieException.Type.DUPLICATE, "name");
         }
 
-        user = User.builder().name(name).password(passwordEncoder.encode(password)).build();
+        user = User.builder().name(name).password(passwordEncoder.encode(password)).role(UserRole.CUSTOMER).build();
         userRepository.save(user);
 
         insertUserRelation(user.getId(), userRefer.getDirectInvitorUserId());
@@ -145,7 +146,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
             throw new MagpieException(MagpieException.Type.DUPLICATE, map);
         }
 
-        User user = User.builder().build();
+        User user = User.builder().role(UserRole.CUSTOMER).build();
         userRepository.save(user);
 
         userThird = UserThird.builder()
@@ -159,6 +160,24 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
         insertUserRelation(user.getId(), userRefer.getDirectInvitorUserId());
 
         return user;
+    }
+
+    @Override
+    public void updateRole(Long id, UserRole userRole) {
+        if (!MagpieValidator.longId(id)) {
+            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "id");
+        }
+
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", id);
+
+            throw new MagpieException(MagpieException.Type.NOT_FUND, map);
+        }
+
+        user.setRole(userRole);
+        userRepository.save(user);
     }
 
     @Override
@@ -202,16 +221,16 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
     }
 
     @Override
-    public boolean validUserIdAndPassword(Long userId, String password) {
-        if (!MagpieValidator.longId(userId)) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "userId");
+    public boolean validUserIdAndPassword(Long id, String password) {
+        if (!MagpieValidator.longId(id)) {
+            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "id");
         }
 
         if (!MagpieValidator.password(password)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "password");
         }
 
-        User user = userRepository.findById(userId).orElse(null);
+        User user = userRepository.findById(id).orElse(null);
         if (user == null) {
             return false;
         }

@@ -20,5 +20,11 @@
             <artifactId>server-magpie-framework</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.honeysense</groupId>
+            <artifactId>server-magpie-user</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 </project>

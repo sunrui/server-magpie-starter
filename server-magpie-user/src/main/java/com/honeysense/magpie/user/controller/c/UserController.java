@@ -70,6 +70,8 @@ public class UserController {
         userLoginHistory.setUserId(userId);
         userLoginHistory.setType(type);
         userLoginHistory.setExpiredAt(expiredAt);
+        userLoginHistory.setDay(MagpieTimeFormat.makeToday());
+        userLoginHistory.setSuccess(true);
         userLoginHistoryService.save(userLoginHistory);
 
         // 生成令牌对象

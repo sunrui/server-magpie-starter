@@ -6,12 +6,9 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import org.hibernate.annotations.OrderBy;
-import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.util.Set;
 
@@ -38,4 +35,7 @@ public class User extends MagpieEntity {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     @OrderBy(clause = "id desc")
     private Set<UserThird> userThirds;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 }
