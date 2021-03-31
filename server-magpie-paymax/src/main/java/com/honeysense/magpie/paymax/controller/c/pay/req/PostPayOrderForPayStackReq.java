@@ -8,7 +8,11 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
-public class PostPayOrderForPayStackReq extends PostPayOrderReq {
+public class PostPayOrderForPayStackReq {
+    private String appUserId;
+    private String payload;
+    private String comment;
+
     @NotBlank
     private String email;
     @NotBlank

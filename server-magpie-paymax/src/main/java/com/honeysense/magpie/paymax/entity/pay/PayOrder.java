@@ -20,7 +20,6 @@ import java.util.Date;
 public class PayOrder extends MagpieEntity {
     @NotNull
     private Long appId;
-    private String appUserId;
     @NotNull
     private GatewayType gatewayType;
     @NotBlank
@@ -35,4 +34,9 @@ public class PayOrder extends MagpieEntity {
     @NotNull
     @Min(0)
     private Date expiredAt;
+    @Enumerated(EnumType.STRING)
+    private PayOrderMethod method;
+    private Date paidAt;
+    private String appUserId;
+    private String comment;
 }
