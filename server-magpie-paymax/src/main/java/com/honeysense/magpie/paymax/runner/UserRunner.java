@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class ChannelRunner implements ApplicationRunner {
+public class UserRunner implements ApplicationRunner {
     @Autowired
     private UserService userService;
 

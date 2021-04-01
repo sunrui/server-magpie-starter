@@ -23,4 +23,6 @@ public class PostLoginPasswordRes extends MagpieObject {
     private Boolean passwordVerifyError;
     @ApiModelProperty(value = "密码被锁定")
     private Boolean passwordLocked;
+    @ApiModelProperty(value = "登录过频繁")
+    private Boolean frequently;
 }

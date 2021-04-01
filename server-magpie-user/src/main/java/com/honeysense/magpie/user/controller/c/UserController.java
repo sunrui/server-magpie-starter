@@ -178,6 +178,12 @@ public class UserController {
         userLoginHistory.setType(MagpieToken.MagpieTokenType.PHONE);
         userLoginHistoryService.save(userLoginHistory);
 
+        // 查询用户是否频繁登录
+        int userLoginHistorySuccessCount = userLoginHistoryService.countAllByUserIdAndDayAndSuccess(user.getId(), MagpieTimeFormat.makeToday(), true);
+        if (userLoginHistorySuccessCount > 10) {
+            return PostLoginPhoneRes.builder().frequently(true).build();
+        }
+
         // 写入令牌
         writeToken(MagpieToken.MagpieTokenType.PHONE, req.getMaxAge(), user.getId(), userRefer, httpServletResponse);
 
@@ -226,12 +232,18 @@ public class UserController {
         userLoginHistory.setDay(MagpieTimeFormat.makeToday());
         userLoginHistory.setExpiredAt(new Date(System.currentTimeMillis() + req.getMaxAge() * 1000L));
         userLoginHistory.setSuccess(validUserIdAndPassword);
-        userLoginHistory.setType(MagpieToken.MagpieTokenType.PHONE);
+        userLoginHistory.setType(MagpieToken.MagpieTokenType.PASSWORD);
         userLoginHistoryService.save(userLoginHistory);
 
         // 密码不正确
         if (!validUserIdAndPassword) {
             return PostLoginPasswordRes.builder().passwordVerifyError(true).build();
+        }
+
+        // 查询用户是否频繁登录
+        int userLoginHistorySuccessCount = userLoginHistoryService.countAllByUserIdAndDayAndSuccess(user.getId(), MagpieTimeFormat.makeToday(), true);
+        if (userLoginHistorySuccessCount > 10) {
+            return PostLoginPasswordRes.builder().frequently(true).build();
         }
 
         // 登录成功

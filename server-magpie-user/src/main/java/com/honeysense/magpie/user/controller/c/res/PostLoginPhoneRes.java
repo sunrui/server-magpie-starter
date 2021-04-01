@@ -21,4 +21,6 @@ public class PostLoginPhoneRes extends MagpieObject {
     private Boolean smsCodeSendNeeded;
     @ApiModelProperty(value = "短信验证码校验错误")
     private Boolean smsCodeVerifyError;
+    @ApiModelProperty(value = "登录过频繁")
+    private Boolean frequently;
 }
