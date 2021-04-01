@@ -28,50 +28,50 @@ public class MediumFundAdminController {
     @ApiOperation(value = "获取所有的资金账户", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("account")
     @ResponseBody
-    MagpiePage<MediumFundAccount> getAllFundAccount(@ApiParam(value = "渠道 ID", hidden = true)
-                                                    @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumFundAccount> getAllFundAccount(@ApiParam(value = "开发者 ID", hidden = true)
+                                                    @RequestAttribute("appId") Long appId,
                                                     @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                     @MagpieAnnotationToken MagpieToken magpieToken,
                                                     @ApiParam(value = "分页对象")
                                                     @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumFundAccountService.findAllByChannelIdDesc(channelId, magpiePageRequest);
+        return mediumFundAccountService.findAllByAppIdDesc(appId, magpiePageRequest);
     }
 
     @ApiOperation(value = "获取某个的资金账户", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("account/{userId}")
     @ResponseBody
-    MediumFundAccount getAllAccountFundByUserId(@ApiParam(value = "渠道 ID", hidden = true)
-                                                @RequestAttribute("channelId") Long channelId,
+    MediumFundAccount getAllAccountFundByUserId(@ApiParam(value = "开发者 ID", hidden = true)
+                                                @RequestAttribute("appId") Long appId,
                                                 @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                 @MagpieAnnotationToken MagpieToken magpieToken,
                                                 @ApiParam(value = "用户 ID", required = true, hidden = true)
                                                 @PathVariable("userId") Long userId) {
-        return mediumFundAccountService.findByChannelIdAndUserId(channelId, userId);
+        return mediumFundAccountService.findByAppIdAndUserId(appId, userId);
     }
 
     @ApiOperation(value = "获取所有的资金账户交易记录", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("trade/history")
     @ResponseBody
-    MagpiePage<MediumFundTradeHistory> getAllTradeHistory(@ApiParam(value = "渠道 ID", hidden = true)
-                                                          @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumFundTradeHistory> getAllTradeHistory(@ApiParam(value = "开发者 ID", hidden = true)
+                                                          @RequestAttribute("appId") Long appId,
                                                           @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                           @MagpieAnnotationToken MagpieToken magpieToken,
                                                           @ApiParam(value = "分页对象")
                                                           @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumFundTradeHistoryService.findAllByChannelIdDesc(channelId, magpiePageRequest);
+        return mediumFundTradeHistoryService.findAllByAppIdDesc(appId, magpiePageRequest);
     }
 
     @ApiOperation(value = "获取所有的资金账户交易记录", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("trade/{userId}/history")
     @ResponseBody
-    MagpiePage<MediumFundTradeHistory> getAllTradeHistoryByUserId(@ApiParam(value = "渠道 ID", hidden = true)
-                                                                  @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumFundTradeHistory> getAllTradeHistoryByUserId(@ApiParam(value = "开发者 ID", hidden = true)
+                                                                  @RequestAttribute("appId") Long appId,
                                                                   @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                                   @MagpieAnnotationToken MagpieToken magpieToken,
                                                                   @ApiParam(value = "用户 ID", required = true, hidden = true)
                                                                   @PathVariable("userId") Long userId,
                                                                   @ApiParam(value = "分页对象")
                                                                   @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumFundTradeHistoryService.findAllByChannelIdAndUserId(channelId, userId, magpiePageRequest);
+        return mediumFundTradeHistoryService.findAllByAppIdAndUserId(appId, userId, magpiePageRequest);
     }
 }

@@ -49,7 +49,7 @@ public class SmsController {
         int MAX_EXPIRED_MILLI_SECONDS = 15 * 60 * 1000;
 
         SmsCode smsCode = SmsCode.builder()
-                .channelId(1000L)
+                .appId(1000L)
                 .type(req.getSmsCodeType())
                 .phone(req.getPhone())
                 .code(smsCodeService.generateRandomSmsCode())

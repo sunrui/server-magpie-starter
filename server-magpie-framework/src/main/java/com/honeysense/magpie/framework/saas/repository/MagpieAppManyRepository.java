@@ -6,7 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.NoRepositoryBean;
 
 @NoRepositoryBean
-public interface MagpieChannelUserManyRepository<T extends MagpieEntity> extends MagpieChannelManyRepository<T> {
-    int countAllByChannelIdAndUserId(Long channelId, Long userId);
-    Page<T> findByChannelIdAndUserIdOrderByCreatedAtDesc(Long channelId, Long userId, Pageable pageable);
+public interface MagpieAppManyRepository<T extends MagpieEntity> extends MagpieAppRepository<T> {
+    int countAllByAppId(Long appId);
+    Page<T> findByAppId(Long appId, Pageable pageable);
+    Page<T> findByAppIdOrderByCreatedAtDesc(Long appId, Pageable pageable);
 }

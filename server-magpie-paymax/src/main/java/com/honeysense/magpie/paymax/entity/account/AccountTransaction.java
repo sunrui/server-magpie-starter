@@ -1,11 +1,14 @@
 package com.honeysense.magpie.paymax.entity.account;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.honeysense.magpie.framework.object.MagpieEntity;
+import com.honeysense.magpie.framework.saas.entity.MagpieAppManyEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -13,13 +16,11 @@ import java.math.BigDecimal;
 @Entity
 @Getter
 @Setter
-public class AccountTransaction extends MagpieEntity {
+public class AccountTransaction extends MagpieAppManyEntity {
     @NotNull
     @JsonIgnore
     @ManyToOne
     private Account account;
-    @NotNull
-    private Long appId;
     private String appUserId;
     @NotNull
     @Enumerated(EnumType.STRING)

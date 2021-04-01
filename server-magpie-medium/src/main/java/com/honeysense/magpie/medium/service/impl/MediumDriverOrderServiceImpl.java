@@ -9,7 +9,7 @@ import com.honeysense.magpie.medium.repository.MediumDriverOrderRepository;
 import com.honeysense.magpie.medium.service.MediumDriverOrderService;
 import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.object.MagpiePage;
-import com.honeysense.magpie.framework.saas.service.impl.MagpieChannelUserManyServiceImpl;
+import com.honeysense.magpie.framework.saas.service.impl.MagpieAppUserManyServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class MediumDriverOrderServiceImpl extends MagpieChannelUserManyServiceImpl<MediumDriverOrder> implements MediumDriverOrderService {
+public class MediumDriverOrderServiceImpl extends MagpieAppUserManyServiceImpl<MediumDriverOrder> implements MediumDriverOrderService {
     private final MediumDriverOrderRepository mediumDriverOrderRepository;
     private final MediumDriverOrderCertifyRepository mediumDriverOrderCertifyRepository;
 
@@ -35,9 +35,9 @@ public class MediumDriverOrderServiceImpl extends MagpieChannelUserManyServiceIm
     }
 
     @Override
-    public MediumDriverOrder insertOne(Long channelId, Long userId, Long sponsorPublishId, String sendAddress, String sendUser, String sendPhone) {
-        if (!MagpieValidator.longId(channelId)) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "channelId");
+    public MediumDriverOrder insertOne(Long appId, Long userId, Long sponsorPublishId, String sendAddress, String sendUser, String sendPhone) {
+        if (!MagpieValidator.longId(appId)) {
+            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "appId");
         }
 
         if (!MagpieValidator.longId(userId)) {
@@ -64,11 +64,11 @@ public class MediumDriverOrderServiceImpl extends MagpieChannelUserManyServiceIm
                 MediumDriverOrderStatus.CANCEL, MediumDriverOrderStatus.FINISH
         };
 
-        Page<MediumDriverOrder> servingOrderPage = mediumDriverOrderRepository.findAllByChannelIdAndUserIdAndStatusNotIn(channelId, userId, Arrays.asList(statuses), PageRequest.of(0, 1));
+        Page<MediumDriverOrder> servingOrderPage = mediumDriverOrderRepository.findAllByAppIdAndUserIdAndStatusNotIn(appId, userId, Arrays.asList(statuses), PageRequest.of(0, 1));
         if (servingOrderPage.getSize() > 0) {
             Map<String, Long> map = new HashMap<>();
             map.put("sponsorPublishId", sponsorPublishId);
-            map.put("channelId", channelId);
+            map.put("appId", appId);
             map.put("userId", userId);
 
             throw new MagpieException(MagpieException.Type.BAD_LOGIC, map);
@@ -76,7 +76,7 @@ public class MediumDriverOrderServiceImpl extends MagpieChannelUserManyServiceIm
 
         MediumDriverOrder mediumDriverOrder = MediumDriverOrder.builder()
                 .sponsorPublishId(sponsorPublishId)
-                .channelId(channelId)
+                .appId(appId)
                 .userId(userId)
                 .sendAddress(sendAddress)
                 .sendUser(sendUser)
@@ -98,9 +98,9 @@ public class MediumDriverOrderServiceImpl extends MagpieChannelUserManyServiceIm
     }
 
     @Override
-    public MagpiePage<MediumDriverOrder> findAllByChannelIdAndUserIdAndOrderStatusNotIn(Long channelId, Long userId, MediumDriverOrderStatus[] statuses, MagpiePageRequest magpiePageRequest) {
-        if (!MagpieValidator.longId(channelId)) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "channelId");
+    public MagpiePage<MediumDriverOrder> findAllByAppIdAndUserIdAndOrderStatusNotIn(Long appId, Long userId, MediumDriverOrderStatus[] statuses, MagpiePageRequest magpiePageRequest) {
+        if (!MagpieValidator.longId(appId)) {
+            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "appId");
         }
 
         if (!MagpieValidator.longId(userId)) {
@@ -113,7 +113,7 @@ public class MediumDriverOrderServiceImpl extends MagpieChannelUserManyServiceIm
 
         MagpieValidator.object(magpiePageRequest);
 
-        Page<MediumDriverOrder> elements = mediumDriverOrderRepository.findAllByChannelIdAndUserIdAndStatusNotIn(channelId, userId, Arrays.asList(statuses), magpiePageRequest.of());
+        Page<MediumDriverOrder> elements = mediumDriverOrderRepository.findAllByAppIdAndUserIdAndStatusNotIn(appId, userId, Arrays.asList(statuses), magpiePageRequest.of());
         return new MagpiePage<>(elements);
     }
 }

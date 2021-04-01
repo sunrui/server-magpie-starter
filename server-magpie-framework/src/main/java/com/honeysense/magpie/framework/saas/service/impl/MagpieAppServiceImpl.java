@@ -2,27 +2,27 @@ package com.honeysense.magpie.framework.saas.service.impl;
 
 import com.honeysense.magpie.framework.object.MagpieEntity;
 import com.honeysense.magpie.framework.object.MagpieException;
-import com.honeysense.magpie.framework.saas.repository.MagpieChannelRepository;
-import com.honeysense.magpie.framework.saas.service.MagpieChannelService;
+import com.honeysense.magpie.framework.saas.repository.MagpieAppRepository;
+import com.honeysense.magpie.framework.saas.service.MagpieAppService;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class MagpieChannelServiceImpl<T extends MagpieEntity> extends MagpieServiceImpl<T> implements MagpieChannelService<T> {
-    private final MagpieChannelRepository<T> magpieChannelRepository;
+public class MagpieAppServiceImpl<T extends MagpieEntity> extends MagpieServiceImpl<T> implements MagpieAppService<T> {
+    private final MagpieAppRepository<T> magpieAppRepository;
 
-    MagpieChannelServiceImpl(MagpieChannelRepository<T> magpieChannelRepository) {
-        super(magpieChannelRepository);
+    MagpieAppServiceImpl(MagpieAppRepository<T> magpieAppRepository) {
+        super(magpieAppRepository);
 
-        this.magpieChannelRepository = magpieChannelRepository;
+        this.magpieAppRepository = magpieAppRepository;
     }
 
     @Override
-    public T findByChannelIdAndId(Long channelId, Long id) {
-        if (!MagpieValidator.longId(channelId)) {
+    public T findByAppIdAndId(Long appId, Long id) {
+        if (!MagpieValidator.longId(appId)) {
             Map<String, Long> map = new HashMap<>();
-            map.put("channelId", channelId);
+            map.put("appId", appId);
 
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
         }
@@ -34,14 +34,14 @@ public class MagpieChannelServiceImpl<T extends MagpieEntity> extends MagpieServ
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
         }
 
-        return magpieChannelRepository.findByChannelIdAndId(channelId, id);
+        return magpieAppRepository.findByAppIdAndId(appId, id);
     }
 
     @Override
-    public void updateByChannelIdAndId(Long channelId, Long id, T t) {
-        if (!MagpieValidator.longId(channelId)) {
+    public void updateByAppIdAndId(Long appId, Long id, T t) {
+        if (!MagpieValidator.longId(appId)) {
             Map<String, Long> map = new HashMap<>();
-            map.put("channelId", channelId);
+            map.put("appId", appId);
 
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
         }
@@ -53,19 +53,19 @@ public class MagpieChannelServiceImpl<T extends MagpieEntity> extends MagpieServ
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
         }
 
-        T one = magpieChannelRepository.findByChannelIdAndId(channelId, id);
+        T one = magpieAppRepository.findByAppIdAndId(appId, id);
         if (one != null) {
             t.setId(one.getId());
         }
 
-        magpieChannelRepository.save(t);
+        magpieAppRepository.save(t);
     }
 
     @Override
-    public void deleteByChannelIdAndId(Long channelId, Long id) {
-        if (!MagpieValidator.longId(channelId)) {
+    public void deleteByAppIdAndId(Long appId, Long id) {
+        if (!MagpieValidator.longId(appId)) {
             Map<String, Long> map = new HashMap<>();
-            map.put("channelId", channelId);
+            map.put("appId", appId);
 
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
         }
@@ -77,6 +77,6 @@ public class MagpieChannelServiceImpl<T extends MagpieEntity> extends MagpieServ
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, map);
         }
 
-        magpieChannelRepository.deleteByChannelIdAndId(channelId, id);
+        magpieAppRepository.deleteByAppIdAndId(appId, id);
     }
 }

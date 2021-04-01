@@ -29,7 +29,6 @@ public class UserThird extends MagpieEntity {
     @NotNull
     @JsonIgnore
     @ManyToOne
-//    @JoinColumn(name = "user_id")
     @JoinColumn
     private User user;
     @ApiModelProperty(value="登录类型", required = true)

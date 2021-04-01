@@ -31,48 +31,48 @@ public class MediumDriverAdminController {
     @ApiOperation(value = "获取所有的司机基本信息", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("info")
     @ResponseBody
-    MagpiePage<MediumDriverInfo> getAllDriverInfo(@ApiParam(value = "渠道 ID", hidden = true)
-                                                  @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumDriverInfo> getAllDriverInfo(@ApiParam(value = "开发者 ID", hidden = true)
+                                                  @RequestAttribute("appId") Long appId,
                                                   @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                   @MagpieAnnotationToken MagpieToken magpieToken,
                                                   @ApiParam(value = "分页对象")
                                                   @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumDriverInfoService.findAllByChannelIdDesc(channelId, magpiePageRequest);
+        return mediumDriverInfoService.findAllByAppIdDesc(appId, magpiePageRequest);
     }
 
     @ApiOperation(value = "获取所有的司机订单", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("order")
     @ResponseBody
-    MagpiePage<MediumDriverOrder> getAllDriverOrder(@ApiParam(value = "渠道 ID", hidden = true)
-                                                    @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumDriverOrder> getAllDriverOrder(@ApiParam(value = "开发者 ID", hidden = true)
+                                                    @RequestAttribute("appId") Long appId,
                                                     @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                     @MagpieAnnotationToken MagpieToken magpieToken,
                                                     @ApiParam(value = "分页对象")
                                                     @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumDriverOrderService.findAllByChannelIdDesc(channelId, magpiePageRequest);
+        return mediumDriverOrderService.findAllByAppIdDesc(appId, magpiePageRequest);
     }
 
     @ApiOperation(value = "获取某个的司机基本信息", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("{userId}/info")
     @ResponseBody
-    MediumDriverInfo getDriverInfoByUserId(@ApiParam(value = "渠道 ID", hidden = true)
-                                           @RequestAttribute("channelId") Long channelId,
+    MediumDriverInfo getDriverInfoByUserId(@ApiParam(value = "开发者 ID", hidden = true)
+                                           @RequestAttribute("appId") Long appId,
                                            @ApiParam(value = "用户 ID", required = true, hidden = true)
                                            @PathVariable("userId") Long userId) {
-        return mediumDriverInfoService.findByChannelIdAndUserId(channelId, userId);
+        return mediumDriverInfoService.findByAppIdAndUserId(appId, userId);
     }
 
     @ApiOperation(value = "获取某个的司机订单", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("{userId}/order")
     @ResponseBody
-    MagpiePage<MediumDriverOrder> getAllDriverOrderByUserId(@ApiParam(value = "渠道 ID", hidden = true)
-                                                            @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumDriverOrder> getAllDriverOrderByUserId(@ApiParam(value = "开发者 ID", hidden = true)
+                                                            @RequestAttribute("appId") Long appId,
                                                             @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                             @MagpieAnnotationToken MagpieToken magpieToken,
                                                             @ApiParam(value = "用户 ID", required = true, hidden = true)
                                                             @PathVariable("userId") Long userId,
                                                             @ApiParam(value = "分页对象")
                                                             @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumDriverOrderService.findAllByChannelIdAndUserId(channelId, userId, magpiePageRequest);
+        return mediumDriverOrderService.findAllByAppIdAndUserId(appId, userId, magpiePageRequest);
     }
 }

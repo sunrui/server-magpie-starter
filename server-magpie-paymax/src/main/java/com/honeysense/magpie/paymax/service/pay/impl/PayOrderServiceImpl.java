@@ -1,6 +1,7 @@
 package com.honeysense.magpie.paymax.service.pay.impl;
 
 import com.honeysense.magpie.framework.object.MagpieException;
+import com.honeysense.magpie.framework.saas.service.impl.MagpieAppUserManyServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.paymax.entity.app.App;
 import com.honeysense.magpie.paymax.entity.pay.PayOrder;
@@ -19,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class PayOrderServiceImpl implements PayOrderService {
+public class PayOrderServiceImpl extends MagpieAppUserManyServiceImpl<PayOrder> implements PayOrderService {
     @Autowired
     private AppRepository appRepository;
     @Autowired
@@ -28,6 +29,10 @@ public class PayOrderServiceImpl implements PayOrderService {
     private PayOrderRepository payOrderRepository;
     @Autowired
     private PayRefundRepository payRefundRepository;
+
+    protected PayOrderServiceImpl(PayOrderRepository payOrderRepository) {
+        super(payOrderRepository);
+    }
 
     @Override
     public PayOrder insert(Long appId, String appUserId, String gatewayId, String payload, BigDecimal amount, Integer maxAge) {

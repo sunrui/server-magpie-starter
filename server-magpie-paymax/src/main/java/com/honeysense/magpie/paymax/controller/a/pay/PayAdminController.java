@@ -1,4 +1,4 @@
-package com.honeysense.magpie.paymax.controller.b.pay;
+package com.honeysense.magpie.paymax.controller.a.pay;
 
 import com.honeysense.magpie.paymax.service.pay.PayOrderService;
 import io.swagger.annotations.ApiOperation;
@@ -7,7 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("b/pay")
+@RequestMapping("a/pay")
 public class PayAdminController {
     @Autowired
     private PayOrderService payOrderService;

@@ -42,7 +42,7 @@ public class UserLoginHistory extends UserRefer {
     private Boolean success;
 
     public UserLoginHistory(UserRefer userRefer) {
-        this.setChannelId(userRefer.getChannelId());
+        this.setAppId(userRefer.getAppId());
         this.setDevice(userRefer.getDevice());
         this.setDeviceUuid(userRefer.getDeviceUuid());
         this.setDeviceVersion(userRefer.getDeviceVersion());

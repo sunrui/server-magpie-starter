@@ -12,8 +12,8 @@ import lombok.Setter;
 public class LoginRefer {
     @ApiModelProperty(value = "邀请他的用户 ID")
     private Long directInvitorUserId;
-    @ApiModelProperty(value = "渠道 ID")
-    private Long channelId;
+    @ApiModelProperty(value = "开发者 ID")
+    private Long appId;
     @ApiModelProperty(value = "设备")
     private String device;
     @ApiModelProperty(value = "设备号")
@@ -24,7 +24,7 @@ public class LoginRefer {
     public UserRefer toUserRefer(String ip, String userAgent) {
         UserRefer userRefer = new UserRefer();
         userRefer.setDirectInvitorUserId(directInvitorUserId);
-        userRefer.setChannelId(channelId);
+        userRefer.setAppId(appId);
         userRefer.setDevice(device);
         userRefer.setDeviceUuid(deviceUuid);
         userRefer.setDeviceVersion(deviceVersion);

@@ -3,7 +3,7 @@ package com.honeysense.magpie.sms.service.impl;
 import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.framework.object.MagpiePageRequest;
-import com.honeysense.magpie.framework.saas.service.impl.MagpieChannelManyServiceImpl;
+import com.honeysense.magpie.framework.saas.service.impl.MagpieAppManyServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.framework.utils.format.MagpieTimeFormat;
 import com.honeysense.magpie.sms.entity.SmsCode;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> implements SmsCodeService {
+public class SmsCodeServiceImpl extends MagpieAppManyServiceImpl<SmsCode> implements SmsCodeService {
     private final SmsCodeRepository smsCodeRepository;
     private final long MAX_VERIFY_TIMES = 3;
 
@@ -134,7 +134,7 @@ public class SmsCodeServiceImpl extends MagpieChannelManyServiceImpl<SmsCode> im
 //        smsCode.setDay(20200101);
 //        smsCode.setIp("ip");
 //        smsCode.setUserAgent("ua");
-//        smsCode.setChannelId(1L);
+//        smsCode.setAppId(1L);
 //        smsCode.setVerifyTimes(1);
 //        smsCode.setType(SmsCodeType.LOGIN);
 //        smsCode.setExpiredAt(new Date());

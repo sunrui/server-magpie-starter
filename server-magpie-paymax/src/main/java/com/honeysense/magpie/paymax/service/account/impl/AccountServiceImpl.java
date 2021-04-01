@@ -3,6 +3,7 @@ package com.honeysense.magpie.paymax.service.account.impl;
 import com.honeysense.magpie.framework.object.MagpieException;
 import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.framework.object.MagpiePageRequest;
+import com.honeysense.magpie.framework.saas.service.impl.MagpieAppOneServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.paymax.entity.account.Account;
 import com.honeysense.magpie.paymax.entity.account.AccountTransaction;
@@ -19,11 +20,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl extends MagpieAppOneServiceImpl<Account> implements AccountService {
     @Autowired
     private AccountRepository accountRepository;
     @Autowired
     private AccountTransactionRepository accountTransactionRepository;
+
+    protected AccountServiceImpl(AccountRepository accountRepository) {
+        super(accountRepository);
+    }
 
     @Override
     public Account insertOne(Long appId, Long userId, GatewayType gatewayType) {

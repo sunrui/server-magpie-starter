@@ -17,9 +17,9 @@ import java.util.List;
 @Getter
 @Setter
 public class PostMediumSpecQuoteReq extends MagpieObject {
-    @ApiModelProperty(value="渠道 ID", required = true)
+    @ApiModelProperty(value="开发者 ID", required = true)
     @NotNull
-    private Long channelId;
+    private Long appId;
     @ApiModelProperty(value="投放地域", required = true)
     @NotBlank
     private String area;

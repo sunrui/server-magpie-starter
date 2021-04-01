@@ -22,9 +22,9 @@ import java.util.Date;
 public class SmsCode extends MagpieEntity {
     public static final Integer MAX_SEND_PER_DAY = 5;
 
-    @ApiModelProperty(value="渠道 ID", example = "001", required = true)
+    @ApiModelProperty(value="开发者 ID", example = "001", required = true)
     @NotNull
-    private Long channelId;
+    private Long appId;
     @ApiModelProperty(value="短信类型", example = "LOGIN", required = true)
     @NotNull
     @Enumerated(EnumType.STRING)

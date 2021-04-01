@@ -41,8 +41,8 @@ public class SpecMediumAdminController {
     @ApiOperation(value = "创建投放规格期数", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping("quote")
     @ResponseBody
-    PostMediumSpecQuoteRes postSpecQuote(@ApiParam(value = "渠道 ID", hidden = true)
-                                         @RequestAttribute("channelId") Long channelId,
+    PostMediumSpecQuoteRes postSpecQuote(@ApiParam(value = "开发者 ID", hidden = true)
+                                         @RequestAttribute("appId") Long appId,
                                          @ApiParam(value = "用户令牌", required = true, hidden = true)
                                          @MagpieAnnotationToken MagpieToken magpieToken,
                                          @ApiParam(value = "传入参数", required = true)
@@ -54,12 +54,12 @@ public class SpecMediumAdminController {
     @ApiOperation(value = "获取所有的投放规格期数", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("quote")
     @ResponseBody
-    MagpiePage<MediumSpecQuote> getAllSpecQuote(@ApiParam(value = "渠道 ID", hidden = true)
-                                                @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumSpecQuote> getAllSpecQuote(@ApiParam(value = "开发者 ID", hidden = true)
+                                                @RequestAttribute("appId") Long appId,
                                                 @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                 @MagpieAnnotationToken MagpieToken magpieToken,
                                                 @ApiParam(value = "分页对象")
                                                 @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumSpecQuoteService.findAllByChannelIdDesc(channelId, magpiePageRequest);
+        return mediumSpecQuoteService.findAllByAppIdDesc(appId, magpiePageRequest);
     }
 }

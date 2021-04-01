@@ -9,8 +9,8 @@ SET FOREIGN_KEY_CHECKS = 1;
 # CREATE TABLE IF NOT EXISTS `notes`
 # (
 #     `id`         INT          NOT NULL AUTO_INCREMENT COMMENT '主键',
-#     `title`      VARCHAR(255) NOT NULL UNIQUE COMMENT '渠道名',
-#     `content`    VARCHAR(255) NOT NULL UNIQUE COMMENT '渠道名',
+#     `title`      VARCHAR(255) NOT NULL UNIQUE COMMENT '开发者名',
+#     `content`    VARCHAR(255) NOT NULL UNIQUE COMMENT '开发者名',
 #     `created_at` TIMESTAMP    NULL DEFAULT NOW() COMMENT '创建时间',
 #     `updated_at` TIMESTAMP    NULL DEFAULT NOW() COMMENT '上次更新时间',
 #     PRIMARY KEY (`id`)
@@ -33,19 +33,19 @@ SET FOREIGN_KEY_CHECKS = 1;
 # (
 #     `id`         INT          NOT NULL AUTO_INCREMENT COMMENT '主键',
 #     `user_id`    INT          NOT NULL COMMENT '用户 ID',
-#     `name`       VARCHAR(255) NOT NULL UNIQUE COMMENT '渠道名',
+#     `name`       VARCHAR(255) NOT NULL UNIQUE COMMENT '开发者名',
 #     `created_at` TIMESTAMP    NULL DEFAULT NOW() COMMENT '创建时间',
 #     `updated_at` TIMESTAMP    NULL DEFAULT NOW() COMMENT '上次更新时间',
 #     PRIMARY KEY (`id`)
 # ) ENGINE = InnoDB
-#   DEFAULT CHARSET = utf8mb4 COMMENT = '渠道表';
+#   DEFAULT CHARSET = utf8mb4 COMMENT = '开发者表';
 #
 # DROP TABLE IF EXISTS `student`;
 # CREATE TABLE IF NOT EXISTS `student`
 # (
 #     `id`         INT          NOT NULL AUTO_INCREMENT COMMENT '主键',
 #     `user_id`    INT          NOT NULL COMMENT '用户 ID',
-#     `channel_id` INT          NOT NULL COMMENT '渠道 ID',
+#     `channel_id` INT          NOT NULL COMMENT '开发者 ID',
 #     `name`       VARCHAR(255) NOT NULL UNIQUE COMMENT '姓名唯一(测试)',
 #     `age`        INT               DEFAULT NULL COMMENT '年龄',
 #     `avatar`     VARCHAR(255)      DEFAULT NULL COMMENT '用户头像',
@@ -60,7 +60,7 @@ SET FOREIGN_KEY_CHECKS = 1;
 # (
 #     `id`         INT          NOT NULL AUTO_INCREMENT COMMENT '主键',
 #     `user_id`    INT          NOT NULL COMMENT '用户 ID',
-#     `channel_id` INT          NOT NULL COMMENT '渠道 ID',
+#     `channel_id` INT          NOT NULL COMMENT '开发者 ID',
 #     `student_id` INT          NOT NULL UNIQUE COMMENT '学生 ID',
 #     `course`     VARCHAR(255) NOT NULL COMMENT '课程',
 #     `score`      INT               DEFAULT 0 COMMENT '分数',

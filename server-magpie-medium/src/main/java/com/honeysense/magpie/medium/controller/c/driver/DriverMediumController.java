@@ -38,10 +38,10 @@ public class DriverMediumController {
     @ApiOperation(value = "获取司机的基本信息", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("info")
     @ResponseBody
-    public MediumDriverInfo getInfo(@ApiParam(value = "渠道 ID", hidden = true)
-                                    @RequestAttribute("channelId") Long channelId,
+    public MediumDriverInfo getInfo(@ApiParam(value = "开发者 ID", hidden = true)
+                                    @RequestAttribute("appId") Long appId,
                                     @MagpieAnnotationToken MagpieToken magpieToken) {
-        MediumDriverInfo mediumDriverInfo = mediumDriverInfoService.findByChannelIdAndUserId(channelId, magpieToken.getUserId());
+        MediumDriverInfo mediumDriverInfo = mediumDriverInfoService.findByAppIdAndUserId(appId, magpieToken.getUserId());
         if (mediumDriverInfo == null) {
             mediumDriverInfo = new MediumDriverInfo();
         }
@@ -52,13 +52,13 @@ public class DriverMediumController {
     @ApiOperation(value = "更新司机的基本信息", produces = MediaType.APPLICATION_JSON_VALUE)
     @PutMapping("info")
     @ResponseBody
-    public void putInfo(@ApiParam(value = "渠道 ID", hidden = true)
-                        @RequestAttribute("channelId") Long channelId,
+    public void putInfo(@ApiParam(value = "开发者 ID", hidden = true)
+                        @RequestAttribute("appId") Long appId,
                         @ApiParam(value = "用户令牌", required = true, hidden = true)
                         @MagpieAnnotationToken MagpieToken magpieToken,
                         @ApiParam(value = "传入参数", required = true)
                         @Validated @RequestBody PutMediumDriverInfoReq req) {
-        MediumDriverInfo mediumDriverInfo = mediumDriverInfoService.findByChannelIdAndUserId(channelId, magpieToken.getUserId());
+        MediumDriverInfo mediumDriverInfo = mediumDriverInfoService.findByAppIdAndUserId(appId, magpieToken.getUserId());
         if (mediumDriverInfo == null) {
             mediumDriverInfo = new MediumDriverInfo();
             mediumDriverInfo.setUserId(magpieToken.getUserId());
@@ -79,8 +79,8 @@ public class DriverMediumController {
     @ApiOperation(value = "司机接受投放的广告订单", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping("order")
     @ResponseBody
-    public PostMediumDriverOrderRes postServingOrder(@ApiParam(value = "渠道 ID", hidden = true)
-                                                     @RequestAttribute("channelId") Long channelId,
+    public PostMediumDriverOrderRes postServingOrder(@ApiParam(value = "开发者 ID", hidden = true)
+                                                     @RequestAttribute("appId") Long appId,
                                                      @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                      @MagpieAnnotationToken MagpieToken magpieToken,
                                                      @ApiParam(value = "传入参数", required = true)
@@ -89,12 +89,12 @@ public class DriverMediumController {
                 MediumDriverOrderStatus.CANCEL, MediumDriverOrderStatus.FINISH
         };
 
-        MagpiePage<MediumDriverOrder> servingOrderMagpiePage = mediumDriverOrderService.findAllByChannelIdAndUserIdAndOrderStatusNotIn(channelId, magpieToken.getUserId(), statuses, new MagpiePageRequest(0, 1));
+        MagpiePage<MediumDriverOrder> servingOrderMagpiePage = mediumDriverOrderService.findAllByAppIdAndUserIdAndOrderStatusNotIn(appId, magpieToken.getUserId(), statuses, new MagpiePageRequest(0, 1));
         if (servingOrderMagpiePage.getTotalSize() > 0) {
             return PostMediumDriverOrderRes.builder().driverOrderProcessing(true).build();
         }
 
-        MediumDriverOrder mediumDriverOrder = mediumDriverOrderService.insertOne(req.getServingAuctionId(), channelId, magpieToken.getUserId(),
+        MediumDriverOrder mediumDriverOrder = mediumDriverOrderService.insertOne(req.getServingAuctionId(), appId, magpieToken.getUserId(),
                 req.getSendAddress(), req.getSendUser(), req.getSendPhone());
 
         return PostMediumDriverOrderRes.builder().driverOrderId(mediumDriverOrder.getId()).build();
@@ -103,15 +103,15 @@ public class DriverMediumController {
     @ApiOperation(value = "获取正在进行中的广告订单", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("order/live")
     @ResponseBody
-    public MediumDriverOrder getServingOrderLive(@ApiParam(value = "渠道 ID", hidden = true)
-                                                 @RequestAttribute("channelId") Long channelId,
+    public MediumDriverOrder getServingOrderLive(@ApiParam(value = "开发者 ID", hidden = true)
+                                                 @RequestAttribute("appId") Long appId,
                                                  @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                  @MagpieAnnotationToken MagpieToken magpieToken) {
         MediumDriverOrderStatus[] statuses = new MediumDriverOrderStatus[]{
                 MediumDriverOrderStatus.CANCEL, MediumDriverOrderStatus.FINISH
         };
 
-        MagpiePage<MediumDriverOrder> servingOrderMagpiePage = mediumDriverOrderService.findAllByChannelIdAndUserIdAndOrderStatusNotIn(channelId, magpieToken.getUserId(), statuses, new MagpiePageRequest(0, 1));
+        MagpiePage<MediumDriverOrder> servingOrderMagpiePage = mediumDriverOrderService.findAllByAppIdAndUserIdAndOrderStatusNotIn(appId, magpieToken.getUserId(), statuses, new MagpiePageRequest(0, 1));
         if (servingOrderMagpiePage.getTotalSize() > 0) {
             return servingOrderMagpiePage.getElements().get(0);
         }
@@ -122,27 +122,27 @@ public class DriverMediumController {
     @ApiOperation(value = "获取所有的广告订单", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("order")
     @ResponseBody
-    public MagpiePage<MediumDriverOrder> getServingOrder(@ApiParam(value = "渠道 ID", hidden = true)
-                                                         @RequestAttribute("channelId") Long channelId,
+    public MagpiePage<MediumDriverOrder> getServingOrder(@ApiParam(value = "开发者 ID", hidden = true)
+                                                         @RequestAttribute("appId") Long appId,
                                                          @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                          @MagpieAnnotationToken MagpieToken magpieToken,
                                                          @ApiParam(value = "分页对象")
                                                          @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumDriverOrderService.findAllByChannelIdAndUserId(channelId, magpieToken.getUserId(), magpiePageRequest);
+        return mediumDriverOrderService.findAllByAppIdAndUserId(appId, magpieToken.getUserId(), magpiePageRequest);
     }
 
     @ApiOperation(value = "提交广告订单审核", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping("order/{driverOrderId}/certify")
     @ResponseBody
-    public PostMediumDriverOrderVerifyRes getServingOrderCertify(@ApiParam(value = "渠道 ID", hidden = true)
-                                                                 @RequestAttribute("channelId") Long channelId,
+    public PostMediumDriverOrderVerifyRes getServingOrderCertify(@ApiParam(value = "开发者 ID", hidden = true)
+                                                                 @RequestAttribute("appId") Long appId,
                                                                  @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                                  @MagpieAnnotationToken MagpieToken magpieToken,
                                                                  @ApiParam(value = "司机接受投放的广告订单 ID", hidden = true)
                                                                  @PathVariable("driverOrderId") Long driverOrderId,
                                                                  @ApiParam(value = "传入参数", required = true)
                                                                  @Validated @RequestBody PostMediumDriverOrderVerifyReq req) {
-        MediumDriverOrder mediumDriverOrder = mediumDriverOrderService.findByChannelIdAndId(channelId, driverOrderId);
+        MediumDriverOrder mediumDriverOrder = mediumDriverOrderService.findByAppIdAndId(appId, driverOrderId);
         if (mediumDriverOrder == null) {
             return PostMediumDriverOrderVerifyRes.builder().driverOrderIdNotExists(true).build();
         }
@@ -175,7 +175,7 @@ public class DriverMediumController {
         }
 
         MediumDriverOrderVerify mediumDriverOrderVerify = MediumDriverOrderVerify.builder()
-                .channelId(channelId)
+                .appId(appId)
                 .userId(magpieToken.getUserId())
                 .mediumDriverOrder(mediumDriverOrder)
                 .status(status)

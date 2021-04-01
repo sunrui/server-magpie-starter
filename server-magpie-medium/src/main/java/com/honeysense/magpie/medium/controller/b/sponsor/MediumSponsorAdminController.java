@@ -31,52 +31,52 @@ public class MediumSponsorAdminController {
     @ApiOperation(value = "获取所有的广告主基本信息", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("info")
     @ResponseBody
-    MagpiePage<MediumSponsorInfo> getAllSponsorInfo(@ApiParam(value = "渠道 ID", hidden = true)
-                                                    @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumSponsorInfo> getAllSponsorInfo(@ApiParam(value = "开发者 ID", hidden = true)
+                                                    @RequestAttribute("appId") Long appId,
                                                     @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                     @MagpieAnnotationToken MagpieToken magpieToken,
                                                     @ApiParam(value = "分页对象")
                                                     @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumSponsorInfoService.findAllByChannelIdDesc(channelId, magpiePageRequest);
+        return mediumSponsorInfoService.findAllByAppIdDesc(appId, magpiePageRequest);
     }
 
     @ApiOperation(value = "获取某个的广告主基本信息", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("{userId}/info")
     @ResponseBody
-    MediumSponsorInfo getAllSponsorInfoByUserId(@ApiParam(value = "渠道 ID", hidden = true)
-                                                @RequestAttribute("channelId") Long channelId,
+    MediumSponsorInfo getAllSponsorInfoByUserId(@ApiParam(value = "开发者 ID", hidden = true)
+                                                @RequestAttribute("appId") Long appId,
                                                 @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                 @MagpieAnnotationToken MagpieToken magpieToken,
                                                 @ApiParam(value = "用户 ID", required = true, hidden = true)
                                                 @PathVariable("userId") Long userId,
                                                 @ApiParam(value = "分页对象")
                                                 @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumSponsorInfoService.findByChannelIdAndUserId(channelId, userId);
+        return mediumSponsorInfoService.findByAppIdAndUserId(appId, userId);
     }
 
     @ApiOperation(value = "获取所有的广告主发布", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("publish")
     @ResponseBody
-    MagpiePage<MediumSponsorPublish> getAllSponsorPublish(@ApiParam(value = "渠道 ID", hidden = true)
-                                                          @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumSponsorPublish> getAllSponsorPublish(@ApiParam(value = "开发者 ID", hidden = true)
+                                                          @RequestAttribute("appId") Long appId,
                                                           @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                           @MagpieAnnotationToken MagpieToken magpieToken,
                                                           @ApiParam(value = "分页对象")
                                                           @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumSponsorPublishService.findAllByChannelIdDesc(channelId, magpiePageRequest);
+        return mediumSponsorPublishService.findAllByAppIdDesc(appId, magpiePageRequest);
     }
 
     @ApiOperation(value = "获取某个的广告主发布", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("{userId}/publish")
     @ResponseBody
-    MagpiePage<MediumSponsorPublish> getAllSponsorPublishByUserId(@ApiParam(value = "渠道 ID", hidden = true)
-                                                                  @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumSponsorPublish> getAllSponsorPublishByUserId(@ApiParam(value = "开发者 ID", hidden = true)
+                                                                  @RequestAttribute("appId") Long appId,
                                                                   @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                                   @MagpieAnnotationToken MagpieToken magpieToken,
                                                                   @ApiParam(value = "用户 ID", required = true, hidden = true)
                                                                   @PathVariable("userId") Long userId,
                                                                   @ApiParam(value = "分页对象")
                                                                   @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumSponsorPublishService.findAllByChannelIdAndUserId(channelId, userId, magpiePageRequest);
+        return mediumSponsorPublishService.findAllByAppIdAndUserId(appId, userId, magpiePageRequest);
     }
 }

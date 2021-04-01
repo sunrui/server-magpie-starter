@@ -1,6 +1,6 @@
 package com.honeysense.magpie.paymax.entity.pay;
 
-import com.honeysense.magpie.framework.object.MagpieEntity;
+import com.honeysense.magpie.framework.saas.entity.MagpieAppUserManyEntity;
 import com.honeysense.magpie.paymax.entity.gateway.GatewayType;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,9 +17,7 @@ import java.util.Date;
 @Entity
 @Getter
 @Setter
-public class PayOrder extends MagpieEntity {
-    @NotNull
-    private Long appId;
+public class PayOrder extends MagpieAppUserManyEntity {
     @NotNull
     private GatewayType gatewayType;
     @NotBlank

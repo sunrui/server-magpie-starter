@@ -4,6 +4,6 @@
 # VALUES (2, 'user_2', '6c6bf02c8d5d3d128f34b1700cb1e32c', 'fcbdd0e8a9404a5585ea4e01d0e4d7a0', 'user2@xkcoding.com', '17300000002');
 #
 # INSERT INTO `channel`(`id`, `user_id`, `name`)
-# VALUES (1, 1, '官方渠道');
+# VALUES (1, 1, '官方开发者');
 # INSERT INTO `channel`(`id`, `user_id`, `name`)
-# VALUES (2, 2, '地方渠道');
+# VALUES (2, 2, '地方开发者');

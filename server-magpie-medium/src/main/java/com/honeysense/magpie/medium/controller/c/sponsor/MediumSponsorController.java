@@ -24,12 +24,12 @@ public class MediumSponsorController {
     @ApiOperation(value = "获取所有的广告主投放期数实例", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("publish")
     @ResponseBody
-    MagpiePage<MediumSponsorPublish> getAllSponsorPublish(@ApiParam(value = "渠道 ID", hidden = true)
-                                                          @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumSponsorPublish> getAllSponsorPublish(@ApiParam(value = "开发者 ID", hidden = true)
+                                                          @RequestAttribute("appId") Long appId,
                                                           @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                           @MagpieAnnotationToken MagpieToken magpieToken,
                                                           @ApiParam(value = "分页对象")
                                                           @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumSponsorPublishService.findAllByChannelIdDesc(channelId, magpiePageRequest);
+        return mediumSponsorPublishService.findAllByAppIdDesc(appId, magpiePageRequest);
     }
 }

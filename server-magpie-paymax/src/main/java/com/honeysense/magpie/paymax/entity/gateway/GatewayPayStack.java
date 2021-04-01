@@ -1,6 +1,6 @@
 package com.honeysense.magpie.paymax.entity.gateway;
 
-import com.honeysense.magpie.framework.object.MagpieEntity;
+import com.honeysense.magpie.framework.saas.entity.MagpieAppUserManyEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank;
 @Entity
 @Getter
 @Setter
-public class GatewayPayStack extends MagpieEntity {
+public class GatewayPayStack extends MagpieAppUserManyEntity {
     private String email;
     private String password;
     @NotBlank

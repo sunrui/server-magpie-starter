@@ -40,6 +40,6 @@ public class AccountController {
                                                                    @PathVariable("appId") Long appId,
                                                                    @ApiParam(value = "分页对象")
                                                                    @Validated MagpiePageRequest magpiePageRequest) {
-        return accountTransactionService.findAllByAppId(appId, magpiePageRequest);
+        return accountTransactionService.findAllByAppIdDesc(appId, magpiePageRequest);
     }
 }

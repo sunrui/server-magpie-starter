@@ -27,7 +27,7 @@ public class UserRelation extends UserRefer {
     private Long indirectInvitorUserId;
 
     public UserRelation(UserRefer userRefer) {
-        this.setChannelId(userRefer.getChannelId());
+        this.setAppId(userRefer.getAppId());
         this.setDevice(userRefer.getDevice());
         this.setDeviceUuid(userRefer.getDeviceUuid());
         this.setDeviceVersion(userRefer.getDeviceVersion());

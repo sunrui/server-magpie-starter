@@ -20,9 +20,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MediumDriverOrderVerify extends MagpieEntity {
-    @ApiModelProperty(value="渠道 ID", required = true)
+    @ApiModelProperty(value="开发者 ID", required = true)
     @NotNull
-    private Long channelId;
+    private Long appId;
     @ApiModelProperty(value="司机用户 ID", required = true)
     @NotNull
     private Long userId;

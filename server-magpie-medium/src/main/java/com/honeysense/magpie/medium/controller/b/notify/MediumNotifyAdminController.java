@@ -24,12 +24,12 @@ public class MediumNotifyAdminController {
     @ApiOperation(value = "获取所有的通知事件", produces = MediaType.APPLICATION_JSON_VALUE)
     @GetMapping("event")
     @ResponseBody
-    MagpiePage<MediumNotifyEvent> getAllNotifyEvent(@ApiParam(value = "渠道 ID", hidden = true)
-                                                    @RequestAttribute("channelId") Long channelId,
+    MagpiePage<MediumNotifyEvent> getAllNotifyEvent(@ApiParam(value = "开发者 ID", hidden = true)
+                                                    @RequestAttribute("appId") Long appId,
                                                     @ApiParam(value = "用户令牌", required = true, hidden = true)
                                                     @MagpieAnnotationToken MagpieToken magpieToken,
                                                     @ApiParam(value = "分页对象")
                                                     @Validated MagpiePageRequest magpiePageRequest) {
-        return mediumNotifyEventService.findAllByChannelIdDesc(channelId, magpiePageRequest);
+        return mediumNotifyEventService.findAllByAppIdDesc(appId, magpiePageRequest);
     }
 }

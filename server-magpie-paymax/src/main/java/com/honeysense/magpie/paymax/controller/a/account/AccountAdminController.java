@@ -1,4 +1,4 @@
-package com.honeysense.magpie.paymax.controller.b.account;
+package com.honeysense.magpie.paymax.controller.a.account;
 
 import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.framework.object.MagpiePageRequest;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("b/account")
+@RequestMapping("a/account")
 public class AccountAdminController {
     @Autowired
     private AccountService accountService;

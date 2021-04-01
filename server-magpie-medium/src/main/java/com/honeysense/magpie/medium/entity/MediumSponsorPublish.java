@@ -25,9 +25,9 @@ public class MediumSponsorPublish extends MagpieEntity {
         ONLINE, OFFLINE
     }
 
-    @ApiModelProperty(value="渠道 ID", required = true)
+    @ApiModelProperty(value="开发者 ID", required = true)
     @NotNull
-    private Long channelId;
+    private Long appId;
     @ApiModelProperty(value="用户 ID", required = true)
     @NotNull
     private Long userId;

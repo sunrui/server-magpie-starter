@@ -29,9 +29,9 @@ public class MediumNotifyEvent extends MagpieEntity {
 
     }
 
-    @ApiModelProperty(value="渠道 ID", required = true)
+    @ApiModelProperty(value="开发者 ID", required = true)
     @NotNull
-    private Long channelId;
+    private Long appId;
     @ApiModelProperty(value="通知类型", required = true)
     @NotNull
     @Enumerated(EnumType.STRING)
