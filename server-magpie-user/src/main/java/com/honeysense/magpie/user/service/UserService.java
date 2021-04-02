@@ -4,14 +4,12 @@ import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.framework.saas.service.MagpieService;
 import com.honeysense.magpie.user.entity.User;
 import com.honeysense.magpie.user.entity.UserRole;
-import com.honeysense.magpie.user.entity.UserThird;
 import com.honeysense.magpie.user.entity.refer.UserRefer;
 import org.springframework.data.domain.PageRequest;
 
 public interface UserService extends MagpieService<User> {
     User insertPhone(String phone, UserRefer userRefer);
     User insertName(String name, String password, UserRefer userRefer);
-    User insertThird(UserThird.Type type, String appId, String openId, UserRefer userRefer);
 
     void updateRole(Long id, UserRole userRole);
     void updateEnable(Long id, Boolean enable);
@@ -21,12 +19,11 @@ public interface UserService extends MagpieService<User> {
 
     User findByPhone(String phone);
     User findByName(String name);
-    User findByThirdTypeAndAppIdAndOpenId(UserThird.Type type, String appId, String openId);
 
     boolean validUserIdAndPassword(Long id, String password);
 
     MagpiePage<User> findByPhoneLike(String phone, PageRequest pageRequest);
     MagpiePage<User> findByNameLike(String name, PageRequest pageRequest);
 
-    void deleteUser(String userId);
+    void deleteUser(Long id);
 }

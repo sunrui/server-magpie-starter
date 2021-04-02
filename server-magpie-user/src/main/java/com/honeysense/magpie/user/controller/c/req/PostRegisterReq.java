@@ -19,14 +19,14 @@ public class PostRegisterReq extends MagpieObject {
     @NotNull
     private LoginRefer refer;
 
-    @ApiModelProperty(value = "手机号", example = "15012341234", required = true)
-    @Length(min = 11, max = 11)
-    @Pattern(regexp = "^[1][3-9][0-9]{9}$")
-    private String phone;
     @ApiModelProperty(value = "用户名", example = "userName", required = true)
     @NotBlank
     @Length(min = 4, max = 16)
     private String userName;
+    @ApiModelProperty(value = "手机号", example = "15012341234", required = false)
+    @Length(min = 11, max = 11)
+    @Pattern(regexp = "^[1][3-9][0-9]{9}$")
+    private String phone;
     @ApiModelProperty(value = "密码", example = "123456", required = true)
     @NotBlank
     @Length(min = 6, max = 20)
@@ -35,4 +35,6 @@ public class PostRegisterReq extends MagpieObject {
     @NotBlank
     @Length(min = 2, max = 20)
     private String magic;
+    @ApiModelProperty(value = "备注", example = "备注信息", required = false)
+    private String comment;
 }

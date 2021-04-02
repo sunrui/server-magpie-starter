@@ -339,4 +339,15 @@ public class UserController {
             }
         }
     }
+
+    @ApiOperation(value = "用户 - 重置", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "destroy/{userId}")
+    @ResponseBody
+    public void postDestroy(@ApiParam(value = "用户 IP", hidden = true)
+                            @MagpieAnnotationIp String ip,
+                            @ApiParam(value = "用户 UA", hidden = true)
+                            @MagpieAnnotationUa String userAgent,
+                            @MagpieAnnotationToken MagpieToken magpieToken) {
+        userService.deleteUser(magpieToken.getUserId());
+    }
 }

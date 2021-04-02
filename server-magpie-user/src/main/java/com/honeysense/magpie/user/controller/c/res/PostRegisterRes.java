@@ -19,7 +19,7 @@ public class PostRegisterRes extends MagpieObject {
     private Boolean phoneExists;
     @ApiModelProperty(value = "直推用户 ID 不存在")
     private Boolean directInvitorUserIdNotExists;
-    @ApiModelProperty(value = "魔术法不正确")
+    @ApiModelProperty(value = "魔法值不正确")
     private Boolean magicError;
     @ApiModelProperty(value = "用户对象")
     private User user;

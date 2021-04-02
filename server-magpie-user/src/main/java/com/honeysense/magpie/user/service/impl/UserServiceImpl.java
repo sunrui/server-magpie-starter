@@ -5,10 +5,10 @@ import com.honeysense.magpie.framework.saas.service.impl.MagpieServiceImpl;
 import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.user.entity.User;
+import com.honeysense.magpie.user.entity.UserDeleted;
 import com.honeysense.magpie.user.entity.UserRole;
-import com.honeysense.magpie.user.entity.UserThird;
 import com.honeysense.magpie.user.entity.UserRelation;
-import com.honeysense.magpie.user.repository.UserThirdRepository;
+import com.honeysense.magpie.user.repository.UserDeletedRepository;
 import com.honeysense.magpie.user.repository.UserRelationRepository;
 import com.honeysense.magpie.user.repository.UserRepository;
 import com.honeysense.magpie.user.service.UserService;
@@ -29,16 +29,17 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
     private static final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     private final UserRepository userRepository;
+    private final UserDeletedRepository userDeletedRepository;
     private final UserRelationRepository userRelationRepository;
-    private final UserThirdRepository userThirdRepository;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, UserRelationRepository userRelationRepository, UserThirdRepository userThirdRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserDeletedRepository userDeletedRepository,
+                           UserRelationRepository userRelationRepository) {
         super(userRepository);
 
         this.userRepository = userRepository;
+        this.userDeletedRepository = userDeletedRepository;
         this.userRelationRepository = userRelationRepository;
-        this.userThirdRepository = userThirdRepository;
     }
 
     private void insertUserRelation(Long userId, Long directInvitorUserId) {
@@ -114,48 +115,6 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
 
         user = User.builder().name(name).password(passwordEncoder.encode(password)).role(UserRole.CUSTOMER).enable(true).build();
         userRepository.save(user);
-
-        insertUserRelation(user.getId(), userRefer.getDirectInvitorUserId());
-
-        return user;
-    }
-
-    @Override
-    public User insertThird(UserThird.Type type, String appId, String openId, UserRefer userRefer) {
-        if (type == null) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "type");
-        }
-
-        if (!MagpieValidator.enId(appId)) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "appId");
-        }
-
-        if (!MagpieValidator.enId(openId)) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "openId");
-        }
-
-        MagpieValidator.object(userRefer);
-
-        UserThird userThird = userThirdRepository.findByTypeAndAppIdAndOpenId(type, appId, openId).orElse(null);
-        if (userThird != null) {
-            Map<String, String> map = new HashMap<>();
-            map.put("type", type.name());
-            map.put("appId", appId);
-            map.put("openId", openId);
-
-            throw new MagpieException(MagpieException.Type.DUPLICATE, map);
-        }
-
-        User user = User.builder().role(UserRole.CUSTOMER).enable(true).build();
-        userRepository.save(user);
-
-        userThird = UserThird.builder()
-                .user(user)
-                .type(type)
-                .appId(appId)
-                .openId(openId)
-                .build();
-        userThirdRepository.save(userThird);
 
         insertUserRelation(user.getId(), userRefer.getDirectInvitorUserId());
 
@@ -262,28 +221,6 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
     }
 
     @Override
-    public User findByThirdTypeAndAppIdAndOpenId(UserThird.Type type, String appId, String openId) {
-        if (type == null) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "type");
-        }
-
-        if (!MagpieValidator.enId(appId)) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "appId");
-        }
-
-        if (!MagpieValidator.enId(openId)) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "openId");
-        }
-
-        UserThird userThird = userThirdRepository.findByTypeAndAppIdAndOpenId(type, appId, openId).orElse(null);
-        if (userThird == null) {
-            return null;
-        }
-
-        return userThird.getUser();
-    }
-
-    @Override
     public boolean validUserIdAndPassword(Long id, String password) {
         if (!MagpieValidator.longId(id)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "id");
@@ -326,7 +263,26 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
     }
 
     @Override
-    public void deleteUser(String userId) {
+    public void deleteUser(Long id) {
+        if (!MagpieValidator.longId(id)) {
+            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "id");
+        }
 
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", id);
+
+            throw new MagpieException(MagpieException.Type.NOT_FUND, map);
+        }
+
+        UserDeleted userDeleted = new UserDeleted();
+        userDeleted.setUserId(user.getId());
+        userDeleted.setPhone(user.getPhone());
+        userDeleted.setRole(user.getRole());
+        userDeleted.setComment(user.getComment());
+        userDeletedRepository.save(userDeleted);
+
+        userRepository.delete(user);
     }
 }
