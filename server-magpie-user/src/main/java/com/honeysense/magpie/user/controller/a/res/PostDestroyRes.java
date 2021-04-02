@@ -11,4 +11,5 @@ import lombok.Setter;
 public class PostDestroyRes extends MagpieObject {
     private Boolean userIdNotExists;
     private Boolean success;
+    private Boolean cannotDestroyYourself;
 }

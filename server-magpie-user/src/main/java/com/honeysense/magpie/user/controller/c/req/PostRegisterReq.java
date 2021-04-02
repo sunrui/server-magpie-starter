@@ -1,6 +1,7 @@
 package com.honeysense.magpie.user.controller.c.req;
 
 import com.honeysense.magpie.framework.object.MagpieObject;
+import com.honeysense.magpie.user.entity.UserRole;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -35,6 +36,8 @@ public class PostRegisterReq extends MagpieObject {
     @NotBlank
     @Length(min = 2, max = 20)
     private String magic;
+    @ApiModelProperty(value = "角色", example = "ADMIN", required = false)
+    private UserRole userRole;
     @ApiModelProperty(value = "备注", example = "备注信息", required = false)
     private String comment;
 }

@@ -279,6 +279,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
         UserDeleted userDeleted = new UserDeleted();
         userDeleted.setUserId(user.getId());
         userDeleted.setPhone(user.getPhone());
+        userDeleted.setPassword(user.getPassword());
         userDeleted.setRole(user.getRole());
         userDeleted.setComment(user.getComment());
         userDeletedRepository.save(userDeleted);

@@ -139,6 +139,11 @@ public class UserController {
             userService.updatePhone(user.getId(), req.getPhone());
         }
 
+        // 设置角色
+        if (req.getUserRole() != null) {
+            userService.updateRole(user.getId(), req.getUserRole());
+        }
+
         // 登录成功
         return PostRegisterRes.builder().user(user).build();
     }

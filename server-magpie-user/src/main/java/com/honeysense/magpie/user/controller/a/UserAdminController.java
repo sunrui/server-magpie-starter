@@ -30,7 +30,13 @@ public class UserAdminController {
                                 @MagpieAnnotationToken MagpieToken magpieToken,
                                 @ApiParam(value = "分页对象")
                                         MagpiePageRequest magpiePageRequest) {
-        return userService.findAll(magpiePageRequest);
+        MagpiePage<User> userMagpiePage = userService.findAll(magpiePageRequest);
+
+        for (User user : userMagpiePage.getElements()) {
+            System.out.println(user.toString());
+        }
+
+        return userMagpiePage;
     }
 
     @ApiOperation(value = "用户 - 重置", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,6 +49,10 @@ public class UserAdminController {
                                       @MagpieAnnotationToken MagpieToken magpieToken,
                                       @ApiParam(value = "用户 ID", hidden = true)
                                       @PathVariable("userId") Long userId) {
+        if (magpieToken.getUserId().equals(userId)) {
+            return PostDestroyRes.builder().cannotDestroyYourself(true).build();
+        }
+
         User user = userService.findById(userId);
         if (user == null) {
             return PostDestroyRes.builder().userIdNotExists(true).build();
