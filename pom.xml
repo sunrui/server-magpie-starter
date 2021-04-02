@@ -24,7 +24,7 @@
     <modules>
         <module>server-magpie-config</module>
         <module>server-magpie-framework</module>
-        <module>server-magpie-medium</module>
+<!--        <module>server-magpie-medium</module>-->
         <module>server-magpie-paymax</module>
         <module>server-magpie-sms</module>
         <module>server-magpie-user</module>

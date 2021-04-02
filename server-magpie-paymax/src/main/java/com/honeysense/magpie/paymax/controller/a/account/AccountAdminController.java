@@ -28,7 +28,7 @@ public class AccountAdminController {
     public MagpiePage<Account> getAllAccount(@ApiParam(value = "用户令牌", required = true, hidden = true)
                                              @MagpieAnnotationToken MagpieToken magpieToken,
                                              @ApiParam(value = "分页对象")
-                                             @Validated MagpiePageRequest magpiePageRequest) {
+                                             MagpiePageRequest magpiePageRequest) {
         return accountService.findAll(magpiePageRequest);
     }
 }

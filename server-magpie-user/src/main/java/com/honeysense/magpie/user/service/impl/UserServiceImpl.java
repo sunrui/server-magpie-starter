@@ -91,7 +91,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
             throw new MagpieException(MagpieException.Type.DUPLICATE, "phone");
         }
 
-        user = User.builder().phone(phone).role(UserRole.CUSTOMER).build();
+        user = User.builder().phone(phone).role(UserRole.CUSTOMER).enable(true).build();
         userRepository.save(user);
 
         insertUserRelation(user.getId(), userRefer.getDirectInvitorUserId());
@@ -112,7 +112,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
             throw new MagpieException(MagpieException.Type.DUPLICATE, "name");
         }
 
-        user = User.builder().name(name).password(passwordEncoder.encode(password)).role(UserRole.CUSTOMER).build();
+        user = User.builder().name(name).password(passwordEncoder.encode(password)).role(UserRole.CUSTOMER).enable(true).build();
         userRepository.save(user);
 
         insertUserRelation(user.getId(), userRefer.getDirectInvitorUserId());
@@ -146,7 +146,7 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
             throw new MagpieException(MagpieException.Type.DUPLICATE, map);
         }
 
-        User user = User.builder().role(UserRole.CUSTOMER).build();
+        User user = User.builder().role(UserRole.CUSTOMER).enable(true).build();
         userRepository.save(user);
 
         userThird = UserThird.builder()
@@ -177,6 +177,42 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
         }
 
         user.setRole(userRole);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateEnable(Long id, Boolean enable) {
+        if (!MagpieValidator.longId(id)) {
+            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "id");
+        }
+
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", id);
+
+            throw new MagpieException(MagpieException.Type.NOT_FUND, map);
+        }
+
+        user.setEnable(Boolean.TRUE.equals(enable));
+        userRepository.save(user);
+    }
+
+    @Override
+    public void updateComment(Long id, String comment) {
+        if (!MagpieValidator.longId(id)) {
+            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "id");
+        }
+
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", id);
+
+            throw new MagpieException(MagpieException.Type.NOT_FUND, map);
+        }
+
+        user.setComment(comment);
         userRepository.save(user);
     }
 

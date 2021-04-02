@@ -39,7 +39,7 @@ public class AccountController {
                                                                    @MagpieAnnotationToken MagpieToken magpieToken,
                                                                    @PathVariable("appId") Long appId,
                                                                    @ApiParam(value = "分页对象")
-                                                                   @Validated MagpiePageRequest magpiePageRequest) {
+                                                                   MagpiePageRequest magpiePageRequest) {
         return accountTransactionService.findAllByAppIdDesc(appId, magpiePageRequest);
     }
 }

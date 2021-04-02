@@ -1,4 +1,4 @@
-package com.honeysense.magpie.user.controller.b;
+package com.honeysense.magpie.user.controller.a;
 
 import com.honeysense.magpie.framework.object.MagpiePage;
 import com.honeysense.magpie.framework.object.MagpiePageRequest;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "后台 - 用户")
 @RestController
-@RequestMapping("b/user")
+@RequestMapping("a/user")
 public class UserAdminController {
     @Autowired
     private UserService userService;
@@ -27,7 +27,7 @@ public class UserAdminController {
     MagpiePage<User> getAllUser(@ApiParam(value = "用户令牌", required = true, hidden = true)
                                 @MagpieAnnotationToken MagpieToken magpieToken,
                                 @ApiParam(value = "分页对象")
-                                @Validated MagpiePageRequest magpiePageRequest) {
+                                MagpiePageRequest magpiePageRequest) {
         return userService.findAll(magpiePageRequest);
     }
 }

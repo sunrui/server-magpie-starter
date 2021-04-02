@@ -14,6 +14,8 @@ public interface UserService extends MagpieService<User> {
     User insertThird(UserThird.Type type, String appId, String openId, UserRefer userRefer);
 
     void updateRole(Long id, UserRole userRole);
+    void updateEnable(Long id, Boolean enable);
+    void updateComment(Long id, String comment);
 
     User findByPhone(String phone);
     User findByName(String name);
