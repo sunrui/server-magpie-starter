@@ -28,6 +28,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -91,6 +92,7 @@ public class UserController {
         httpServletResponse.addCookie(cookie);
     }
 
+    @Transactional
     @ApiOperation(value = "用户 - 注册", produces = MediaType.APPLICATION_JSON_VALUE)
     @PostMapping(value = "register")
     @ResponseBody
@@ -119,11 +121,23 @@ public class UserController {
             return PostRegisterRes.builder().magicError(true).build();
         }
 
+        if (MagpieValidator.phone(req.getPhone())) {
+            user = userService.findByPhone(req.getPhone());
+            if (user != null) {
+                return PostRegisterRes.builder().phoneExists(true).build();
+            }
+        }
+
         // 生成用户来源
         UserRefer userRefer = req.getRefer().toUserRefer(ip, userAgent);
 
         // 注册新用户
         user = userService.insertName(req.getUserName(), req.getPassword(), userRefer);
+
+        // 绑定手机号
+        if (MagpieValidator.phone(req.getPhone())) {
+            userService.updatePhone(user.getId(), req.getPhone());
+        }
 
         // 登录成功
         return PostRegisterRes.builder().user(user).build();

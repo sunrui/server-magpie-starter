@@ -17,6 +17,8 @@ public interface UserService extends MagpieService<User> {
     void updateEnable(Long id, Boolean enable);
     void updateComment(Long id, String comment);
 
+    void updatePhone(Long id, String phone);
+
     User findByPhone(String phone);
     User findByName(String name);
     User findByThirdTypeAndAppIdAndOpenId(UserThird.Type type, String appId, String openId);

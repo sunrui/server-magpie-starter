@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @ApiModel(value = "用户 - 登录 - 密码 - 请求")
 @Getter
@@ -18,6 +19,10 @@ public class PostRegisterReq extends MagpieObject {
     @NotNull
     private LoginRefer refer;
 
+    @ApiModelProperty(value = "手机号", example = "15012341234", required = true)
+    @Length(min = 11, max = 11)
+    @Pattern(regexp = "^[1][3-9][0-9]{9}$")
+    private String phone;
     @ApiModelProperty(value = "用户名", example = "userName", required = true)
     @NotBlank
     @Length(min = 4, max = 16)

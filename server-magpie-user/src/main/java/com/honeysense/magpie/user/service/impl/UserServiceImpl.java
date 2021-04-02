@@ -217,6 +217,33 @@ public class UserServiceImpl extends MagpieServiceImpl<User> implements UserServ
     }
 
     @Override
+    public void updatePhone(Long id, String phone) {
+        if (!MagpieValidator.longId(id)) {
+            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "id");
+        }
+
+        User user = userRepository.findById(id).orElse(null);
+        if (user == null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", id);
+
+            throw new MagpieException(MagpieException.Type.NOT_FUND, map);
+        }
+
+        User userByPhone = userRepository.findByPhone(phone).orElse(null);
+        if (userByPhone != null) {
+            Map<String, Object> map = new HashMap<>();
+            map.put("id", id);
+            map.put("phone", phone);
+
+            throw new MagpieException(MagpieException.Type.DUPLICATE, map);
+        }
+
+        user.setPhone(phone);
+        userRepository.save(user);
+    }
+
+    @Override
     public User findByPhone(String phone) {
         if (!MagpieValidator.phone(phone)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "phone");
