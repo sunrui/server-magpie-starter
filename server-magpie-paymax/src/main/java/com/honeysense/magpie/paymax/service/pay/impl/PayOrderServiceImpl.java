@@ -71,7 +71,7 @@ public class PayOrderServiceImpl extends MagpieAppUserManyServiceImpl<PayOrder> 
         payOrder = new PayOrder();
         payOrder.setAppId(appId);
         payOrder.setAppUserId(appUserId);
-        payOrder.setGatewayType(app.getGatewayType());
+        payOrder.setAppConfigType(app.getAppConfigType());
         payOrder.setGatewayId(gatewayId);
         payOrder.setPayload(payload);
         payOrder.setAmount(amount);

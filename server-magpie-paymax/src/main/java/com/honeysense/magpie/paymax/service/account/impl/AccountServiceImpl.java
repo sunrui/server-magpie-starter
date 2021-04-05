@@ -8,7 +8,7 @@ import com.honeysense.magpie.framework.utils.MagpieValidator;
 import com.honeysense.magpie.paymax.entity.account.Account;
 import com.honeysense.magpie.paymax.entity.account.AccountTransaction;
 import com.honeysense.magpie.paymax.entity.account.AccountTransactionType;
-import com.honeysense.magpie.paymax.entity.gateway.GatewayType;
+import com.honeysense.magpie.paymax.entity.app.AppConfigType;
 import com.honeysense.magpie.paymax.repository.account.AccountRepository;
 import com.honeysense.magpie.paymax.repository.account.AccountTransactionRepository;
 import com.honeysense.magpie.paymax.service.account.AccountService;
@@ -31,7 +31,7 @@ public class AccountServiceImpl extends MagpieAppOneServiceImpl<Account> impleme
     }
 
     @Override
-    public Account insertOne(Long appId, Long userId, GatewayType gatewayType) {
+    public Account insertOne(Long appId, Long userId, AppConfigType appConfigType) {
         if (!MagpieValidator.longId(appId)) {
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "appId");
         }
@@ -40,8 +40,8 @@ public class AccountServiceImpl extends MagpieAppOneServiceImpl<Account> impleme
             throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "userId");
         }
 
-        if (gatewayType == null) {
-            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "gatewayType");
+        if (appConfigType == null) {
+            throw new MagpieException(MagpieException.Type.INVALID_PARAMETER, "appConfigType");
         }
 
         Account account = accountRepository.findByAppId(appId);
@@ -52,7 +52,7 @@ public class AccountServiceImpl extends MagpieAppOneServiceImpl<Account> impleme
         account = new Account();
         account.setAppId(appId);
         account.setUserId(userId);
-        account.setGatewayType(gatewayType);
+        account.setAppConfigType(appConfigType);
         account.setBalance(BigDecimal.ZERO);
         accountRepository.save(account);
 

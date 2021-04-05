@@ -1,7 +1,7 @@
 package com.honeysense.magpie.paymax.entity.account;
 
 import com.honeysense.magpie.framework.saas.entity.MagpieAppUserOneEntity;
-import com.honeysense.magpie.paymax.entity.gateway.GatewayType;
+import com.honeysense.magpie.paymax.entity.app.AppConfigType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +20,7 @@ import java.util.Set;
 public class Account extends MagpieAppUserOneEntity {
     @NotNull
     @Enumerated(EnumType.STRING)
-    private GatewayType gatewayType;
+    private AppConfigType appConfigType;
     @NotNull
     @Min(0)
     private BigDecimal balance;

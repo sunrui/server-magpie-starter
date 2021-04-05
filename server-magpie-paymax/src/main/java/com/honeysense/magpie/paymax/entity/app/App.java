@@ -1,8 +1,6 @@
 package com.honeysense.magpie.paymax.entity.app;
 
 import com.honeysense.magpie.framework.saas.entity.MagpieUserManyEntity;
-import com.honeysense.magpie.paymax.entity.gateway.GatewayPayStack;
-import com.honeysense.magpie.paymax.entity.gateway.GatewayType;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,9 +21,9 @@ public class App extends MagpieUserManyEntity {
     private String secret;
     @NotNull
     @Enumerated(EnumType.STRING)
-    private GatewayType gatewayType;
+    private AppConfigType appConfigType;
     @NotNull
     private Boolean enable;
     @ManyToOne
-    private GatewayPayStack gatewayPayStack;
+    private AppConfigPayStack appConfigPayStack;
 }
