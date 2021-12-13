@@ -17,11 +17,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>11</java.version>
-        <mybatis.version>2.1.4</mybatis.version>
-        <jwt.version>3.14.0</jwt.version>
-        <knife4j.version>2.0.8</knife4j.version>
+        <mybatis.version>2.2.0</mybatis.version>
+        <jwt.version>3.18.2</jwt.version>
+        <knife4j.version>2.0.9</knife4j.version>
         <swagger.version>2.10.5</swagger.version>
-        <hibernate-validator.version>6.1.5.Final</hibernate-validator.version>
+        <hibernate-validator.version>7.0.1.Final</hibernate-validator.version>
     </properties>
 
     <dependencies>
@@ -93,7 +93,7 @@
 
         <!-- 引入 @Pattern 相关 -->
         <dependency>
-            <groupId>org.hibernate</groupId>
+            <groupId>org.hibernate.validator</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>${hibernate-validator.version}</version>
         </dependency>
