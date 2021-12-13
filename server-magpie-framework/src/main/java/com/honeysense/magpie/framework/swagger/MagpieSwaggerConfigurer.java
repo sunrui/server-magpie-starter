@@ -42,7 +42,6 @@ public class MagpieSwaggerConfigurer {
                 .globalResponseMessage(RequestMethod.DELETE, responseMessageList)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.honeysense.magpie"))
-                .paths(PathSelectors.regex("^(?!/223B3143-946B-4D16-A3FB-E5495B33D1AC).*"))
                 .build();
     }
 
